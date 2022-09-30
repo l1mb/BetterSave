@@ -1,6 +1,7 @@
 using AuthServiceApp.DAL.Models;
 using AuthServiceApp.Settings.Extensions;
 using AuthServiceApp.WEB.Settings;
+using GameStore.WEB.StartUp.Configuration;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,7 +14,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 
 builder.Services.RegistryDatabase(appSettings);
+builder.Services.RegisterHttpContextExtensions();
 builder.Services.RegisterIdentity();
+builder.Services.RegisterAutoMapper();
 
 var app = builder.Build();
 

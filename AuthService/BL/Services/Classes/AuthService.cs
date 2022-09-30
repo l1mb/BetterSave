@@ -106,7 +106,7 @@ namespace AuthServiceApp.Services.Classes
 
 
 
-        public async Task<ServiceResult<ApplicationUser>> GetUserAsync(int id)
+        public async Task<ServiceResult<ApplicationUser>> GetUserAsync(Guid id)
         {
 
 
@@ -134,7 +134,7 @@ namespace AuthServiceApp.Services.Classes
             if (!result.Succeeded)
             {
                 return new(ServiceResultType.ServerError,
-                    "User cannot be created");
+                    result.Errors.Last().Description);
             }
 
             var identityUser = await _userManager.FindByEmailAsync(user.Email);

@@ -4,6 +4,8 @@ using AuthServiceApp.Services.Classes;
 using AuthServiceApp.BL.Services.Classes;
 using AuthServiceApp.BL.Services.Interfaces;
 using AuthServiceApp.DAL.Interfaces;
+using AuthServiceApp.DAL.Repo;
+using GameStore.WEB.Utilities;
 
 namespace AuthServiceApp.Settings.Extensions
 {
@@ -17,6 +19,7 @@ namespace AuthServiceApp.Settings.Extensions
 
 
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddTransient<IAuthService, AuthService>();
         }

@@ -21,6 +21,12 @@ namespace AuthServiceApp.Controllers
             _authService = authService;
         }
 
+        [HttpGet("test")]
+        public IActionResult test()
+        {
+            return Ok("It's okay");
+        }
+
         /// <summary>
         ///     Creates a new user in database and sends him a confirmation link
         /// </summary>
