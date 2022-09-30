@@ -1,11 +1,32 @@
-﻿namespace AuthServiceApp.DAL.Interfaces
+﻿using System.Linq.Expressions;
+
+namespace AuthServiceApp.DAL.Interfaces
 {
     public interface IBaseRepository<T> where T : class
     {
-        T Get(int id);
-        T Update(T entity);
-        T Delete(int id);
-        T GetById(int id);
-        T Create(T entity);
+        Task<T> SearchForSingleItemAsync(Expression<Func<T, bool>> expression);
+
+        Task<T> SearchForSingleItemAsync(Expression<Func<T, bool>> expression,
+            params Expression<Func<T, object>>[] includes);
+
+        Task<T> CreateItemAsync(T entity);
+
+        Task<List<T>> CreateItemsAsync(IEnumerable<T> items);
+
+        Task<List<T>> SearchForMultipleItemsAsync<TK>
+        (
+            Expression<Func<T, bool>> expression,
+            Expression<Func<T, TK>> sort
+        );
+
+        Task<List<T>> SearchForMultipleItemsAsync<TK>
+        (
+            Expression<Func<T, bool>> expression,
+            int offset,
+            int limit,
+            Expression<Func<T, TK>> sort
+        );
+
+        Task<T> UpdateItemAsync(T item, params Expression<Func<T, object>>[] unmodifiedProperties);
     }
 }

@@ -7,7 +7,7 @@ nupkg/
 
 appsettings.json
 appsettings.Development.json
-
+checks.json
 
 # Visual Studio Code
 .vscode
