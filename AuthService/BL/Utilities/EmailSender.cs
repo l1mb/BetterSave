@@ -1,6 +1,7 @@
 ﻿using AuthServiceApp.BL.Services.Interfaces;
 using AuthServiceApp.WEB.Settings;
 using MailKit.Net.Smtp;
+using MailKit.Security;
 using MimeKit;
 using MimeKit.Text;
 
@@ -31,7 +32,7 @@ namespace GameStore.WEB.Utilities
             using var smtpClient = new SmtpClient();
 
             await smtpClient.ConnectAsync(_appSettings.SmtpClientSettings.Host, _appSettings.SmtpClientSettings.Port,
-                _appSettings.SmtpClientSettings.UseSsl);
+                SecureSocketOptions.StartTls);
             await smtpClient.AuthenticateAsync(_appSettings.SmtpClientSettings.EmailAddress,
                 _appSettings.SmtpClientSettings.Password);
             await smtpClient.SendAsync(email);

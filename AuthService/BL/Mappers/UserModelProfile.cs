@@ -14,6 +14,7 @@ namespace GameStore.BL.Mappers
             CreateMap<SignUpDto, ApplicationUser>().ReverseMap();
 
             CreateMap<SignUpOutputDto, ApplicationUser>().ReverseMap();
+            CreateMap<SignUpOutputDto, SignUpDto>().ReverseMap();
         }
     }
 }

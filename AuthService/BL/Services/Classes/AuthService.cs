@@ -122,6 +122,7 @@ namespace AuthServiceApp.Services.Classes
 
         public async Task<ServiceResult<(SignUpOutputDto user, string confirmToken)>> SignUpAsync(SignUpDto userModel)
         {
+            //todo add transactions
             var previousUser = await _userManager.FindByEmailAsync(userModel.Email);
             if (previousUser is not null)
             {
@@ -145,7 +146,7 @@ namespace AuthServiceApp.Services.Classes
             await _roleService.EditAsync(new(UserRoleConstants.User, user.Email));
             await _signInManager.SignInAsync(identityUser, false);
 
-            var newUser = _mapper.Map<SignUpOutputDto>(userModel);
+            var newUser = _mapper.Map<SignUpOutputDto>(identityUser);
 
             return new(ServiceResultType.Ok,
                 (newUser, confirmTokenEncoded));
