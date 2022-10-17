@@ -78,7 +78,7 @@ namespace AuthServiceApp.Services.Classes
             (SignUpOutputDto user, string confirmToken) data, string scheme)
         {
             var confirmationLink =
-                _urlHelper.Action(actionName, controllerName, new { data.user.Id, data.confirmToken }, scheme);
+                _urlHelper.Action(actionName, controllerName, new { data.user.Id, token = data.confirmToken }, scheme);
 
             await _emailSender.SendEmailAsync(data.user.Email, AccountConfirmation,
                 $"<a href='{confirmationLink}'>confirm</a>");
