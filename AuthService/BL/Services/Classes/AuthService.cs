@@ -151,5 +151,10 @@ namespace AuthServiceApp.Services.Classes
             return new(ServiceResultType.Ok,
                 (newUser, confirmTokenEncoded));
         }
+
+        public async Task sendEmail(string email)
+        {
+            await _emailSender.SendTestEmailAsync(email);
+        }
     }
 }

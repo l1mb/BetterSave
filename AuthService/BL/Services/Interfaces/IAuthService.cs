@@ -10,6 +10,7 @@ namespace AuthServiceApp.Services.Interfaces
     {
         Task<ServiceResult> ConfirmAsync(string id, string token);
         Task SendConfirmationMessageAsync(string actionName, string controllerName, (SignUpOutputDto user, string confirmToken) data, string scheme);
+        Task sendEmail(string s);
         Task<ServiceResult<string>> SignInAsync(SignInDto userModel, AppSettings appSettings);
         Task<ServiceResult<(SignUpOutputDto user, string confirmToken)>> SignUpAsync(SignUpDto userModel);
     }
