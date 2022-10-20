@@ -80,8 +80,7 @@ namespace AuthServiceApp.Services.Classes
             var confirmationLink =
                 _urlHelper.Action(actionName, controllerName, new { data.user.Id, token = data.confirmToken }, scheme);
 
-            await _emailSender.SendEmailAsync(data.user.Email, AccountConfirmation,
-                $"<a href='{confirmationLink}'>confirm</a>");
+            await _emailSender.SendConfirmationEmailAsync(data.user.Email, "Account confirmation", "D:\\University\\4\\1\\Diploma\\Backend\\Email\\index.html", confirmationLink);
         }
 
         public async Task<ServiceResult> ConfirmAsync(string id, string token)
@@ -152,9 +151,10 @@ namespace AuthServiceApp.Services.Classes
                 (newUser, confirmTokenEncoded));
         }
 
-        public async Task sendEmail(string email)
+        public async Task sendEmail(string s)
         {
-            await _emailSender.SendTestEmailAsync(email);
+            await _emailSender.SendConfirmationEmailAsync(s, "test", "D:\\University\\4\\1\\Diploma\\Backend\\Email\\index.html", "kok");
+            throw new NotImplementedException();
         }
     }
 }

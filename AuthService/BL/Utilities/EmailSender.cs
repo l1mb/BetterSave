@@ -40,19 +40,24 @@ namespace GameStore.WEB.Utilities
             await smtpClient.DisconnectAsync(true);
         }
 
-        public async Task SendTestEmailAsync(string emailToSend)
+        public async Task SendConfirmationEmailAsync(string recipient, string subject, string htmlPath, string token)
         {
             var email = new MimeMessage();
 
             email.From.Add(new MailboxAddress(_appSettings.SmtpClientSettings.EmailName,
                 _appSettings.SmtpClientSettings.EmailAddress));
-            email.To.Add(new MailboxAddress(string.Empty, emailToSend));
+            email.To.Add(new MailboxAddress(string.Empty, recipient));
 
-            email.Subject = "Message subject";
+            email.Subject = subject;
 
-            var builder = new BodyBuilder();
 
-            builder.HtmlBody = File.ReadAllText("D:\\University\\4\\1\\Diploma\\Backend\\Email\\index.html");
+            var t = File.ReadAllText(htmlPath);
+            var k = t.IndexOf("a id=`secret`");
+            var res = t.Insert(k + 13, $" href={token} ");
+            var builder = new BodyBuilder
+            {
+                HtmlBody = res
+            };
             email.Body = builder.ToMessageBody();
 
             using var smtpClient = new SmtpClient();

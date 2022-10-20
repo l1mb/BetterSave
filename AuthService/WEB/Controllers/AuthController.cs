@@ -94,7 +94,7 @@ namespace AuthServiceApp.Controllers
                 return StatusCode((int)confirmResult.Result, confirmResult.ErrorMessage);
             }
 
-            return NoContent();
+            return Ok("Confirmed");
         }
 
         [HttpGet("send-email")]
