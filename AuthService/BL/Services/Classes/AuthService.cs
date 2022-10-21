@@ -77,10 +77,9 @@ namespace AuthServiceApp.Services.Classes
         public async Task SendConfirmationMessageAsync(string actionName, string controllerName,
             (SignUpOutputDto user, string confirmToken) data, string scheme)
         {
-            var confirmationLink =
-                _urlHelper.Action(actionName, controllerName, new { data.user.Id, token = data.confirmToken }, scheme);
+            var confirmationLink = _urlHelper.Action(actionName, controllerName, new { data.user.Id, token = data.confirmToken }, scheme);
 
-            await _emailSender.SendConfirmationEmailAsync(data.user.Email, "Account confirmation", "D:\\University\\4\\1\\Diploma\\Backend\\Email\\index.html", confirmationLink);
+            await _emailSender.SendConfirmationEmailAsync(data.user.Email, "Account confirmation", FilePathConstants.ConfirmEmail, confirmationLink);
         }
 
         public async Task<ServiceResult> ConfirmAsync(string id, string token)
@@ -149,12 +148,6 @@ namespace AuthServiceApp.Services.Classes
 
             return new(ServiceResultType.Ok,
                 (newUser, confirmTokenEncoded));
-        }
-
-        public async Task sendEmail(string s)
-        {
-            await _emailSender.SendConfirmationEmailAsync(s, "test", "D:\\University\\4\\1\\Diploma\\Backend\\Email\\index.html", "kok");
-            throw new NotImplementedException();
         }
     }
 }
