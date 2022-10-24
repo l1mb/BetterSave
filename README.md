@@ -11,6 +11,9 @@
 - Microservices
 
 ### Frontend
+- React
+- Next.js
+- Tailwind
 # Back end
 ## How to run
 ## Services description
