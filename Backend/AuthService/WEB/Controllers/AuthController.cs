@@ -96,12 +96,5 @@ namespace AuthServiceApp.Controllers
 
             return Ok("Confirmed");
         }
-
-        [HttpGet("send-email")]
-        public async Task<IActionResult> SendEmail(string email)
-        {
-            await _authService.sendEmail(email);
-            return Ok();
-        }
     }
 }
