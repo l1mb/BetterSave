@@ -1,0 +1,10 @@
+@import "../../styles/variables.module.scss";
+.activeLink {
+  &:hover {
+    border: none;
+  }
+  span {
+    padding: 0 8px 6px;
+    border: 1px solid $appGray;
+  }
+}
