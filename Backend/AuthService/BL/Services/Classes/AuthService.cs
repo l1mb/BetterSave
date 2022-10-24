@@ -10,8 +10,10 @@ using AuthServiceApp.WEB.DTOs.Input;
 using AuthServiceApp.WEB.DTOs.Output;
 using AuthServiceApp.WEB.Settings;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using System.Web;
 
 namespace AuthServiceApp.Services.Classes
@@ -129,6 +131,8 @@ namespace AuthServiceApp.Services.Classes
             }
 
             var user = _mapper.Map<ApplicationUser>(userModel);
+            user.UserName = GenerateUsername();
+
             var result = await _userManager.CreateAsync(user, userModel.Password);
             if (!result.Succeeded)
             {
@@ -149,5 +153,53 @@ namespace AuthServiceApp.Services.Classes
             return new(ServiceResultType.Ok,
                 (newUser, confirmTokenEncoded));
         }
+
+
+        public Task GoogleLogin()
+        {
+
+            ExternalLoginInfo loginInfo = await _signInManager.GetExternalLoginInfoAsync();
+            AppUser user = await UserManager.FindAsync(loginInfo.Login);
+
+            if (user == null)
+            {
+                user = new AppUser
+                {
+                    Email = loginInfo.Email,
+                    UserName = loginInfo.DefaultUserName,
+                    City = Cities.LONDON,
+                    Country = Countries.ENG
+                };
+
+                IdentityResult result = await UserManager.CreateAsync(user);
+                if (!result.Succeeded)
+                {
+                    return View("Error", result.Errors);
+                }
+                else
+                {
+                    result = await UserManager.AddLoginAsync(user.Id, loginInfo.Login);
+                    if (!result.Succeeded)
+                    {
+                        return View("Error", result.Errors);
+                    }
+                }
+            }
+
+            ClaimsIdentity ident = await UserManager.CreateIdentityAsync(user,
+                DefaultAuthenticationTypes.ApplicationCookie);
+
+            ident.AddClaims(loginInfo.ExternalIdentity.Claims);
+
+            AuthManager.SignIn(new AuthenticationProperties
+            {
+                IsPersistent = false
+            }, ident);
+
+            return Redirect(returnUrl ?? "/");
+        }
+
+        private String GenerateUsername() => Guid.NewGuid().ToString().Substring(0, 8);
+
     }
 }
