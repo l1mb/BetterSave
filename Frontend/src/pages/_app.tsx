@@ -1,10 +1,23 @@
 import "../styles/globals.scss";
 import type { AppProps } from "next/app";
+import { SessionProvider } from "next-auth/react";
+import { Session } from "next-auth";
 import Layout from "./layout";
 
-const MyApp = ({ Component, pageProps }: AppProps) => (
+interface ExtSession extends Session {
+  expires: string;
+}
+
+const MyApp = ({
+  Component,
+  pageProps,
+}: AppProps<{
+  session: ExtSession;
+}>) => (
   <Layout>
-    <Component {...pageProps} />
+    <SessionProvider session={pageProps.session}>
+      <Component {...pageProps} />
+    </SessionProvider>
   </Layout>
 );
 

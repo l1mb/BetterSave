@@ -6,6 +6,7 @@ interface links {
 const navLinks: links[] = [
   { label: "Home", link: "/" },
   { label: "Sign up", link: "/sign-up" },
+  { label: "Sign in", link: "/sign-in" },
 ];
 
 export default navLinks;

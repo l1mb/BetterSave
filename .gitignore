@@ -5,6 +5,8 @@ project.lock.json
 *.pyc
 nupkg/
 
+.env
+
 appsettings.json
 appsettings.Development.json
 checks.json

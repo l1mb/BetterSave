@@ -10,8 +10,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Web;
 using System.Security.Claims;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
+using crypto;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
+using Google.Apis.Auth;
 
 namespace AuthServiceApp.Controllers
 {
@@ -104,62 +107,28 @@ namespace AuthServiceApp.Controllers
             return Ok("Confirmed");
         }
 
-        [HttpPost]
         [AllowAnonymous]
-        public ActionResult GoogleLogin(string returnUrl)
+        [HttpPost("google")]
+        public async Task<IActionResult> Google([FromBody] GoogleAuthUser userView)
         {
-            var properties = new AuthenticationProperties
+            try
             {
-                RedirectUri = Url.Action("GoogleLoginCallback",
-                    new { returnUrl = returnUrl })
-            };
+                //SimpleLogger.Log("userView = " + userView.tokenId);
+                var payload = GoogleJsonWebSignature.ValidateAsync(userView.tokenId, new GoogleJsonWebSignature.ValidationSettings()).Result;
+                var user = await _authService.SignInAsync(new SignInDto(), _appSettings);
 
-            HttpContext.ChallengeAsync(properties);
-            return Unauthorized();
-        }
-
-        [AllowAnonymous]
-        public async Task<ActionResult> GoogleLoginCallback(string returnUrl)
-        {
-            ExternalLoginInfo loginInfo = await UserManager.GetExternalLoginInfoAsync();
-            AppUser user = await UserManager.FindAsync(loginInfo.Login);
-
-            if (user == null)
-            {
-                user = new AppUser
+               
+                return Ok(new
                 {
-                    Email = loginInfo.Email,
-                    UserName = loginInfo.DefaultUserName,
-                    City = Cities.LONDON,
-                    Country = Countries.ENG
-                };
-
-                IdentityResult result = await UserManager.CreateAsync(user);
-                if (!result.Succeeded)
-                {
-                    return View("Error", result.Errors);
-                }
-                else
-                {
-                    result = await UserManager.AddLoginAsync(user.Id, loginInfo.Login);
-                    if (!result.Succeeded)
-                    {
-                        return View("Error", result.Errors);
-                    }
-                }
+                    token = user
+                });
             }
-
-            ClaimsIdentity ident = await UserManager.CreateIdentityAsync(user,
-                DefaultAuthenticationTypes.ApplicationCookie);
-
-            ident.AddClaims(loginInfo.ExternalIdentity.Claims);
-
-            AuthManager.SignIn(new AuthenticationProperties
+            catch (Exception ex)
             {
-                IsPersistent = false
-            }, ident);
-
-            return Redirect(returnUrl ?? "/");
+                BadRequest(ex.Message);
+            }
+            return BadRequest();
         }
+
     }
 }

@@ -155,50 +155,6 @@ namespace AuthServiceApp.Services.Classes
         }
 
 
-        public Task GoogleLogin()
-        {
-
-            ExternalLoginInfo loginInfo = await _signInManager.GetExternalLoginInfoAsync();
-            AppUser user = await UserManager.FindAsync(loginInfo.Login);
-
-            if (user == null)
-            {
-                user = new AppUser
-                {
-                    Email = loginInfo.Email,
-                    UserName = loginInfo.DefaultUserName,
-                    City = Cities.LONDON,
-                    Country = Countries.ENG
-                };
-
-                IdentityResult result = await UserManager.CreateAsync(user);
-                if (!result.Succeeded)
-                {
-                    return View("Error", result.Errors);
-                }
-                else
-                {
-                    result = await UserManager.AddLoginAsync(user.Id, loginInfo.Login);
-                    if (!result.Succeeded)
-                    {
-                        return View("Error", result.Errors);
-                    }
-                }
-            }
-
-            ClaimsIdentity ident = await UserManager.CreateIdentityAsync(user,
-                DefaultAuthenticationTypes.ApplicationCookie);
-
-            ident.AddClaims(loginInfo.ExternalIdentity.Claims);
-
-            AuthManager.SignIn(new AuthenticationProperties
-            {
-                IsPersistent = false
-            }, ident);
-
-            return Redirect(returnUrl ?? "/");
-        }
-
         private String GenerateUsername() => Guid.NewGuid().ToString().Substring(0, 8);
 
     }

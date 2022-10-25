@@ -18,6 +18,23 @@ builder.Services.RegisterHttpContextExtensions();
 builder.Services.RegisterIdentity();
 builder.Services.RegisterAutoMapper();
 
+builder.Services.AddCors(opts =>
+{
+    opts.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+        //.AllowCredentials();
+    });
+});
+
+builder.Services.AddAuthentication().AddGoogle(googleOptions =>
+{
+    googleOptions.ClientId = "460506393540-skc5pki1u2vipt6v845k6vpm267g2adk.apps.googleusercontent.com";
+    googleOptions.ClientSecret = "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";
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -27,10 +44,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
+app.UseRouting();
+app.UseCors("AllowAll");
+app.UseAuthorization();
+app.UseAuthentication();
 app.UseStaticFiles();
 app.MapControllers();
 app.UseHttpsRedirection();
-app.UseRouting();
 app.Run();
 
 static AppSettings RegisterSettings(IConfiguration configuration) =>
