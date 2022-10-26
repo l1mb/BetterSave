@@ -18,16 +18,16 @@ const InputElement: React.FC<InputElementProps> = ({
   <div className="mb-4">
     <label
       htmlFor={htmlFor}
-      className="mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300"
+      className="dark:text-gray-300 mb-2 block to-blueberry-800 text-sm font-medium"
     >
       {label}
     </label>
     <input
       type={type}
       id={htmlFor}
-      className="block w-full 
-                rounded-md
-                border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+      className="border-gray-300 text-gray-900 
+                focus:border-blue-500
+                focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 block w-full rounded-md border bg-blueberry-200 p-2.5 text-sm focus:outline-none"
       placeholder={placeholder}
       required={required}
     />

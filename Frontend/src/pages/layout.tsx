@@ -9,13 +9,15 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const router = useRouter();
+  const fullHeightLayout =
+    fullHeightLinks.filter((path) => router.pathname.includes(path)).length ===
+    0;
 
-  console.log(router.pathname);
   return (
     <>
-      <Navbar />
+      {fullHeightLayout && <Navbar />}
       <main>{children}</main>
-      <Footer />
+      {fullHeightLayout && <Footer />}
     </>
   );
 };
