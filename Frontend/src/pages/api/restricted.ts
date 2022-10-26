@@ -1,7 +1,7 @@
 // eslint-disable-next-line camelcase
 import { unstable_getServerSession } from "next-auth/next";
 import { Request, Response } from "express";
-import { authOptions } from "./auth/nextauth";
+import authOptions from "./auth/[...nextauth]";
 
 const reqHandler = async (req: Request, res: Response) => {
   const session = await unstable_getServerSession(req, res, authOptions);

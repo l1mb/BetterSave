@@ -17,10 +17,7 @@ const Home: NextPage = () => {
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
-        <h1 className={styles.title}>
-          {session.data}
-          {session.status}
-        </h1>
+        <h1 className={styles.title}>{JSON.stringify(session)}</h1>
 
         <p className={`${styles.description} text-3xl  font-bold underline`}>
           Get started by editing{" "}
