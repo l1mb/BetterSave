@@ -1,12 +1,12 @@
 interface links {
   link: string;
   label: string;
+  align?: "left" | "right";
 }
 
 const navLinks: links[] = [
-  { label: "Home", link: "/" },
-  { label: "Sign up", link: "/sign-up" },
-  { label: "Sign in", link: "/sign-in" },
+  { label: "Register", link: "/register", align: "right" },
+  { label: "Login", link: "/login", align: "right" },
 ];
 
 export default navLinks;
