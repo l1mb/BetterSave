@@ -77,13 +77,20 @@ export default NextAuth({
 
       return params.session;
     },
-    signIn: async (params: {}) => {
+    signIn: async (params: {
+      user: User;
+      account: Account | null;
+      profile?: Profile | undefined;
+      email?: { verificationRequest?: boolean | undefined } | undefined;
+      credentials?: unknown;
+    }) => {
       console.clear();
       console.log("sign in");
       console.log(params);
+      return true;
     },
   },
   pages: {
-    signIn: "/auth/kokep",
+    signIn: "/login",
   },
 });

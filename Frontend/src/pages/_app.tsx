@@ -10,11 +10,11 @@ const MyApp = ({
 }: AppProps<{
   session: Session;
 }>) => (
-  <Layout>
-    <SessionProvider session={pageProps.session}>
+  <SessionProvider session={pageProps.session}>
+    <Layout>
       <Component {...pageProps} />
-    </SessionProvider>
-  </Layout>
+    </Layout>
+  </SessionProvider>
 );
 
 export default MyApp;
