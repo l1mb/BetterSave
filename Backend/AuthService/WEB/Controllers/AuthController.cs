@@ -15,6 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Google.Apis.Auth;
+using AuthServiceApp.DAL.Entities;
 
 namespace AuthServiceApp.Controllers
 {
@@ -73,7 +74,7 @@ namespace AuthServiceApp.Controllers
         [HttpPost("sign-in")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<string>> SignIn([FromBody] SignInDto userModel)
+        public async Task<ActionResult<LoginOutDto>> SignIn([FromBody] SignInDto userModel)
         {
             var signInResult = await _authService.SignInAsync(userModel, _appSettings);
 
@@ -84,6 +85,8 @@ namespace AuthServiceApp.Controllers
 
             return Ok(signInResult.Data);
         }
+
+
 
         /// <summary>
         ///     Confirms user email

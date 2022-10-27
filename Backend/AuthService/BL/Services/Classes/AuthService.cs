@@ -42,7 +42,7 @@ namespace AuthServiceApp.Services.Classes
             _urlHelper = urlHelper;
         }
 
-        public async Task<ServiceResult<string>> SignInAsync(SignInDto basicUserModel, AppSettings appSettings)
+        public async Task<ServiceResult<LoginOutDto>> SignInAsync(SignInDto basicUserModel, AppSettings appSettings)
         {
             var user = await _userManager.FindByEmailAsync(basicUserModel.Email);
             if (user is null)
@@ -71,8 +71,8 @@ namespace AuthServiceApp.Services.Classes
 
             var tokenGenerator = new TokenGenerator(appSettings);
             var token = tokenGenerator.GenerateAccessToken(user.Id, user.UserName, userRole);
-
-            return new(ServiceResultType.Ok, data: token);
+            var t = new LoginOutDto(user, token);
+            return new(ServiceResultType.Ok, t);
         }
 
 

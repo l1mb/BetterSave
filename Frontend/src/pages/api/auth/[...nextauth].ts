@@ -3,7 +3,6 @@ import NextAuth, { Account, Profile, Session, User } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
-import axios from "axios";
 
 export default NextAuth({
   providers: [
@@ -17,19 +16,32 @@ export default NextAuth({
         },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials, req) {
+      authorize: async (credentials, req) => {
         try {
-          const { data } = await axios.post(
-            "https://localhost:1337/authurl",
-            credentials
-          );
-          if (data) {
-            console.log("data: ", data);
-            return data;
+          console.log(1);
+          console.clear();
+          const res = await fetch("https://localhost:44317/api/auth/sign-in", {
+            method: "POST",
+            body: JSON.stringify(credentials),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+
+          const user = await res.json();
+
+          if (!res.ok) {
+            throw new Error(user.exception);
           }
+          // If no error and we have user data, return it
+          if (res.ok && user) {
+            return user.user;
+          }
+
+          // Return null if user data could not be retrieved
           return null;
-        } catch (e) {
-          return null;
+        } catch (error) {
+          console.log(error);
         }
       },
     }),
@@ -74,9 +86,9 @@ export default NextAuth({
       console.log("session: ", params.session);
       console.log("user: ", params.token);
       console.log("user: ", params.user);
-
       return params.session;
     },
+
     signIn: async (params: {
       user: User;
       account: Account | null;
