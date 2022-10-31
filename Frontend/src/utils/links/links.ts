@@ -1,4 +1,4 @@
-interface links {
+export interface links {
   link: string;
   label: string;
   align?: "left" | "right";
