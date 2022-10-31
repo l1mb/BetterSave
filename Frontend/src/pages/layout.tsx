@@ -1,4 +1,6 @@
 import { useRouter } from "next/router";
+import { useState } from "react";
+import Sidebar from "../elements/sidebar";
 import fullHeightLinks from "../utils/links/fullHeightLinks";
 
 interface LayoutProps {
@@ -10,11 +12,18 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const fullHeightLayout =
     fullHeightLinks.filter((path) => router.pathname.includes(path)).length ===
     0;
+  const [isOpened, setIsOpened] = useState(true);
 
   return (
     <>
       {/* {fullHeightLayout && <Navbar />} */}
-      <main>{children}</main>
+      <main className="flex w-full ">
+        <Sidebar isOpened={isOpened} />
+        <button onClick={() => setIsOpened((prevState) => !prevState)}>
+          click
+        </button>
+        {children}
+      </main>
       {/* {fullHeightLayout && <Footer />} */}
     </>
   );
