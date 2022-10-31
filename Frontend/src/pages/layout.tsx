@@ -1,6 +1,4 @@
 import { useRouter } from "next/router";
-import Navbar from "./navbar";
-import Footer from "./footer";
 import fullHeightLinks from "../utils/links/fullHeightLinks";
 
 interface LayoutProps {
@@ -15,9 +13,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <>
-      {fullHeightLayout && <Navbar />}
+      {/* {fullHeightLayout && <Navbar />} */}
       <main>{children}</main>
-      {fullHeightLayout && <Footer />}
+      {/* {fullHeightLayout && <Footer />} */}
     </>
   );
 };
