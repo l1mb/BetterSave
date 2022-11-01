@@ -1,6 +1,7 @@
 ﻿using AuthServiceApp.DAL.Entities;
 using AuthServiceApp.DAL.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AuthServiceApp.Settings.Extensions
 {

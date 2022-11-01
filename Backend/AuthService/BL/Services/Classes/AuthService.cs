@@ -130,6 +130,8 @@ namespace AuthServiceApp.Services.Classes
                     "User with same email already exists");
             }
 
+
+
             var user = _mapper.Map<ApplicationUser>(userModel);
             user.UserName = GenerateUsername();
 

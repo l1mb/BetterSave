@@ -16,6 +16,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Google.Apis.Auth;
 using AuthServiceApp.DAL.Entities;
+using Microsoft.AspNetCore.Authentication.Google;
 
 namespace AuthServiceApp.Controllers
 {
@@ -110,27 +111,11 @@ namespace AuthServiceApp.Controllers
             return Ok("Confirmed");
         }
 
-        [AllowAnonymous]
-        [HttpPost("google")]
-        public async Task<IActionResult> Google([FromBody] GoogleAuthUser userView)
+        [Authorize(AuthenticationSchemes = GoogleDefaults.AuthenticationScheme)]
+        [HttpGet("google")]
+        public  IActionResult Google()
         {
-            try
-            {
-                //SimpleLogger.Log("userView = " + userView.tokenId);
-                var payload = GoogleJsonWebSignature.ValidateAsync(userView.tokenId, new GoogleJsonWebSignature.ValidationSettings()).Result;
-                var user = await _authService.SignInAsync(new SignInDto(), _appSettings);
-
-               
-                return Ok(new
-                {
-                    token = user
-                });
-            }
-            catch (Exception ex)
-            {
-                BadRequest(ex.Message);
-            }
-            return BadRequest();
+            return Ok(User.Identity);
         }
 
     }
