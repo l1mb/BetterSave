@@ -9,7 +9,7 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpened }) => (
   <div
-    className={`flex w-full  flex-col gap-2 transition-all ${
+    className={`flex w-full  flex-col gap-2 border-blueberry-800 shadow-2xl transition-all ${
       isOpened ? "max-w-[164px]" : "max-w-0"
     } overflow-hidden`}
   >

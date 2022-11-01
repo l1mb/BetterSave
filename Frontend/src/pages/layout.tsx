@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import Head from "next/head";
 import Sidebar from "../elements/sidebar";
 import fullHeightLinks from "../utils/links/fullHeightLinks";
 import useKeyDown from "../hooks/useKeyDown";
@@ -34,6 +35,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <>
+      <Head>
+        <title>Better save</title>
+        <meta name="description" content="Save money for great goals" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       {status === "unauthenticated" && <Navbar />}
       <div className="flex w-full">
         <Sidebar isOpened={isOpened} />

@@ -35,6 +35,7 @@ export default NextAuth({
           }
           // If no error and we have user data, return it
           if (res.ok && user) {
+            user.user.token = user.token;
             return user.user;
           }
 
@@ -73,8 +74,12 @@ export default NextAuth({
       const t = new Promise<JWT>(() => {
         console.log();
       });
-      const q: JWT = params.token;
-      return q;
+      const token = { accessToken: "", id: "" };
+      if (params.account && params.profile) {
+        token.accessToken = params.account.access_token;
+        token.id = params.profile.id;
+      }
+      return token;
     },
 
     session: async (params: {
