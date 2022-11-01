@@ -17,28 +17,32 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const router = useRouter();
   const fullHeightLayout =
-    fullHeightLinks.filter((path) => router.pathname.includes(path)).length ===
-    0;
-  const [isOpened, setIsOpened] = useState(true);
+    fullHeightLinks.filter((path) => router.pathname.includes(path)).length > 0;
+  const [isOpened, setIsOpened] = useState(!router.pathname.includes("/login"));
   const { data, status } = useSession();
 
-  useKeyDown((e) => {
-    if (e.key === "s") {
-      setIsOpened((prevState) => !prevState);
-    }
-  }, []);
+  useKeyDown(
+    (e) => {
+      console.log(e);
+      console.log(router.pathname);
+      if (e.key === "s" && !fullHeightLayout) {
+        setIsOpened((prevState) => !prevState);
+      }
+    },
+    [router]
+  );
 
   return (
     <>
-      {(fullHeightLayout || status === "unauthenticated") && <Navbar />}
+      {status === "unauthenticated" && <Navbar />}
       <div className="flex w-full">
         <Sidebar isOpened={isOpened} />
 
         <div className="relative w-full flex-auto">
           {children}
-          {isOpened === false && (
+          {isOpened === false && !fullHeightLayout && (
             <button
-              className="absolute bottom-4 left-4 flex h-9 w-9 items-center justify-center rounded-full bg-blueberry-200 transition-all hover:bg-blueberry-500  "
+              className="fixed  bottom-4 left-4 flex h-9 w-9 items-center justify-center rounded-full bg-blueberry-200 transition-all hover:rotate-90  hover:bg-blueberry-500 "
               type="button"
               onClick={() => setIsOpened((prevState) => !prevState)}
             >

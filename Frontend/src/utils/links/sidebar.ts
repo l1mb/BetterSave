@@ -14,3 +14,5 @@ const sidebarLinks: links[] = [
     link: "/balance",
   },
 ];
+
+export default sidebarLinks;
