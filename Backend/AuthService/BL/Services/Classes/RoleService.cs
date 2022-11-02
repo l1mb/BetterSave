@@ -32,7 +32,7 @@ namespace AuthServiceApp.BL.Services.Classes
                 return new(ServiceResultType.ServerError);
             }
 
-            return new(ServiceResultType.Ok);
+            return new(ServiceResultType.Created);
         }
 
         public async Task<ServiceResult> DeleteAsync(string id)

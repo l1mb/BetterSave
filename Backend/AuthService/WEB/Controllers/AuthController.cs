@@ -17,6 +17,7 @@ using System.Text;
 using Google.Apis.Auth;
 using AuthServiceApp.DAL.Entities;
 using Microsoft.AspNetCore.Authentication.Google;
+using AuthServiceApp.BL.Constants;
 
 namespace AuthServiceApp.Controllers
 {
@@ -116,6 +117,20 @@ namespace AuthServiceApp.Controllers
         public  IActionResult Google()
         {
             return Ok(User.Identity);
+        }
+
+        [Authorize]
+        [HttpGet("test1")]
+        public IActionResult test1()
+        {
+            return Ok("OK");
+        }
+        [HttpGet("test2")]
+        [Authorize(Roles =UserRoleConstants.Admin)]
+
+        public IActionResult test2()
+        {
+            return Ok("OK");
         }
 
     }

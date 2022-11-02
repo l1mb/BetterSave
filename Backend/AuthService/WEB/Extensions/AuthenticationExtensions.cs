@@ -11,7 +11,12 @@ namespace AuthServiceApp.WEB.Extensions
         public static void RegisterAuthSettings(this IServiceCollection services, AppSettings appSettings)
         {
             var tokenSettings = appSettings.Token;
-            services.AddAuthentication()
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
             .AddJwtBearer(options =>
             {
                 options.RequireHttpsMetadata = false;
@@ -27,12 +32,8 @@ namespace AuthServiceApp.WEB.Extensions
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(tokenSettings.SigningKey)),
                     ValidateIssuerSigningKey = tokenSettings.ValidateIssuerSigningKey
                 };
-            })
-            .AddGoogle(googleOptions =>
-            {
-                googleOptions.ClientId = appSettings.GoogleAuthSettings.ClientId;
-                googleOptions.ClientSecret = appSettings.GoogleAuthSettings.ClientSecret;
             });
+            
 
         }
     }

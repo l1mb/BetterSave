@@ -51,7 +51,8 @@ namespace AuthServiceApp.Services.Classes
             }
 
             var userRoleList = await _userManager.GetRolesAsync(user);
-            var userRole = userRoleList.FirstOrDefault();
+            //todo change roles
+            var userRole = userRoleList.Last();
 
             if (string.IsNullOrWhiteSpace(userRole))
             {
