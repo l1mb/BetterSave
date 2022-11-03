@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Head from "next/head";
 import Sidebar from "../elements/sidebar";
@@ -20,7 +19,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const fullHeightLayout =
     fullHeightLinks.filter((path) => router.pathname.includes(path)).length > 0;
   const [isOpened, setIsOpened] = useState(!router.pathname.includes("/login"));
-  const { data, status } = useSession();
 
   useKeyDown(
     (e) => {
@@ -40,7 +38,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <meta name="description" content="Save money for great goals" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {status === "unauthenticated" && <Navbar />}
+      <Navbar />
       <div className="flex w-full">
         <Sidebar isOpened={isOpened} />
 
@@ -57,7 +55,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           )}
         </div>
       </div>
-      {(fullHeightLayout || status === "unauthenticated") && <Footer />}
+      {fullHeightLayout && <Footer />}
     </>
   );
 };

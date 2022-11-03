@@ -19,6 +19,15 @@ const nextConfig = {
       },
     ],
   },
+  rewrites() {
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+    return [
+      {
+        source: "/api/:path*",
+        destination: "http://localhost:12571/api/:path*", // Proxy to Backend
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;

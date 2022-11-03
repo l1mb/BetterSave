@@ -51,7 +51,7 @@ namespace AuthServiceApp.Services.Classes
             }
 
             var userRoleList = await _userManager.GetRolesAsync(user);
-            //todo change roles
+            //todo change roles 
             var userRole = userRoleList.Last();
 
             if (string.IsNullOrWhiteSpace(userRole))
@@ -67,7 +67,7 @@ namespace AuthServiceApp.Services.Classes
             var result = await _signInManager.CheckPasswordSignInAsync(user, basicUserModel.Password, false);
             if (!result.Succeeded)
             {
-                return new(ServiceResultType.IncorrectData);
+                return new(ServiceResultType.IncorrectData, ExceptionMessageConstants.PasswordMissmatch);
             }
 
             var tokenGenerator = new TokenGenerator(appSettings);

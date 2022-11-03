@@ -63,12 +63,11 @@ app.UseHttpsRedirection();
 app.Run();
 
 static AppSettings RegisterSettings(IConfiguration configuration) =>
-           new()
-           {
-               Database = configuration.GetSection(nameof(AppSettings.Database)).Get<DatabaseSettings>(),
-               Token = configuration.GetSection(nameof(AppSettings.Token)).Get<TokenSettings>(),
-               SmtpClientSettings = configuration.GetSection(nameof(AppSettings.SmtpClientSettings))
-                   .Get<SmtpClientSettings>(),
-               GoogleAuthSettings = configuration.GetSection(nameof(AppSettings.GoogleAuthSettings))
-                    .Get<GoogleAuthSettings>()
-           };
+    new(){
+        Database = configuration.GetSection(nameof(AppSettings.Database)).Get<DatabaseSettings>(),
+        Token = configuration.GetSection(nameof(AppSettings.Token)).Get<TokenSettings>(),
+        SmtpClientSettings = configuration.GetSection(nameof(AppSettings.SmtpClientSettings))
+            .Get<SmtpClientSettings>(),
+        GoogleAuthSettings = configuration.GetSection(nameof(AppSettings.GoogleAuthSettings))
+            .Get<GoogleAuthSettings>()
+    };
