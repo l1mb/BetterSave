@@ -1,10 +1,12 @@
-﻿using AuthServiceApp.BL.Enums;
+﻿using AuthServiceApp.BL.Constants;
+using AuthServiceApp.BL.Enums;
 using AuthServiceApp.BL.Exceptions;
 using AuthServiceApp.BL.Helpers;
 using AuthServiceApp.BL.Services.Interfaces;
 using AuthServiceApp.DAL.Entities;
 using AuthServiceApp.DAL.Models;
 using AuthServiceApp.WEB.DTOs.Output.User;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 
 namespace AuthServiceApp.BL.Services.Classes
@@ -12,9 +14,12 @@ namespace AuthServiceApp.BL.Services.Classes
     public class UserService : IUserService
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        public UserService()
-        {
+        private readonly IMapper _mapper;
 
+        public UserService(UserManager<ApplicationUser> userManager, IMapper mapper)
+        {
+            this._userManager = userManager; 
+            this._mapper = mapper;
         }
         public async Task<ServiceResult<IdentityResult>> ChangePassword(Guid id, string password)
         {
@@ -30,19 +35,46 @@ namespace AuthServiceApp.BL.Services.Classes
             return new(ServiceResultType.Ok);
         }
 
-        public Task<ServiceResult> DeleteAccount()
+        public async Task<ServiceResult> DeleteAccount(Guid id)
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            
+            if(user is null)
+            {
+                throw new ApplicationHelperException(ServiceResultType.NotFound, ExceptionMessageConstants.MissingUser);
+            }
+
+            await _userManager.DeleteAsync(user);
+
+            return new(ServiceResultType.Ok);
         }
 
-        public Task<UserDto> GetUser()
+        public async Task<UserDto> GetUser(string id)
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByIdAsync(id);
+            if(user is null)
+            {
+                throw new ApplicationHelperException(ServiceResultType.NotFound, ExceptionMessageConstants.MissingUser);
+            }
+
+            var userDto = _mapper.Map<UserDto>(user);
+
+            return userDto;
+
         }
 
-        public Task<ServiceResult> UpdateUser()
+        public async Task<ServiceResult> UpdateUser(UserDto userDto)
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByIdAsync(userDto.Id.ToString());
+            var identityResult = await _userManager.UpdateAsync(user);
+            if (!identityResult.Succeeded)
+            {
+                throw new ApplicationHelperException(ServiceResultType.ServerError, identityResult.Errors.First().Description);
+            }
+
+            return new ServiceResult(ServiceResultType.Ok);
         }
+
+
     }
 }

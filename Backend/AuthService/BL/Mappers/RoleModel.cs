@@ -6,9 +6,9 @@ using AutoMapper;
 
 namespace AuthServiceApp.BL.Mappers
 {
-    public class UserModelProfile : Profile
+    public class RoleModelProfile : Profile
     {
-        public UserModelProfile()
+        public RoleModelProfile()
         {
             CreateMap<RoleDto, ApplicationRole>().ReverseMap();
 

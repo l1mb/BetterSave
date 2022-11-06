@@ -15,7 +15,7 @@ namespace AuthServiceApp.WEB.Utilities
             _appSettings = appSettings;
         }
 
-        public string GenerateAccessToken(int userId, string userName, string userRole)
+        public string GenerateAccessToken(Guid userId, string userName, string userRole)
         {
             var claim = GetClaims(userId, userName, userRole);
 
@@ -33,11 +33,11 @@ namespace AuthServiceApp.WEB.Utilities
             return encodedJwt;
         }
 
-        private static ClaimsIdentity GetClaims(int userId, string userName, string userRole)
+        private static ClaimsIdentity GetClaims(Guid userId, string userName, string userRole)
         {
             var claims = new List<Claim>
             {
-                new(ClaimTypes.NameIdentifier, userId.ToString()),
+                new("UserId", userId.ToString()),
                 new(ClaimTypes.Role, userRole),
                 new(ClaimTypes.Name, userName)
             };

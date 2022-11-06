@@ -1,4 +1,11 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using AuthServiceApp.BL.Constants;
+using AuthServiceApp.BL.Enums;
+using AuthServiceApp.BL.Exceptions;
+using AuthServiceApp.BL.Helpers;
+using AuthServiceApp.BL.Services.Interfaces;
+using AuthServiceApp.WEB.DTOs.Output.User;
+using AuthServiceApp.WEB.Settings;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -8,14 +15,30 @@ using Microsoft.AspNetCore.Mvc;
 namespace AuthServiceApp.WEB.Controllers
 {
     [ApiController]
-    [Route("api/user")]
     public class UserController : ControllerBase
     {
-        [HttpGet]
+        private readonly AppSettings _appSettings;
+        private readonly IUserService _userService;
+        public UserController(IUserService userService, AppSettings appSettings)
+        {
+            this._userService = userService;
+            this._appSettings = appSettings;
+        }
+        [HttpGet("api/user")]
         [Authorize]
-        public Task<ActionResult> GetInfoAboutUser()
+        public async Task<ActionResult<UserDto>> GetInfoAboutUser()
         {
 
+            var result  = IdentityExtractor.GetValue(this.User);
+            if(!result.Any())
+            {
+                throw new ApplicationHelperException(ServiceResultType.InvalidData, ExceptionMessageConstants.TokenIsBroken);
+            }
+            var t = result.Where(claim => (string)claim.Type == "UserId").SingleOrDefault().Value;
+
+            var res = await _userService.GetUser(t);
+
+            return res;
         }
     }
 }

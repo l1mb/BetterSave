@@ -14,6 +14,7 @@ using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.RollingFileAlternative;
 using LoggerExtensions = AuthServiceApp.WEB.Extensions.LoggerExtensions;
+using AuthServiceApp.WEB.StartUp.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog();
