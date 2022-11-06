@@ -2,20 +2,9 @@
 
 namespace AuthServiceApp.BL.Helpers
 {
-    public class Error
-    {
-        public Error(string errorMessage)
-        {
-            ErrorMessage = errorMessage;
-        }
-
-        public string ErrorMessage { get; set; }
-    }
     public class ServiceResult
     {
         public ServiceResultType Result { get; set; }
-
-        public Error Error { get; set; }    
 
         public ServiceResult()
         {
@@ -49,19 +38,11 @@ namespace AuthServiceApp.BL.Helpers
         public ServiceResult(ServiceResultType result, string message)
         {
             Result = result;
-            Error = new(message);
         }
 
         public ServiceResult(ServiceResultType result, T data)
         {
             Result = result;
-            Data = data;
-        }
-
-        public ServiceResult(ServiceResultType result, string message, T data)
-        {
-            Result = result;
-            Error = new(message);
             Data = data;
         }
     }

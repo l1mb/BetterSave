@@ -54,11 +54,6 @@ namespace AuthServiceApp.Controllers
         {
             var signUpResult = await _authService.SignUpAsync(userModel);
 
-            if (signUpResult.Result is not ServiceResultType.Ok)
-            {
-                return BadRequest(signUpResult.Error);
-            }
-
             await _authService.SendConfirmationMessageAsync(nameof(ConfirmEmail), "Auth",
                 (signUpResult.Data.user, signUpResult.Data.confirmToken), Request.Scheme);
 
@@ -80,11 +75,6 @@ namespace AuthServiceApp.Controllers
         {
             var signInResult = await _authService.SignInAsync(userModel, _appSettings);
 
-            if (signInResult.Result is not ServiceResultType.Ok)
-            {
-                return StatusCode((int)signInResult.Result, signInResult.Error);
-            }
-
             return Ok(signInResult.Data);
         }
 
@@ -104,10 +94,6 @@ namespace AuthServiceApp.Controllers
         public async Task<IActionResult> ConfirmEmail(string id, string token)
         {
             var confirmResult = await _authService.ConfirmAsync(id, token);
-            if (confirmResult.Result is not ServiceResultType.Ok)
-            {
-                return StatusCode((int)confirmResult.Result, confirmResult.Error);
-            }
 
             return Ok("Confirmed");
         }

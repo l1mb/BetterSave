@@ -1,6 +1,7 @@
 ﻿using AuthServiceApp.BL;
 using AuthServiceApp.BL.Constants;
 using AuthServiceApp.BL.Enums;
+using AuthServiceApp.BL.Exceptions;
 using AuthServiceApp.BL.Helpers;
 using AuthServiceApp.BL.Services.Interfaces;
 using AuthServiceApp.DAL.Entities;
@@ -47,7 +48,7 @@ namespace AuthServiceApp.Services.Classes
             var user = await _userManager.FindByEmailAsync(basicUserModel.Email);
             if (user is null)
             {
-                return new(ServiceResultType.IncorrectData, ExceptionMessageConstants.MissingUser);
+                throw new ApplicationHelperException(ServiceResultType.NotFound, "Not Found");
             }
 
             var userRoleList = await _userManager.GetRolesAsync(user);
@@ -56,18 +57,18 @@ namespace AuthServiceApp.Services.Classes
 
             if (string.IsNullOrWhiteSpace(userRole))
             {
-                return new(ServiceResultType.IncorrectData);
+                throw new ApplicationHelperException(ServiceResultType.ServerError, ExceptionMessageConstants.UserWithoutRoles);
             }
 
             if (!user.EmailConfirmed)
             {
-                return new(ServiceResultType.ServerError, "Please confirm your email");
+                throw new ApplicationHelperException(ServiceResultType.InvalidData, ExceptionMessageConstants.ConfirmEmail);
             }
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, basicUserModel.Password, false);
             if (!result.Succeeded)
             {
-                return new(ServiceResultType.IncorrectData, ExceptionMessageConstants.PasswordMissmatch);
+                throw new ApplicationHelperException(ServiceResultType.InvalidData, ExceptionMessageConstants.PasswordMissmatch);
             }
 
             var tokenGenerator = new TokenGenerator(appSettings);
@@ -127,8 +128,8 @@ namespace AuthServiceApp.Services.Classes
             var previousUser = await _userManager.FindByEmailAsync(userModel.Email);
             if (previousUser is not null)
             {
-                return new(ServiceResultType.IncorrectData,
-                    "User with same email already exists");
+                throw new ApplicationHelperException(ServiceResultType.InvalidData,
+                    ExceptionMessageConstants.UserAlreadyExist);
             }
 
 

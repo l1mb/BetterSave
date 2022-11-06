@@ -6,7 +6,7 @@
         Created = 201,
         NoContent = 204,
         NotChanged = 304,
-        IncorrectData = 400,
+        InvalidData = 400,
         NotAuthorized = 401,
         Forbidden = 403,
         NotFound = 404,
