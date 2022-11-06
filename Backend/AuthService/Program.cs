@@ -14,30 +14,15 @@ using Newtonsoft.Json.Converters;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.RollingFileAlternative;
+using LoggerExtensions = AuthServiceApp.WEB.Extensions.LoggerExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Host.UseSerilog();
 
 var appSettings = RegisterSettings(builder.Configuration);
+Log.Logger = LoggerExtensions.RegisterLogger();
+
 builder.Services.RegisterServices(appSettings);
-Log.Logger = new LoggerConfiguration()
-                       .MinimumLevel.Debug()
-                       .WriteTo.Logger(l =>
-                           l.Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Information).WriteTo
-                               .RollingFile(@"Logs\Info-{Date}.log"))
-                       .WriteTo.Logger(l =>
-                           l.Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Debug).WriteTo
-                               .RollingFile(@"Logs\Debug-{Date}.log"))
-                       .WriteTo.Logger(l =>
-                           l.Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Warning).WriteTo
-                               .RollingFile(@"Logs\Warning-{Date}.log"))
-                       .WriteTo.Logger(l =>
-                           l.Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Error).WriteTo
-                               .RollingFile(@"Logs\Error-{Date}.log"))
-                       .WriteTo.Logger(l =>
-                           l.Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Fatal).WriteTo
-                               .RollingFile(@"Logs\Fatal-{Date}.log"))
-                       .WriteTo.RollingFile(@"Logs\Verbose-{Date}.log")
-                       .CreateLogger();
 
 builder.Services.AddSwaggerGen();
 
@@ -76,9 +61,19 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseRouting();
+app.RegisterExceptionHandler(Log.Logger);
+
+
+
+app.UseSerilogRequestLogging();
 app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseEndpoints((endpoints) =>
+{
+    endpoints.MapGet("/", async context => await context.Response.WriteAsync("healthy"));
+});
 app.UseStaticFiles();
 app.MapControllers();
 
