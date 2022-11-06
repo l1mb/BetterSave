@@ -2,7 +2,6 @@ using AuthServiceApp.DAL.Models;
 using AuthServiceApp.Settings.Extensions;
 using AuthServiceApp.WEB.Extensions;
 using AuthServiceApp.WEB.Settings;
-using GameStore.WEB.StartUp.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -62,9 +61,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseRouting();
 app.RegisterExceptionHandler(Log.Logger);
-
-
-
 app.UseSerilogRequestLogging();
 app.UseCors("AllowAll");
 app.UseAuthentication();

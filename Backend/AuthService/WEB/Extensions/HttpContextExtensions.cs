@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace GameStore.WEB.StartUp.Configuration
+namespace AuthServiceApp.WEB.StartUp.Configuration
 {
     public static class HttpContextExtensions
     {

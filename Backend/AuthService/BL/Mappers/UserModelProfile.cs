@@ -3,7 +3,7 @@ using AuthServiceApp.WEB.DTOs.Input;
 using AuthServiceApp.WEB.DTOs.Output;
 using AutoMapper;
 
-namespace GameStore.BL.Mappers
+namespace AuthServiceApp.BL.Mappers
 {
     public class UserModelProfile : Profile
     {

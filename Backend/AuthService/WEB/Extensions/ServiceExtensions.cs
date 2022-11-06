@@ -5,7 +5,7 @@ using AuthServiceApp.BL.Services.Classes;
 using AuthServiceApp.BL.Services.Interfaces;
 using AuthServiceApp.DAL.Interfaces;
 using AuthServiceApp.DAL.Repo;
-using GameStore.WEB.Utilities;
+using AuthServiceApp.WEB.Utilities;
 
 namespace AuthServiceApp.Settings.Extensions
 {

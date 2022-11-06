@@ -9,15 +9,13 @@ namespace AuthServiceApp.WEB.Controllers
 {
     [ApiController]
     [Route("api/user")]
-    [Authorize(AuthenticationSchemes = AuthSchemes)]
     public class UserController : ControllerBase
     {
-        private const string AuthSchemes =
-       GoogleDefaults.AuthenticationScheme;
-        [HttpGet("test")]
-        public IActionResult Test()
+        [HttpGet]
+        [Authorize]
+        public Task<ActionResult> GetInfoAboutUser()
         {
-            return Ok(this.User.Identity);
+
         }
     }
 }
