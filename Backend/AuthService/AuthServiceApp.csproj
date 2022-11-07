@@ -33,6 +33,7 @@
   <ItemGroup>
     <Folder Include="DAL\Migrations\" />
     <Folder Include="Settings\" />
+    <Folder Include="WEB\DTOs\Input\User\" />
   </ItemGroup>
 
   <ItemGroup>

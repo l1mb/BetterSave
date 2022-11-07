@@ -1,4 +1,6 @@
-﻿using AuthServiceApp.BL.Enums;
+﻿using AuthServiceApp.BL.Constants;
+using AuthServiceApp.BL.Enums;
+using AuthServiceApp.BL.Exceptions;
 using AuthServiceApp.BL.Helpers;
 using AuthServiceApp.DAL.Entities;
 using AuthServiceApp.DAL.Interfaces;
@@ -25,6 +27,23 @@ namespace AuthServiceApp.DAL.Repo
             _passwordHasher = passwordHasher;
             _passwordValidator = passwordValidator;
             _userManager = userManager;
+        }
+
+        public async Task<ServiceResult<ApplicationUser>> UpdateUserAsync(ApplicationUser appUser, string userId)
+        {
+            var existingUser = await _userManager.FindByIdAsync(userId);
+            existingUser.PhoneNumber = appUser.PhoneNumber;
+            existingUser.FirstName = appUser.FirstName;
+            existingUser.LastName = appUser.LastName;
+
+            var updateResult = await _userManager.UpdateAsync(existingUser);
+            if (!updateResult.Succeeded)
+            {
+                throw new ApplicationHelperException(ServiceResultType.ServerError, ExceptionMessageConstants.SaveIsImposiible);
+            }
+            var fullUser = await _userManager.FindByIdAsync(userId);
+
+            return new(ServiceResultType.Ok, fullUser);
         }
 
         public async Task<ServiceResult> UpdateUserPasswordAsync(Guid userId, string newPassword)

@@ -79,17 +79,13 @@ namespace AuthServiceApp.BL.Services.Classes
             return new(ServiceResultType.Ok);
         }
 
-        public async Task<ServiceResult> UpdateUser(UserDto userDto, string[] unmodiiedProps)
+        public async Task<ServiceResult> UpdateUser(UserDto userDto)
         {
-            var user = await _userManager.FindByIdAsync(userDto.Id.ToString());
-            var props = GetExpressionProps.GetExpression<ApplicationUser>(unmodiiedProps);
-            await _userRepository.UpdateItemAsync(user, props);
-         
+            var user = _mapper.Map<ApplicationUser>(userDto);
 
+            await _userRepository.UpdateUserAsync(user, userDto.Id.ToString());
+         
             return new ServiceResult(ServiceResultType.Ok);
         }
-
-
-
     }
 }

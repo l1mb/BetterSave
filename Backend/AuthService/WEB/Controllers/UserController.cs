@@ -4,7 +4,6 @@ using AuthServiceApp.BL.Exceptions;
 using AuthServiceApp.BL.Helpers;
 using AuthServiceApp.BL.Services.Interfaces;
 using AuthServiceApp.DAL.Entities;
-using AuthServiceApp.WEB.DTOs.Input.User;
 using AuthServiceApp.WEB.DTOs.Output.User;
 using AuthServiceApp.WEB.Settings;
 using Microsoft.AspNetCore.Authorization;
@@ -36,9 +35,9 @@ namespace AuthServiceApp.WEB.Controllers
 
         [HttpPut("api/user")]
         [Authorize]
-        public async Task<ActionResult> UpdateUser([FromBody] UdpateUserDto updateUserDto)
+        public async Task<ActionResult> UpdateUser([FromBody] UserDto updateUserDto)
         {
-            await _userService.UpdateUser(updateUserDto.UserDto, updateUserDto.unmodifiedProps);
+            await _userService.UpdateUser(updateUserDto);
 
             return NoContent();
         }
