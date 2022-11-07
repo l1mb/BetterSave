@@ -4,10 +4,13 @@ using AuthServiceApp.BL.Exceptions;
 using AuthServiceApp.BL.Helpers;
 using AuthServiceApp.BL.Services.Interfaces;
 using AuthServiceApp.DAL.Entities;
+using AuthServiceApp.DAL.Interfaces;
 using AuthServiceApp.DAL.Models;
 using AuthServiceApp.WEB.DTOs.Output.User;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.JsonPatch;
+using System.Linq.Expressions;
 using System.Security.Claims;
 
 namespace AuthServiceApp.BL.Services.Classes
@@ -15,12 +18,14 @@ namespace AuthServiceApp.BL.Services.Classes
     public class UserService : IUserService
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        public UserService(UserManager<ApplicationUser> userManager, IMapper mapper)
+        public UserService(UserManager<ApplicationUser> userManager, IMapper mapper, IUserRepository userRepository)
         {
             this._userManager = userManager; 
             this._mapper = mapper;
+            this._userRepository = userRepository;
         }
         public async Task<ServiceResult<IdentityResult>> ChangePassword(Guid id, string password)
         {
@@ -50,16 +55,11 @@ namespace AuthServiceApp.BL.Services.Classes
             return new(ServiceResultType.Ok);
         }
 
-        public async Task<UserDto> GetUser(ClaimsPrincipal principal)
+        public async Task<UserDto> GetUser(string userId)
         {
-            var claims = IdentityExtractor.GetValue(principal);
-            var UserIdClaim = claims.Where(claim => (string)claim.Type == "UserId").SingleOrDefault();
-            if (UserIdClaim is null)
-            {
-                throw new ApplicationHelperException(ServiceResultType.InvalidData, ExceptionMessageConstants.TokenIsBroken);
-            }
 
-            var user = await _userManager.FindByIdAsync(UserIdClaim.Value);
+
+            var user = await _userManager.FindByIdAsync(userId);
 
             if(user is null)
             {
@@ -71,17 +71,24 @@ namespace AuthServiceApp.BL.Services.Classes
             return userDto;
         }
 
-        public async Task<ServiceResult> UpdateUser(UserDto userDto)
+        public async Task<ServiceResult> PatchUser(JsonPatchDocument<ApplicationUser> patchDoc, string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            patchDoc.ApplyTo(user);
+            await _userManager.UpdateAsync(user);
+            return new(ServiceResultType.Ok);
+        }
+
+        public async Task<ServiceResult> UpdateUser(UserDto userDto, string[] unmodiiedProps)
         {
             var user = await _userManager.FindByIdAsync(userDto.Id.ToString());
-            var identityResult = await _userManager.UpdateAsync(user);
-            if (!identityResult.Succeeded)
-            {
-                throw new ApplicationHelperException(ServiceResultType.ServerError, identityResult.Errors.First().Description);
-            }
+            var props = GetExpressionProps.GetExpression<ApplicationUser>(unmodiiedProps);
+            await _userRepository.UpdateItemAsync(user, props);
+         
 
             return new ServiceResult(ServiceResultType.Ok);
         }
+
 
 
     }

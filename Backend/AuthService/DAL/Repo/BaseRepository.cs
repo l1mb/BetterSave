@@ -166,7 +166,7 @@ namespace AuthServiceApp.DAL.Repo
 
                 DbContext.Entry(item).State = EntityState.Detached;
             }
-            catch (Exception e)
+                catch (Exception e)
             {
                 Console.WriteLine(e);
                 throw new($"Unable to update item. Error: {e.Message}");

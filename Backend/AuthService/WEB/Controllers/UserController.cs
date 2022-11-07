@@ -3,13 +3,12 @@ using AuthServiceApp.BL.Enums;
 using AuthServiceApp.BL.Exceptions;
 using AuthServiceApp.BL.Helpers;
 using AuthServiceApp.BL.Services.Interfaces;
+using AuthServiceApp.DAL.Entities;
+using AuthServiceApp.WEB.DTOs.Input.User;
 using AuthServiceApp.WEB.DTOs.Output.User;
 using AuthServiceApp.WEB.Settings;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.Google;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthServiceApp.WEB.Controllers
@@ -28,11 +27,30 @@ namespace AuthServiceApp.WEB.Controllers
         [Authorize]
         public async Task<ActionResult<UserDto>> GetInfoAboutUser()
         {
+            var userId = ClaimHelper.GetUserId(User);
 
-
-            var res = await _userService.GetUser(this.User);
+            var res = await _userService.GetUser(userId);
 
             return res;
+        }
+
+        [HttpPut("api/user")]
+        [Authorize]
+        public async Task<ActionResult> UpdateUser([FromBody] UdpateUserDto updateUserDto)
+        {
+            await _userService.UpdateUser(updateUserDto.UserDto, updateUserDto.unmodifiedProps);
+
+            return NoContent();
+        }
+
+        [HttpPatch("api/user")]
+        [Authorize]
+        public async Task<ActionResult> PatchUser([FromBody] JsonPatchDocument<ApplicationUser> patchDoc)
+        {
+            var userId = ClaimHelper.GetUserId(User);
+            await _userService.PatchUser(patchDoc, userId);
+
+            return NoContent();
         }
     }
 }

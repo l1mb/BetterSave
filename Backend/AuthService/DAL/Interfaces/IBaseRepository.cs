@@ -28,5 +28,6 @@ namespace AuthServiceApp.DAL.Interfaces
         );
 
         Task<T> UpdateItemAsync(T item, params Expression<Func<T, object>>[] unmodifiedProperties);
+
     }
 }
