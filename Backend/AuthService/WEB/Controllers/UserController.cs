@@ -29,14 +29,8 @@ namespace AuthServiceApp.WEB.Controllers
         public async Task<ActionResult<UserDto>> GetInfoAboutUser()
         {
 
-            var result  = IdentityExtractor.GetValue(this.User);
-            if(!result.Any())
-            {
-                throw new ApplicationHelperException(ServiceResultType.InvalidData, ExceptionMessageConstants.TokenIsBroken);
-            }
-            var t = result.Where(claim => (string)claim.Type == "UserId").SingleOrDefault().Value;
 
-            var res = await _userService.GetUser(t);
+            var res = await _userService.GetUser(this.User);
 
             return res;
         }

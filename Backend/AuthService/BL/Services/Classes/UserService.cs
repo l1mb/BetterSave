@@ -8,6 +8,7 @@ using AuthServiceApp.DAL.Models;
 using AuthServiceApp.WEB.DTOs.Output.User;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace AuthServiceApp.BL.Services.Classes
 {
@@ -49,9 +50,17 @@ namespace AuthServiceApp.BL.Services.Classes
             return new(ServiceResultType.Ok);
         }
 
-        public async Task<UserDto> GetUser(string id)
+        public async Task<UserDto> GetUser(ClaimsPrincipal principal)
         {
-            var user = await _userManager.FindByIdAsync(id);
+            var claims = IdentityExtractor.GetValue(principal);
+            var UserIdClaim = claims.Where(claim => (string)claim.Type == "UserId").SingleOrDefault();
+            if (UserIdClaim is null)
+            {
+                throw new ApplicationHelperException(ServiceResultType.InvalidData, ExceptionMessageConstants.TokenIsBroken);
+            }
+
+            var user = await _userManager.FindByIdAsync(UserIdClaim.Value);
+
             if(user is null)
             {
                 throw new ApplicationHelperException(ServiceResultType.NotFound, ExceptionMessageConstants.MissingUser);
@@ -60,7 +69,6 @@ namespace AuthServiceApp.BL.Services.Classes
             var userDto = _mapper.Map<UserDto>(user);
 
             return userDto;
-
         }
 
         public async Task<ServiceResult> UpdateUser(UserDto userDto)
