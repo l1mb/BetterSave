@@ -41,9 +41,9 @@ namespace AuthServiceApp.BL.Services.Classes
             return new(ServiceResultType.Ok);
         }
 
-        public async Task<ServiceResult> DeleteAccount(Guid id)
+        public async Task<ServiceResult> DeleteAccount(string id)
         {
-            var user = await _userManager.FindByIdAsync(id.ToString());
+            var user = await _userManager.FindByIdAsync(id);
             
             if(user is null)
             {

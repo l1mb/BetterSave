@@ -11,7 +11,7 @@ namespace AuthServiceApp.BL.Services.Interfaces
     {
         Task<UserDto> GetUser(string userId);
         Task<ServiceResult> UpdateUser(UserDto userDto);
-        Task<ServiceResult> DeleteAccount(Guid id);
+        Task<ServiceResult> DeleteAccount(string id);
         Task<ServiceResult<IdentityResult>> ChangePassword(Guid id, string password);
         Task<ServiceResult> PatchUser(JsonPatchDocument<ApplicationUser> patchDoc, string userId);
     }

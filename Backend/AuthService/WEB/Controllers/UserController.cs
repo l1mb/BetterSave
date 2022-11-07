@@ -51,5 +51,15 @@ namespace AuthServiceApp.WEB.Controllers
 
             return NoContent();
         }
+
+        [HttpDelete("api/user")]
+        [Authorize]
+        public async Task<ActionResult> PatchUser()
+        {
+            var userId = ClaimHelper.GetUserId(User);
+            await _userService.DeleteAccount(userId);
+
+            return NoContent();
+        }
     }
 }
