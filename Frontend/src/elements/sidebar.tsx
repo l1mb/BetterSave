@@ -13,13 +13,22 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpened }) => (
       isOpened ? "max-w-[164px]" : "max-w-0"
     } overflow-hidden`}
   >
-    {sidebarLinks.map((link) => (
-      <Link href={link.link}>
+    <div className="flex h-full flex-col justify-between">
+      <div className="">
+        {sidebarLinks.map((link) => (
+          <Link href={link.link} key={link.link}>
+            <a className="mx-auto flex w-3/4 border-b border-blueberry-800 px-2 py-2 text-center">
+              {link.label}
+            </a>
+          </Link>
+        ))}
+      </div>
+      <Link href="/settings">
         <a className="mx-auto flex w-3/4 border-b border-blueberry-800 px-2 py-2 text-center">
-          {link.label}
+          Settings
         </a>
       </Link>
-    ))}
+    </div>
   </div>
 );
 
