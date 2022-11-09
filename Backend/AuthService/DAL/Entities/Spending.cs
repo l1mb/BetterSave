@@ -6,5 +6,6 @@
         public string Cost { get; set; }
         public DateTime SpendingDate { get; set; }
         public Shop Shop { get; set; }
+        public ApplicationUser UserId { get; set; }
     }
 }

@@ -1,8 +1,10 @@
-﻿using AuthServiceApp.DAL.Entities;
+﻿using AuthServiceApp.DAL.Configuration;
+using AuthServiceApp.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using System.Reflection.Emit;
 
 namespace AuthServiceApp.DAL.Models
 {
@@ -26,6 +28,9 @@ namespace AuthServiceApp.DAL.Models
         {
             base.OnModelCreating(builder);
 
+            builder.ApplyConfiguration(new UserConfiguration());
+            builder.ApplyConfiguration(new ShopPositionConfiguration());
+            builder.ApplyConfiguration(new SpendingConfiguration());
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }
