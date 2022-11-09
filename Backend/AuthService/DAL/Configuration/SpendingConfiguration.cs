@@ -9,8 +9,17 @@ namespace AuthServiceApp.DAL.Configuration
         public void Configure(EntityTypeBuilder<Spending> builder)
         {
             builder.HasKey(key => key.Id);
-            builder.HasOne(one => one.Shop);
+            builder.Property(prop => prop.Id).IsRequired();
 
+            builder
+                .HasOne(one => one.Shop)
+                .WithMany(many => many.Spendings)
+                .HasPrincipalKey(key => key.Id)
+                .IsRequired();
+            builder.HasOne(one => one.User)
+                .WithMany(many => many.Spendings)
+                .HasPrincipalKey(key => key.Id)
+                .IsRequired();
         }
     }
 }

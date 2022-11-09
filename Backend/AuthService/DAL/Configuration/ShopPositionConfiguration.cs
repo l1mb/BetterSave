@@ -9,8 +9,13 @@ namespace AuthServiceApp.DAL.Configuration
         public void Configure(EntityTypeBuilder<ShopPosition> builder)
         {
             builder.HasKey(x => x.Id);
+            builder.Property(prop => prop.Id).IsRequired();
             builder
-                .HasOne(x => x.SpendingCategory);
+                .HasOne(x => x.SpendingCategory)
+                .WithMany(many => many.ShopPositions)
+                .HasForeignKey(key => key.SpendingCategoryId)
+                .HasPrincipalKey(key => key.Id)
+                .IsRequired();
 
             builder.HasIndex(x => x.Name);
 

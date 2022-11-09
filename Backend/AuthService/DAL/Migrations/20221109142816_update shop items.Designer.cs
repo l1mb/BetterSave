@@ -12,14 +12,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AuthServiceApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221010092129_names")]
-    partial class names
+    [Migration("20221109142816_update shop items")]
+    partial class updateshopitems
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.9")
+                .HasAnnotation("ProductVersion", "6.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -76,14 +76,12 @@ namespace AuthServiceApp.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
@@ -121,6 +119,8 @@ namespace AuthServiceApp.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Email");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -128,6 +128,8 @@ namespace AuthServiceApp.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("UserName");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -166,6 +168,107 @@ namespace AuthServiceApp.Migrations
                     b.HasIndex("ApplicationUserRoleUserId", "ApplicationUserRoleRoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("AuthServiceApp.DAL.Entities.Shop", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Shops");
+                });
+
+            modelBuilder.Entity("AuthServiceApp.DAL.Entities.ShopPosition", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("SpendingCategoryId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name");
+
+                    b.HasIndex("SpendingCategoryId");
+
+                    b.ToTable("ShopPositions");
+                });
+
+            modelBuilder.Entity("AuthServiceApp.DAL.Entities.Spending", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Cost")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ShopId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("SpendingDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ShopId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Spendings");
+                });
+
+            modelBuilder.Entity("AuthServiceApp.DAL.Entities.SpendingCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SpendingCategories");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -256,6 +359,21 @@ namespace AuthServiceApp.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("ShopPositionSpending", b =>
+                {
+                    b.Property<int>("ShopPositionsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SpendingsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ShopPositionsId", "SpendingsId");
+
+                    b.HasIndex("SpendingsId");
+
+                    b.ToTable("ShopPositionSpending");
+                });
+
             modelBuilder.Entity("AuthServiceApp.DAL.Entities.ApplicationUserRole", b =>
                 {
                     b.HasOne("AuthServiceApp.DAL.Entities.ApplicationRole", null)
@@ -281,6 +399,36 @@ namespace AuthServiceApp.Migrations
                     b.HasOne("AuthServiceApp.DAL.Entities.ApplicationUserRole", null)
                         .WithMany("UserRoles")
                         .HasForeignKey("ApplicationUserRoleUserId", "ApplicationUserRoleRoleId");
+                });
+
+            modelBuilder.Entity("AuthServiceApp.DAL.Entities.ShopPosition", b =>
+                {
+                    b.HasOne("AuthServiceApp.DAL.Entities.SpendingCategory", "SpendingCategory")
+                        .WithMany("ShopPositions")
+                        .HasForeignKey("SpendingCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SpendingCategory");
+                });
+
+            modelBuilder.Entity("AuthServiceApp.DAL.Entities.Spending", b =>
+                {
+                    b.HasOne("AuthServiceApp.DAL.Entities.Shop", "Shop")
+                        .WithMany("Spendings")
+                        .HasForeignKey("ShopId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AuthServiceApp.DAL.Entities.ApplicationUser", "User")
+                        .WithMany("Spendings")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Shop");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -319,6 +467,21 @@ namespace AuthServiceApp.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ShopPositionSpending", b =>
+                {
+                    b.HasOne("AuthServiceApp.DAL.Entities.ShopPosition", null)
+                        .WithMany()
+                        .HasForeignKey("ShopPositionsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AuthServiceApp.DAL.Entities.Spending", null)
+                        .WithMany()
+                        .HasForeignKey("SpendingsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("AuthServiceApp.DAL.Entities.ApplicationRole", b =>
                 {
                     b.Navigation("UserRoles");
@@ -326,12 +489,24 @@ namespace AuthServiceApp.Migrations
 
             modelBuilder.Entity("AuthServiceApp.DAL.Entities.ApplicationUser", b =>
                 {
+                    b.Navigation("Spendings");
+
                     b.Navigation("UserRoles");
                 });
 
             modelBuilder.Entity("AuthServiceApp.DAL.Entities.ApplicationUserRole", b =>
                 {
                     b.Navigation("UserRoles");
+                });
+
+            modelBuilder.Entity("AuthServiceApp.DAL.Entities.Shop", b =>
+                {
+                    b.Navigation("Spendings");
+                });
+
+            modelBuilder.Entity("AuthServiceApp.DAL.Entities.SpendingCategory", b =>
+                {
+                    b.Navigation("ShopPositions");
                 });
 #pragma warning restore 612, 618
         }

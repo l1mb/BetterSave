@@ -2,8 +2,8 @@
 {
     public class SpendingCategory
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
-        //public List<ShopPosition> Positions { get; set; }
+        public List<ShopPosition> ShopPositions { get; set; }
     }
 }
