@@ -34,6 +34,7 @@ namespace AuthServiceApp.BL.Services.Classes
         private Spending AggregateSpending(SpendingDto spendingDto)
         {
             var spending = _mapper.Map<Spending>(spendingDto);
+            var positionsList = _mapper.Map<List<ShopPosition>>(spendingDto.ShopPositions);
             return spending;
 
         }
