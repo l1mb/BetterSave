@@ -12,14 +12,18 @@ namespace AuthServiceApp.BL.Services.Classes
     {
         private readonly IMapper _mapper;
         private readonly ISpendingRepository _spendingRepository;
+        private readonly IShopService _shopService;
 
-        public SpendingService(IMapper mapper, ISpendingRepository spendingRepository)
+        public SpendingService(IMapper mapper, ISpendingRepository spendingRepository, IShopService shopService)
         {
             _mapper = mapper;
             _spendingRepository = spendingRepository;
+            _shopService = shopService;
         }
         public async Task<Spending> CreateSpending(SpendingDto spendingDto)
         {
+            //create shops
+            _shopService.CreateShop();
             var spending = _mapper.Map<Spending>(spendingDto);
             var createResult = await _spendingRepository.CreateItemAsync(spending);
 
