@@ -23,14 +23,16 @@ namespace AuthServiceApp.BL.Services.Classes
         public async Task<Spending> CreateSpending(SpendingDto spendingDto)
         {
             //create shops
-            _shopService.CreateShop();
+            var shop = await _shopService.CreateShop(new(spendingDto.ShopName));
+
             var spending = _mapper.Map<Spending>(spendingDto);
+
+            spending.Shop = shop;
+            spending.ShopId = shop.Id;
+
             var createResult = await _spendingRepository.CreateItemAsync(spending);
 
-            if (createResult is null)
-            {
-                throw new ApplicationHelperException(ServiceResultType.InvalidData, ExceptionMessageConstants.SaveIsImposiible);
-            }
+            ExceptionUtilities.CheckSaveStatus(createResult);
 
             return createResult;
         }

@@ -8,6 +8,6 @@ namespace AuthServiceApp.WEB.DTOs.Input.Spending
         public DateTime SpendingDate { get; set; }
 
         public List<ShopPositionDto> ShopPositions { get; set; }
-        public string Shop { get; set; }
+        public string ShopName { get; set; }
     }
 }
