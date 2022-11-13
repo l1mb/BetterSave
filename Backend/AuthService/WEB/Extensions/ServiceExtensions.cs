@@ -17,8 +17,9 @@ namespace AuthServiceApp.Settings.Extensions
 
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<ISpendingService, SpendingService>();
 
-
+            services.AddTransient<ISpendingRepository, SpendingRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IEmailSender, EmailSender>();
 
