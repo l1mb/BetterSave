@@ -1,9 +1,9 @@
 ﻿namespace AuthServiceApp.DAL.Entities
 {
-    public class SpendingCategory
+    public class SpendingCategory : BaseEntity
     {
-        public int Id { get; set; }
         public string Name { get; set; }
+        public string Keywords { get; set; }
         public List<ShopPosition> ShopPositions { get; set; }
     }
 }

@@ -1,8 +1,10 @@
 ﻿using AuthServiceApp.BL.Constants;
 using AuthServiceApp.BL.Enums;
 using AuthServiceApp.BL.Exceptions;
+using AuthServiceApp.BL.Services.GenericService;
 using AuthServiceApp.DAL.Entities;
 using AuthServiceApp.DAL.Interfaces;
+using AuthServiceApp.WEB.DTOs.Input.Shop;
 using AuthServiceApp.WEB.DTOs.Input.Spending;
 using AutoMapper;
 
@@ -12,13 +14,13 @@ namespace AuthServiceApp.BL.Services.Classes
     {
         private readonly IMapper _mapper;
         private readonly ISpendingRepository _spendingRepository;
-        private readonly IShopService _shopService;
+        private readonly IGenericService<SpendingCategory> _spendingCategoryService;
 
-        public SpendingService(IMapper mapper, ISpendingRepository spendingRepository, IShopService shopService)
+        public SpendingService(IMapper mapper, ISpendingRepository spendingRepository, IGenericService<SpendingCategory> spendingCategoryService)
         {
             _mapper = mapper;
+            _spendingCategoryService = spendingCategoryService;
             _spendingRepository = spendingRepository;
-            _shopService = shopService;
         }
         public async Task<Spending> CreateSpending(SpendingDto spendingDto)
         {
@@ -31,6 +33,18 @@ namespace AuthServiceApp.BL.Services.Classes
             spending.SpendingDate = DateTime.UtcNow;
 
             var positionsList = _mapper.Map<List<ShopPosition>>(spendingDto.ShopPositions);
+            foreach (var item in positionsList)
+            {
+                spending.Cost += item.Price;
+                var res = await _spendingCategoryService
+                    .GetOneAsync(one => one.Keywords.IndexOf(item.Name) > 0);
+                if (res is null)
+                {
+                    res = new SpendingCategory() { Name = "Uncategorized", Keywords = ""};
+                }
+
+                item.SpendingCategory = res;
+            }
 
             //foreach (var item in positionsList)
             //{
