@@ -1,16 +1,18 @@
-﻿using AuthServiceApp.DAL.Interfaces;
+﻿using AuthServiceApp.BL.Enums;
+using AuthServiceApp.BL.Exceptions;
+using AuthServiceApp.DAL.Interfaces;
 using AuthServiceApp.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace AuthServiceApp.DAL.Repo
 {
-    public abstract class BaseRepository<T> : IBaseRepository<T> where T : class
+    public class BaseRepository<T> : IBaseRepository<T> where T : class
     {
         protected readonly ApplicationDbContext DbContext;
         protected readonly DbSet<T> Entity;
 
-        protected BaseRepository(ApplicationDbContext databaseContext)
+        public BaseRepository(ApplicationDbContext databaseContext)
         {
             DbContext = databaseContext;
             Entity = DbContext.Set<T>();
@@ -175,6 +177,29 @@ namespace AuthServiceApp.DAL.Repo
             return item;
         }
 
+        public async Task<T> UpdateItemAsyncWithModified(T item, params Expression<Func<T, object>>[] modifiedProperties)
+        {
+            try
+            {
+                Entity.Update(item);
+                foreach (var property in modifiedProperties)
+                {
+                    DbContext.Entry(item).Property(property).IsModified = true;
+                }
+
+                await DbContext.SaveChangesAsync();
+
+                DbContext.Entry(item).State = EntityState.Detached;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw new($"Unable to update item. Error: {e.Message}");
+            }
+
+            return item;
+        }
+
         public async Task<List<T>> UpdateItemsAsync(IEnumerable<T> items)
         {
             var entitiesList = items.ToList();
@@ -223,7 +248,23 @@ namespace AuthServiceApp.DAL.Repo
             return item;
         }
 
+        public async Task<T> RemoveItemAsync(Expression<Func<T, bool>> expression)
+        {
+            try
+            {
+                var item = Entity.Single(expression);
+                Entity.Remove(item);
 
+                await DbContext.SaveChangesAsync();
+                DbContext.Entry(item).State = EntityState.Detached;
+
+                return item;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationHelperException(ServiceResultType.InvalidData, e.Message);
+            }
+        }
     }
 
 }

@@ -6,7 +6,7 @@ using MimeKit;
 using MimeKit.Text;
 using MimeKit.Utils;
 
-namespace GameStore.WEB.Utilities
+namespace AuthServiceApp.WEB.Utilities
 {
     public class EmailSender : IEmailSender
     {

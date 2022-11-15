@@ -35,6 +35,12 @@ module.exports = {
     "unused-imports",
   ],
   rules: {
+    "no-param-reassign": [
+      "off",
+      {
+        props: false,
+      },
+    ],
     "@typescript-eslint/no-explicit-any": [
       "error",
       {
@@ -45,6 +51,7 @@ module.exports = {
     "react/require-default-props": "off",
     "@typescript-eslint/no-shadow": ["error"],
     "@typescript-eslint/no-use-before-define": "error",
+
     "jsx-a11y/label-has-associated-control": [
       "error",
       {

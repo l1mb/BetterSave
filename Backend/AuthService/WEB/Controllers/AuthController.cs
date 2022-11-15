@@ -98,26 +98,5 @@ namespace AuthServiceApp.Controllers
             return Ok("Confirmed");
         }
 
-        [Authorize(AuthenticationSchemes = GoogleDefaults.AuthenticationScheme)]
-        [HttpGet("google")]
-        public  IActionResult Google()
-        {
-            return Ok(User.Identity);
-        }
-
-        [Authorize]
-        [HttpGet("test1")]
-        public IActionResult test1()
-        {
-            return Ok("OK");
-        }
-        [HttpGet("test2")]
-        [Authorize(Roles =UserRoleConstants.Admin)]
-
-        public IActionResult test2()
-        {
-            return Ok("OK");
-        }
-
     }
 }

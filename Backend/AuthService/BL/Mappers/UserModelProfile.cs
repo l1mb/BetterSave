@@ -1,9 +1,10 @@
 ﻿using AuthServiceApp.DAL.Entities;
 using AuthServiceApp.WEB.DTOs.Input;
 using AuthServiceApp.WEB.DTOs.Output;
+using AuthServiceApp.WEB.DTOs.Output.User;
 using AutoMapper;
 
-namespace GameStore.BL.Mappers
+namespace AuthServiceApp.BL.Mappers
 {
     public class UserModelProfile : Profile
     {
@@ -12,6 +13,7 @@ namespace GameStore.BL.Mappers
             CreateMap<SignInDto, ApplicationUser>().ReverseMap();
 
             CreateMap<SignUpDto, ApplicationUser>().ReverseMap();
+            CreateMap<UserDto, ApplicationUser>().ReverseMap();
 
             CreateMap<SignUpOutputDto, ApplicationUser>().ReverseMap();
             CreateMap<SignUpOutputDto, SignUpDto>().ReverseMap();

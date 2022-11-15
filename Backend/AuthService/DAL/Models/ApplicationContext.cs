@@ -1,8 +1,10 @@
-﻿using AuthServiceApp.DAL.Entities;
+﻿using AuthServiceApp.DAL.Configuration;
+using AuthServiceApp.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using System.Reflection.Emit;
 
 namespace AuthServiceApp.DAL.Models
 {
@@ -17,6 +19,11 @@ namespace AuthServiceApp.DAL.Models
             IdentityUserToken<Guid>
         >
     {
+
+        public DbSet<Shop> Shops { get; set; }
+        public DbSet<Spending> Spendings { get; set; }
+        public DbSet<ShopPosition> ShopPositions { get; set; }
+        public DbSet<SpendingCategory> SpendingCategories { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
             Database.Migrate();
@@ -26,6 +33,9 @@ namespace AuthServiceApp.DAL.Models
         {
             base.OnModelCreating(builder);
 
+            builder.ApplyConfiguration(new UserConfiguration());
+            builder.ApplyConfiguration(new ShopPositionConfiguration());
+            builder.ApplyConfiguration(new SpendingConfiguration());
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }
