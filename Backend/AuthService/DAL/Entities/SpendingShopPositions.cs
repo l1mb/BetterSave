@@ -1,10 +1,10 @@
 ﻿namespace AuthServiceApp.DAL.Entities
 {
-    public class SpendingShopPositions
+    public class SpendingShopPositions : BaseEntity
     {
-        public int Id { get; set; }
-        public bool IsDeleted { get; set; }
+        public Guid SpendingId { get; set; }
         public Spending Spending { get; set; }
+        public Guid ShopPositionId { get; set; }
         public ShopPosition ShopPosition { get; set; }
     }
 }

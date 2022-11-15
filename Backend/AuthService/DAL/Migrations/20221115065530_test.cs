@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AuthServiceApp.Migrations
 {
-    public partial class addshopqitems : Migration
+    public partial class test : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -56,8 +56,8 @@ namespace AuthServiceApp.Migrations
                 name: "Shops",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ShopName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -209,13 +209,12 @@ namespace AuthServiceApp.Migrations
                 name: "Spendings",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Cost = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SpendingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ShopId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ShopId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -239,9 +238,10 @@ namespace AuthServiceApp.Migrations
                 name: "ShopPositions",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Price = table.Column<float>(type: "real", nullable: false),
+                    Currency = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SpendingCategoryId = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -252,6 +252,32 @@ namespace AuthServiceApp.Migrations
                         name: "FK_ShopPositions_SpendingCategories_SpendingCategoryId",
                         column: x => x.SpendingCategoryId,
                         principalTable: "SpendingCategories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SpendingShopPositions",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SpendingId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ShopPositionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SpendingShopPositions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SpendingShopPositions_ShopPositions_ShopPositionId",
+                        column: x => x.ShopPositionId,
+                        principalTable: "ShopPositions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SpendingShopPositions_Spendings_SpendingId",
+                        column: x => x.SpendingId,
+                        principalTable: "Spendings",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -339,6 +365,16 @@ namespace AuthServiceApp.Migrations
                 name: "IX_Spendings_UserId",
                 table: "Spendings",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SpendingShopPositions_ShopPositionId",
+                table: "SpendingShopPositions",
+                column: "ShopPositionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SpendingShopPositions_SpendingId",
+                table: "SpendingShopPositions",
+                column: "SpendingId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -359,13 +395,16 @@ namespace AuthServiceApp.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "SpendingShopPositions");
+
+            migrationBuilder.DropTable(
+                name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
                 name: "ShopPositions");
 
             migrationBuilder.DropTable(
                 name: "Spendings");
-
-            migrationBuilder.DropTable(
-                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "SpendingCategories");

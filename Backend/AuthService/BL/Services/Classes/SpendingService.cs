@@ -23,12 +23,21 @@ namespace AuthServiceApp.BL.Services.Classes
         public async Task<Spending> CreateSpending(SpendingDto spendingDto)
         {
             //create shops
-            var shop = await _shopService.CreateShop(new(spendingDto.ShopName));
+            //var shop = await _shopService.CreateShop(new(spendingDto.ShopName));
 
             var spending = _mapper.Map<Spending>(spendingDto);
 
-            spending.Shop = shop;
-            spending.ShopId = shop.Id;
+            spending.Shop = new() { ShopName = spendingDto.ShopName };
+            spending.SpendingDate = DateTime.UtcNow;
+
+            var positionsList = _mapper.Map<List<ShopPosition>>(spendingDto.ShopPositions);
+
+            //foreach (var item in positionsList)
+            //{
+            //    item.SpendingCategory = _shopCategoryRepo.FindCategory(qwe => qwe.Name.Includes(item.Name));
+            //}
+
+            spending.ShopPositions = positionsList;
 
             var createResult = await _spendingRepository.CreateItemAsync(spending);
 

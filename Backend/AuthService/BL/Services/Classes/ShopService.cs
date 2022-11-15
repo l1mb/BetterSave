@@ -25,9 +25,4 @@ namespace AuthServiceApp.BL.Services.Classes
             return result;
         }
     }
-
-    public interface IShopService
-    {
-        Task<Shop> CreateShop(ShopDto shopDto);
-    }
 }
