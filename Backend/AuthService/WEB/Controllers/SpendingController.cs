@@ -21,5 +21,30 @@ namespace AuthServiceApp.WEB.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("api/spending/{id}")]
+        public async Task<ActionResult> GetSpending(Guid id)
+        {
+            var result = await spendingService.GetSpendingAsync(id);
+
+            return Ok(result);
+        }
+
+        [HttpGet("api/spending")]
+        public async Task<ActionResult> GetSpendings(GetSpendingsDto spendingsDto)
+        {
+            var result = await spendingService.GetSpendingsAsync(spendingsDto);
+
+            return Ok(result);
+        }
+
+        [HttpDelete("api/spending/{id}")]
+        public async Task<ActionResult> DeleteSpending(Guid id)
+        {
+            var result = await spendingService.DeleteSpendingAsync(id);
+
+            return Ok(result);
+        }
+
     }
 }

@@ -40,7 +40,7 @@ namespace AuthServiceApp.BL.Services.Classes
                     .GetOneAsync(one => one.Keywords.IndexOf(item.Name) > 0);
                 if (res is null)
                 {
-                    res = new SpendingCategory() { Name = "Uncategorized", Keywords = ""};
+                    res = new SpendingCategory() { Name = "Uncategorized", Keywords = "" };
                 }
 
                 item.SpendingCategory = res;
@@ -67,10 +67,34 @@ namespace AuthServiceApp.BL.Services.Classes
             return spending;
 
         }
+
+        public async Task<List<Spending>> GetSpendingsAsync(GetSpendingsDto getSpendingsDto)
+        {
+            var result = await _spendingRepository.SearchForMultipleItemsAsync(res => res.SpendingDate > getSpendingsDto.StartDate, getSpendingsDto.Limit, getSpendingsDto.Offset, s => s.Name);
+
+            return result;
+        }
+
+        public async Task<Spending> GetSpendingAsync(Guid id)
+        {
+            var result = await _spendingRepository.SearchForSingleItemAsync(item => item.Id == id);
+
+            return result;
+        }
+
+        public async Task<Spending> DeleteSpendingAsync(Guid id)
+        {
+            var result = await _spendingRepository.RemoveItemAsync(ext => ext.Id == id);
+
+            return result;
+        }
     }
 
     public interface ISpendingService
     {
         Task<Spending> CreateSpending(SpendingDto spendingDto);
+        Task<Spending> GetSpendingAsync(Guid id);
+        Task<List<Spending>> GetSpendingsAsync(GetSpendingsDto spendingDto);
+        Task<Spending> DeleteSpendingAsync(Guid id);
     }
 }
