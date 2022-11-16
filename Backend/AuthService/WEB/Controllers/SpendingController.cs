@@ -31,9 +31,9 @@ namespace AuthServiceApp.WEB.Controllers
         }
 
         [HttpGet("api/spending")]
-        public async Task<ActionResult> GetSpendings(GetSpendingsDto spendingsDto)
+        public async Task<ActionResult> GetSpendings(DateTime beginDate, int offset, int limit = 10)
         {
-            var result = await spendingService.GetSpendingsAsync(spendingsDto);
+            var result = await spendingService.GetSpendingsAsync(beginDate, limit, offset);
 
             return Ok(result);
         }

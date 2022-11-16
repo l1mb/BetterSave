@@ -68,9 +68,9 @@ namespace AuthServiceApp.BL.Services.Classes
 
         }
 
-        public async Task<List<Spending>> GetSpendingsAsync(GetSpendingsDto getSpendingsDto)
+        public async Task<List<Spending>> GetSpendingsAsync(DateTime beginDate, int limit, int offset)
         {
-            var result = await _spendingRepository.SearchForMultipleItemsAsync(res => res.SpendingDate > getSpendingsDto.StartDate, getSpendingsDto.Limit, getSpendingsDto.Offset, s => s.Name);
+            var result = await _spendingRepository.SearchForMultipleItemsAsync(res => res.SpendingDate > beginDate, offset: offset, limit: limit, s => s.Name);
 
             return result;
         }
@@ -94,7 +94,7 @@ namespace AuthServiceApp.BL.Services.Classes
     {
         Task<Spending> CreateSpending(SpendingDto spendingDto);
         Task<Spending> GetSpendingAsync(Guid id);
-        Task<List<Spending>> GetSpendingsAsync(GetSpendingsDto spendingDto);
+        Task<List<Spending>> GetSpendingsAsync(DateTime beginEnd, int limit, int offset);
         Task<Spending> DeleteSpendingAsync(Guid id);
     }
 }
