@@ -43,6 +43,7 @@ namespace AuthServiceApp.DAL.Interfaces
                     .AsNoTracking()
                     .Include(incl => incl.Shop)
                     .Include(incl => incl.ShopPositions)
+                    .ThenInclude(incl => incl.SpendingCategory)
                     .ToListAsync();
 
             return res;

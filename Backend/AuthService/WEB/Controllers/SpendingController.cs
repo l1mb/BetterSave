@@ -1,5 +1,6 @@
 ﻿using AuthServiceApp.BL.Services.Classes;
 using AuthServiceApp.WEB.DTOs.Input.Spending;
+using AuthServiceApp.WEB.DTOs.Spending;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,11 +32,11 @@ namespace AuthServiceApp.WEB.Controllers
         }
 
         [HttpGet("api/spending")]
-        public async Task<ActionResult> GetSpendings(DateTime beginDate, int offset, int limit = 10)
+        public async Task<ActionResult<List<SpendingReportDto>>> GetSpendings(DateTime beginDate, int offset, int limit = 10)
         {
             var result = await spendingService.GetSpendingsAsync(beginDate, limit, offset);
 
-            return Ok(result);
+            return result;
         }
 
         [HttpDelete("api/spending/{id}")]

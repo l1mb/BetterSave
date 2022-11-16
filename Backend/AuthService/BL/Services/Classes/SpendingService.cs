@@ -6,6 +6,7 @@ using AuthServiceApp.DAL.Entities;
 using AuthServiceApp.DAL.Interfaces;
 using AuthServiceApp.WEB.DTOs.Input.Shop;
 using AuthServiceApp.WEB.DTOs.Input.Spending;
+using AuthServiceApp.WEB.DTOs.Spending;
 using AutoMapper;
 
 namespace AuthServiceApp.BL.Services.Classes
@@ -68,17 +69,30 @@ namespace AuthServiceApp.BL.Services.Classes
 
         }
 
-        public async Task<List<Spending>> GetSpendingsAsync(DateTime beginDate, int limit, int offset)
+        public async Task<List<SpendingReportDto>> GetSpendingsAsync(DateTime beginDate, int limit, int offset)
         {
             var result = await _spendingRepository.SearchForMultipleItemsAsync(res => res.SpendingDate > beginDate, offset: offset, limit: limit, s => s.Name);
 
-            //result.Select(item => )
-            return result;
+            List<SpendingReportDto> t = result.Select(item => new SpendingReportDto()
+            {
+                Coast = item.Cost,
+                Name = item.Name,
+                Shop = _mapper.Map<ShopDto>(item.Shop),
+                ShopItems = item.ShopPositions.Select(item2 => new SpendingShopItemCategory()
+                {
+                    Name = item2.Name,
+                    Price = item2.Price,
+                    CategoryName = item2.SpendingCategory.Name
+                }).ToList()
+            }).ToList();
+
+            return t;
         }
 
         public async Task<Spending> GetSpendingAsync(Guid id)
         {
             var result = await _spendingRepository.SearchForSingleItemAsync(item => item.Id == id);
+
 
             return result;
         }
@@ -95,7 +109,7 @@ namespace AuthServiceApp.BL.Services.Classes
     {
         Task<Spending> CreateSpending(SpendingDto spendingDto);
         Task<Spending> GetSpendingAsync(Guid id);
-        Task<List<Spending>> GetSpendingsAsync(DateTime beginEnd, int limit, int offset);
+        Task<List<SpendingReportDto>> GetSpendingsAsync(DateTime beginEnd, int limit, int offset);
         Task<Spending> DeleteSpendingAsync(Guid id);
     }
 }
