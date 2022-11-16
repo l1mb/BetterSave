@@ -73,20 +73,20 @@ namespace AuthServiceApp.BL.Services.Classes
         {
             var result = await _spendingRepository.SearchForMultipleItemsAsync(res => res.SpendingDate > beginDate, offset: offset, limit: limit, s => s.Name);
 
-            List<SpendingReportDto> t = result.Select(item => new SpendingReportDto()
+            List<SpendingReportDto> dto = result.Select(spending => new SpendingReportDto()
             {
-                Coast = item.Cost,
-                Name = item.Name,
-                Shop = _mapper.Map<ShopDto>(item.Shop),
-                ShopItems = item.ShopPositions.Select(item2 => new SpendingShopItemCategory()
+                Coast = spending.Cost,
+                Name = spending.Name,
+                Shop = _mapper.Map<ShopDto>(spending.Shop),
+                ShopItems = spending.ShopPositions.Select(shopItem => new SpendingShopItemCategory()
                 {
-                    Name = item2.Name,
-                    Price = item2.Price,
-                    CategoryName = item2.SpendingCategory.Name
+                    Name = shopItem.Name,
+                    Price = shopItem.Price,
+                    CategoryName = shopItem.SpendingCategory.Name
                 }).ToList()
             }).ToList();
 
-            return t;
+            return dto;
         }
 
         public async Task<Spending> GetSpendingAsync(Guid id)
