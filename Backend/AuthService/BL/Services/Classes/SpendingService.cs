@@ -72,6 +72,7 @@ namespace AuthServiceApp.BL.Services.Classes
         {
             var result = await _spendingRepository.SearchForMultipleItemsAsync(res => res.SpendingDate > beginDate, offset: offset, limit: limit, s => s.Name);
 
+            //result.Select(item => )
             return result;
         }
 

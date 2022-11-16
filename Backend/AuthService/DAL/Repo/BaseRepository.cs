@@ -131,25 +131,27 @@ namespace AuthServiceApp.DAL.Repo
                     .AsNoTracking()
                     .ToListAsync();
             }
-            if (expression != null)
-            {
-                items = await Entity
-                    .Where(expression)
-                    .OrderByDescending(sort)
-                    .Skip(offset)
-                    .Take(limit)
-                    .AsNoTracking()
-                    .ToListAsync();
-            }
-            else
-            {
-                items = await Entity
-                    .OrderByDescending(sort)
-                    .Skip(offset)
-                    .Take(limit)
-                    .AsNoTracking()
-                    .ToListAsync();
-            }
+
+            //TODO
+            //if (expression != null)
+            //{
+            //    items = await Entity
+            //        .Where(expression)
+            //        .OrderByDescending(sort)
+            //        .Skip(offset)
+            //        .Take(limit)
+            //        .AsNoTracking()
+            //        .ToListAsync();
+            //}
+            //else
+            //{
+            //    items = await Entity
+            //        .OrderByDescending(sort)
+            //        .Skip(offset)
+            //        .Take(limit)
+            //        .AsNoTracking()
+            //        .ToListAsync();
+            //}
 
             return items;
         }
