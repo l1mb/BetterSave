@@ -1,5 +1,6 @@
 ﻿using AuthServiceApp.DAL.Entities;
 using AuthServiceApp.WEB.DTOs.Input.Spending;
+using AuthServiceApp.WEB.DTOs.Spending;
 using AutoMapper;
 
 namespace AuthServiceApp.BL.Mappers

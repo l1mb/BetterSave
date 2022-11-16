@@ -6,6 +6,7 @@ using AuthServiceApp.DAL.Entities;
 using AuthServiceApp.DAL.Interfaces;
 using AuthServiceApp.WEB.DTOs.Input.Shop;
 using AuthServiceApp.WEB.DTOs.Input.Spending;
+using AuthServiceApp.WEB.DTOs.Spending;
 using AutoMapper;
 
 namespace AuthServiceApp.BL.Services.Classes
@@ -68,16 +69,30 @@ namespace AuthServiceApp.BL.Services.Classes
 
         }
 
-        public async Task<List<Spending>> GetSpendingsAsync(GetSpendingsDto getSpendingsDto)
+        public async Task<List<SpendingReportDto>> GetSpendingsAsync(DateTime beginDate, int limit, int offset)
         {
-            var result = await _spendingRepository.SearchForMultipleItemsAsync(res => res.SpendingDate > getSpendingsDto.StartDate, getSpendingsDto.Limit, getSpendingsDto.Offset, s => s.Name);
+            var result = await _spendingRepository.SearchForMultipleItemsAsync(res => res.SpendingDate > beginDate, offset: offset, limit: limit, s => s.Name);
 
-            return result;
+            List<SpendingReportDto> dto = result.Select(spending => new SpendingReportDto()
+            {
+                Coast = spending.Cost,
+                Name = spending.Name,
+                Shop = _mapper.Map<ShopDto>(spending.Shop),
+                ShopItems = spending.ShopPositions.Select(shopItem => new SpendingShopItemCategory()
+                {
+                    Name = shopItem.Name,
+                    Price = shopItem.Price,
+                    CategoryName = shopItem.SpendingCategory.Name
+                }).ToList()
+            }).ToList();
+
+            return dto;
         }
 
         public async Task<Spending> GetSpendingAsync(Guid id)
         {
             var result = await _spendingRepository.SearchForSingleItemAsync(item => item.Id == id);
+
 
             return result;
         }
@@ -94,7 +109,7 @@ namespace AuthServiceApp.BL.Services.Classes
     {
         Task<Spending> CreateSpending(SpendingDto spendingDto);
         Task<Spending> GetSpendingAsync(Guid id);
-        Task<List<Spending>> GetSpendingsAsync(GetSpendingsDto spendingDto);
+        Task<List<SpendingReportDto>> GetSpendingsAsync(DateTime beginEnd, int limit, int offset);
         Task<Spending> DeleteSpendingAsync(Guid id);
     }
 }

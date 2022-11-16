@@ -1,5 +1,4 @@
-﻿using AuthServiceApp.BL;
-using AuthServiceApp.BL.Constants;
+﻿using AuthServiceApp.BL.Constants;
 using AuthServiceApp.BL.Enums;
 using AuthServiceApp.BL.Exceptions;
 using AuthServiceApp.BL.Helpers;
@@ -12,10 +11,8 @@ using AuthServiceApp.WEB.DTOs.Output;
 using AuthServiceApp.WEB.Settings;
 using AuthServiceApp.WEB.Utilities;
 using AutoMapper;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 using System.Web;
 
 namespace AuthServiceApp.Services.Classes
