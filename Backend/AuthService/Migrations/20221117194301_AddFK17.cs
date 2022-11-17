@@ -5,10 +5,23 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AuthServiceApp.Migrations
 {
-    public partial class cocks : Migration
+    public partial class AddFK17 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "AimType",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AimType", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -58,7 +71,7 @@ namespace AuthServiceApp.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ShopName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -97,6 +110,34 @@ namespace AuthServiceApp.Migrations
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Aim",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AimTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Aim", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Aim_AimType_AimTypeId",
+                        column: x => x.AimTypeId,
+                        principalTable: "AimType",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Aim_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -207,32 +248,25 @@ namespace AuthServiceApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Spendings",
+                name: "Cards",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Cost = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SpendingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CardNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Balance = table.Column<float>(type: "real", nullable: false),
+                    Currency = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ShopId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Spendings", x => x.Id);
+                    table.PrimaryKey("PK_Cards", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Spendings_AspNetUsers_UserId",
+                        name: "FK_Cards_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Spendings_Shops_ShopId",
-                        column: x => x.ShopId,
-                        principalTable: "Shops",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -258,6 +292,39 @@ namespace AuthServiceApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Spendings",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Cost = table.Column<float>(type: "real", nullable: false),
+                    SpendingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ShopId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CardId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Spendings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Spendings_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Spendings_Cards_CardId",
+                        column: x => x.CardId,
+                        principalTable: "Cards",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Spendings_Shops_ShopId",
+                        column: x => x.ShopId,
+                        principalTable: "Shops",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ShopPositionSpending",
                 columns: table => new
                 {
@@ -280,6 +347,17 @@ namespace AuthServiceApp.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Aim_AimTypeId",
+                table: "Aim",
+                column: "AimTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Aim_UserId",
+                table: "Aim",
+                column: "UserId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -346,6 +424,11 @@ namespace AuthServiceApp.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Cards_UserId",
+                table: "Cards",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ShopPositions_Name",
                 table: "ShopPositions",
                 column: "Name");
@@ -361,6 +444,11 @@ namespace AuthServiceApp.Migrations
                 column: "SpendingsId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Spendings_CardId",
+                table: "Spendings",
+                column: "CardId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Spendings_ShopId",
                 table: "Spendings",
                 column: "ShopId");
@@ -373,6 +461,9 @@ namespace AuthServiceApp.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Aim");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -392,6 +483,9 @@ namespace AuthServiceApp.Migrations
                 name: "ShopPositionSpending");
 
             migrationBuilder.DropTable(
+                name: "AimType");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -404,10 +498,13 @@ namespace AuthServiceApp.Migrations
                 name: "SpendingCategories");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Cards");
 
             migrationBuilder.DropTable(
                 name: "Shops");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }

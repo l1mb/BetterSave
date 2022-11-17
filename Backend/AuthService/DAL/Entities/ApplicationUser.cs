@@ -1,5 +1,7 @@
 ﻿using AuthServiceApp.DAL.Repo.Card;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
 
 namespace AuthServiceApp.DAL.Entities
@@ -13,5 +15,6 @@ namespace AuthServiceApp.DAL.Entities
         public List<Spending> Spendings { get; set; }
 
         public virtual ICollection<CardEntity> Cards { get; set; }
+        public virtual AimEntity Aim { get; set; }
     }
 }

@@ -12,7 +12,8 @@ namespace AuthServiceApp.DAL.Repo.Card
         public float Balance { get; set; }
         public string Currency { get; set; }
 
-        public Guid UserId { get; set; }
+        public Guid? UserId { get; set; }
         public ApplicationUser User { get; set; }
+        public virtual ICollection<Spending> Spendings { get; set; }
     }
 }
