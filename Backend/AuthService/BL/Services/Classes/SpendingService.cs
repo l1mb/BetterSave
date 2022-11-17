@@ -125,6 +125,7 @@ namespace AuthServiceApp.BL.Services.Classes
         Task<Spending> CreateSpending(SpendingDto spendingDto);
         Task<Spending> GetSpendingAsync(Guid id);
         Task<List<SpendingReportDto>> GetSpendingsAsync(DateTime beginEnd, int limit, int offset, string orderBy);
+        //todo add update method
         Task<Spending> DeleteSpendingAsync(Guid id);
     }
 }
