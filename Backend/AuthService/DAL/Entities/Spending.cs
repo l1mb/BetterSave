@@ -1,4 +1,6 @@
-﻿namespace AuthServiceApp.DAL.Entities
+﻿using AuthServiceApp.DAL.Repo.Card;
+
+namespace AuthServiceApp.DAL.Entities
 {
     public class Spending : BaseEntity
     {
@@ -14,6 +16,8 @@
         public Guid ShopId { get; set; }
         public Shop Shop { get; set; }
 
+        public Guid? CardId { get; set; }
+        public CardEntity Card { get; set; }
 
     }
 }

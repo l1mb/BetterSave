@@ -24,6 +24,8 @@ namespace AuthServiceApp.DAL.Models
         public DbSet<Spending> Spendings { get; set; }
         public DbSet<ShopPosition> ShopPositions { get; set; }
         public DbSet<SpendingCategory> SpendingCategories { get; set; }
+        public DbSet<AimEntity> AimEntities { get; set; }
+        public DbSet<AimTypeEntity> AimTypeEntities { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
             Database.Migrate();
@@ -36,6 +38,7 @@ namespace AuthServiceApp.DAL.Models
             builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new ShopPositionConfiguration());
             builder.ApplyConfiguration(new SpendingConfiguration());
+            builder.ApplyConfiguration(new CardConfiguration());
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }

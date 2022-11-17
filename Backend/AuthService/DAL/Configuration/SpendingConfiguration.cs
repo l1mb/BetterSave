@@ -15,11 +15,14 @@ namespace AuthServiceApp.DAL.Configuration
                 .HasOne(one => one.Shop)
                 .WithMany(many => many.Spendings)
                 .HasPrincipalKey(key => key.Id)
-                .IsRequired();
+                .OnDelete(DeleteBehavior.NoAction);
             builder.HasOne(one => one.User)
                 .WithMany(many => many.Spendings)
                 .HasPrincipalKey(key => key.Id)
-                .IsRequired();
+                .OnDelete(DeleteBehavior.NoAction);
+            builder.HasOne(one => one.Card)
+                .WithMany(one => one.Spendings)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

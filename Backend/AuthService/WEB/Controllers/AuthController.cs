@@ -1,23 +1,8 @@
-﻿using AuthServiceApp.BL.Enums;
-using AuthServiceApp.Services.Interfaces;
+﻿using AuthServiceApp.Services.Interfaces;
 using AuthServiceApp.WEB.DTOs.Input;
 using AuthServiceApp.WEB.DTOs.Output;
 using AuthServiceApp.WEB.Settings;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Web;
-using System.Security.Claims;
-using crypto;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Text;
-using Google.Apis.Auth;
-using AuthServiceApp.DAL.Entities;
-using Microsoft.AspNetCore.Authentication.Google;
-using AuthServiceApp.BL.Constants;
 
 namespace AuthServiceApp.Controllers
 {

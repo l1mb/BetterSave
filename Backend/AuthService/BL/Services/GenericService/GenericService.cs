@@ -8,11 +8,13 @@ namespace AuthServiceApp.BL.Services.GenericService
 {
     public class GenericService<T> : IGenericService<T> where T : BaseEntity
     {
+        private readonly IMapper _mapper;
         private readonly IBaseRepository<T> _repository;
 
-        public GenericService(IBaseRepository<T> repository)
+        public GenericService(IBaseRepository<T> repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         public Task<T> CreateAsync(T entity) =>
@@ -26,7 +28,7 @@ namespace AuthServiceApp.BL.Services.GenericService
         public Task<T> DeleteAsync(Guid id) =>
             _repository.RemoveItemAsync(T => T.Id == id);
 
-        public Task<List<T>> GetAsync(Expression<Func<T, bool>> expression, Expression<Func<T, T>> sort) =>
+        public Task<List<T>> GetAsync(Expression<Func<T, bool>> expression, Expression<Func<T, object>> sort) =>
             _repository.SearchForMultipleItemsAsync(expression, sort);
 
         public Task<T> GetOneAsync(Expression<Func<T, bool>> expression) =>

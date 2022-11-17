@@ -6,6 +6,7 @@ namespace AuthServiceApp.WEB.DTOs.Spending
     {
         public string Name { get; set; }
         public float Coast { get; set; }
+        public DateTime Date { get; set; }
 
         public List<SpendingShopItemCategory> ShopItems { get; set; }
         public ShopDto Shop { get; set; }
