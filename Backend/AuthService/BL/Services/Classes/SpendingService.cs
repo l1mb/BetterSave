@@ -1,6 +1,7 @@
 ﻿using AuthServiceApp.BL.Constants;
 using AuthServiceApp.BL.Enums;
 using AuthServiceApp.BL.Exceptions;
+using AuthServiceApp.BL.Helpers;
 using AuthServiceApp.BL.Services.GenericService;
 using AuthServiceApp.DAL.Entities;
 using AuthServiceApp.DAL.Interfaces;
@@ -8,6 +9,8 @@ using AuthServiceApp.WEB.DTOs.Input.Shop;
 using AuthServiceApp.WEB.DTOs.Input.Spending;
 using AuthServiceApp.WEB.DTOs.Spending;
 using AutoMapper;
+using MailKit.Search;
+using System.Linq.Expressions;
 
 namespace AuthServiceApp.BL.Services.Classes
 {
@@ -69,14 +72,16 @@ namespace AuthServiceApp.BL.Services.Classes
 
         }
 
-        public async Task<List<SpendingReportDto>> GetSpendingsAsync(DateTime beginDate, int limit, int offset)
+        public async Task<List<SpendingReportDto>> GetSpendingsAsync(DateTime beginDate, int limit, int offset, string orderBy)
         {
-            var result = await _spendingRepository.SearchForMultipleItemsAsync(res => res.SpendingDate > beginDate, offset: offset, limit: limit, s => s.Name);
+            var result = await _spendingRepository
+                .SearchForMultipleItemsAsync(res => res.SpendingDate > beginDate, offset: offset, limit: limit, GetExpression(orderBy));
 
             List<SpendingReportDto> dto = result.Select(spending => new SpendingReportDto()
             {
                 Coast = spending.Cost,
                 Name = spending.Name,
+                Date = spending.SpendingDate,
                 Shop = _mapper.Map<ShopDto>(spending.Shop),
                 ShopItems = spending.ShopPositions.Select(shopItem => new SpendingShopItemCategory()
                 {
@@ -103,13 +108,23 @@ namespace AuthServiceApp.BL.Services.Classes
 
             return result;
         }
+
+        private Expression<Func<Spending, object>> GetExpression(string prop = "name")
+        {
+            return prop.ToLower() switch
+            {
+                "cost" => x => x.Cost,
+                "date" => x => x.SpendingDate,
+                _ => x => x.Name,
+            };
+        }
     }
 
     public interface ISpendingService
     {
         Task<Spending> CreateSpending(SpendingDto spendingDto);
         Task<Spending> GetSpendingAsync(Guid id);
-        Task<List<SpendingReportDto>> GetSpendingsAsync(DateTime beginEnd, int limit, int offset);
+        Task<List<SpendingReportDto>> GetSpendingsAsync(DateTime beginEnd, int limit, int offset, string orderBy);
         Task<Spending> DeleteSpendingAsync(Guid id);
     }
 }
