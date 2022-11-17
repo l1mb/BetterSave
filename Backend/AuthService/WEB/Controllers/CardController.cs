@@ -22,31 +22,44 @@ namespace AuthServiceApp.WEB.Controllers
             return Created(Url.ActionLink(), res);
         }
 
-        [HttpPost("/api/card")]
-        public async Task<ActionResult> GetCards()
+        [HttpGet("/api/card/my")]
+        public async Task<ActionResult<List<CardDto>>> GetCards()
         {
-            var res = await _cardService.GetCards(GetUserId());
+            var res = await _cardService.GetCardsByUserId(GetUserId());
 
             return res;
         }
 
-        [HttpPost("/api/card")]
-        public async Task<ActionResult<CardEntity>> UpdateCard(CardDto cardDto)
+        [HttpGet("/api/card")]
+        public async Task<ActionResult<List<CardDto>>> GetCards(Guid userId)
         {
-            var res = await _cardService.CreateCard(cardDto);
+            var res = await _cardService.GetCardsByUserId(userId.ToString());
+
+            return res;
+        }
+
+        [HttpGet("/api/card/{id}")]
+        public async Task<ActionResult<CardDto>> GetCard(Guid id)
+        {
+            var res = await _cardService.GetCardById(id);
+
+            return res;
+        }
+
+        [HttpPut("/api/card")]
+        public async Task<ActionResult<CardDto>> UpdateCard(CardUpdateDto updateDto)
+        {
+            var res = await _cardService.UpdateCard(updateDto);
 
             return res;
         }
 
         [HttpDelete("/api/card/{id}")]
-        public async Task<ActionResult> DeleteCard(Guid id)
+        public async Task<ActionResult<CardEntity>> DeleteCard(Guid id)
         {
             var res = await _cardService.DeleteAsync(id);
 
-            return NoContent();
+            return res;
         }
-
-
-
     }
 }

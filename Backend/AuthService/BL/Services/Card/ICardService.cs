@@ -6,7 +6,9 @@ namespace AuthServiceApp.BL.Services.Card
 {
     public interface ICardService : IGenericService<CardEntity>
     {
-        Task<CardEntity> CreateCard(CardDto cardDto);
-        Task<List<CardDto>> GetCards(string userId);
+        Task<CardDto> CreateCard(CardDto cardDto);
+        Task<CardDto> GetCardById(Guid cardId);
+        Task<List<CardDto>> GetCardsByUserId(string cardId);
+        Task<CardDto> UpdateCard(CardUpdateDto cardUpdateDto);
     }
 }
