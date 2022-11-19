@@ -9,6 +9,7 @@ namespace AuthServiceApp.BL.Mappers
         public AimModel()
         {
             CreateMap<AimEntity, AimDto>().ReverseMap();
+            CreateMap<AimEntity, UpdateAimDto>().ReverseMap();
         }
     }
 }
