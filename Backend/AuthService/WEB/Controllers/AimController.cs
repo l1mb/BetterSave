@@ -32,7 +32,7 @@ namespace AuthServiceApp.WEB.Controllers
             return result;
         }
 
-        [HttpGet("/api/aim/user/{id}")]
+        [HttpGet("/api/aim/user/{userId}")]
         public async Task<ActionResult<AimDto>> GetAimByUserId(Guid userId)
         {
             var result = await aimService.GetAimByUserId(userId);
