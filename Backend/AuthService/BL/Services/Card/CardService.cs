@@ -14,7 +14,7 @@ namespace AuthServiceApp.BL.Services.Card
         private readonly IMapper mapper;
         private readonly ICardRepository cardRepository;
 
-        public CardService(IMapper mapper, ICardRepository cardRepository) : base(cardRepository, mapper)
+        public CardService(IMapper mapper, ICardRepository cardRepository) : base(cardRepository)
         {
             this.cardRepository = cardRepository;
             this.mapper = mapper;

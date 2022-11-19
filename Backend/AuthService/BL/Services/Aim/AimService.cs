@@ -14,7 +14,7 @@ namespace AuthServiceApp.BL.Services.Aim
     {
         private IBaseRepository<AimEntity> _repository;
         private IMapper _mapper;
-        public AimService(IBaseRepository<AimEntity> repository, IMapper mapper) : base(repository, mapper)
+        public AimService(IBaseRepository<AimEntity> repository, IMapper mapper) : base(repository)
         {
             _repository = repository;
             _mapper = mapper;

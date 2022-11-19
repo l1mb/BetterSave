@@ -18,25 +18,28 @@ namespace AuthServiceApp.WEB.Controllers
         }
 
 
+        [HttpPost("/api/aim")]
         public async Task<ActionResult<AimDto>> CreateAim(AimDto aimDto)
         {
             var result = await aimService.CreateAim(aimDto);
             return result;
         }
 
-
+        [HttpGet("/api/aim/{id}")]
         public async Task<ActionResult<AimDto>> GetAim(Guid id)
         {
             var result = await aimService.GetAimById(id);
             return result;
         }
 
+        [HttpGet("/api/aim/user/{id}")]
         public async Task<ActionResult<AimDto>> GetAimByUserId(Guid userId)
         {
             var result = await aimService.GetAimByUserId(userId);
             return result;
         }
 
+        [HttpDelete("/api/aim/{id}")]
         public async Task<ActionResult<AimDto>> DeleteAim(Guid Id)
         {
             var result = await aimService.Delete(Id);

@@ -16,5 +16,7 @@ namespace AuthServiceApp.DAL.Entities
 
         public virtual ICollection<CardEntity> Cards { get; set; }
         public virtual AimEntity Aim { get; set; }
+
+        public virtual ICollection<LoanEntity> Loans { get; set; }
     }
 }

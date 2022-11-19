@@ -10,6 +10,6 @@ namespace AuthServiceApp.BL.Services.Aim
         Task<AimDto> GetAimByUserId(Guid id);
         Task<AimDto> GetAimById(Guid id);
         Task<AimDto> Delete(Guid id);
-        Task<AimDto> UpdateAsync(Guid id);
+        Task<AimDto> UpdateAsync(UpdateAimDto id);
     }
 }

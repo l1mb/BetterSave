@@ -8,13 +8,11 @@ namespace AuthServiceApp.BL.Services.GenericService
 {
     public class GenericService<T> : IGenericService<T> where T : BaseEntity
     {
-        private readonly IMapper _mapper;
         private readonly IBaseRepository<T> _repository;
 
-        public GenericService(IBaseRepository<T> repository, IMapper mapper)
+        public GenericService(IBaseRepository<T> repository)
         {
             _repository = repository;
-            _mapper = mapper;
         }
 
         public Task<T> CreateAsync(T entity) =>
