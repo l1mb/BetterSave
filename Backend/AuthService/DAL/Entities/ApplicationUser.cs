@@ -1,34 +1,22 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AuthServiceApp.DAL.Repo.Card;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
 
 namespace AuthServiceApp.DAL.Entities
 {
     public class ApplicationUser : IdentityUser<Guid>
     {
-        public String? FirstName { get; set; } 
+        public String? FirstName { get; set; }
         public String? LastName { get; set; }
         public IList<ApplicationUserRole> UserRoles { get; set; }
         public bool IsDeleted { get; set; }
-        public object this[string name]
-        {
-            get
-            {
-                var properties = typeof(ApplicationUser)
-                        .GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        public List<Spending> Spendings { get; set; }
 
-                foreach (var property in properties)
-                {
-                    if (property.Name == name && property.CanRead)
-                        return property.GetValue(this, null);
-                }
+        public virtual ICollection<CardEntity> Cards { get; set; }
+        public virtual AimEntity Aim { get; set; }
 
-                throw new ArgumentException("Can't find property");
-
-            }
-            set
-            {
-                return;
-            }
-        }
+        public virtual ICollection<LoanEntity> Loans { get; set; }
     }
 }

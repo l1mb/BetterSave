@@ -4,20 +4,20 @@
 
 namespace AuthServiceApp.Migrations
 {
-    public partial class names : Migration
+    public partial class Addcolumnstoloans : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "FirstName",
-                table: "AspNetUsers",
-                type: "nvarchar(max)",
+            migrationBuilder.AddColumn<float>(
+                name: "Amount",
+                table: "Loans",
+                type: "real",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: 0f);
 
             migrationBuilder.AddColumn<string>(
-                name: "LastName",
-                table: "AspNetUsers",
+                name: "Currency",
+                table: "Loans",
                 type: "nvarchar(max)",
                 nullable: false,
                 defaultValue: "");
@@ -26,12 +26,12 @@ namespace AuthServiceApp.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "FirstName",
-                table: "AspNetUsers");
+                name: "Amount",
+                table: "Loans");
 
             migrationBuilder.DropColumn(
-                name: "LastName",
-                table: "AspNetUsers");
+                name: "Currency",
+                table: "Loans");
         }
     }
 }
