@@ -1,38 +1,43 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Formik } from "formik";
 import { useRouter } from "next/router";
 import * as Yup from "yup";
 import HashLoader from "react-spinners/HashLoader";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import mountain from "../../public/backgrounds/mountain-04.jpg";
 import styles from "../styles/login.module.scss";
 import BetterSaveLogo from "../../public/logos/BetterSaveLogo.svg";
 import CoolLine from "../elements/coolLine/coolLine";
 import FormikInput from "../elements/formikInput/formikInput";
 import signInDto from "../types/auth/signInDto";
-import authApi from "./api/auth/authApi";
 import colors from "../styles/colors";
 import loginThunk from "../store/thunks/auth/authThunks";
-import { AppDispatch } from "../store/store";
+import { AppDispatch, RootState } from "../store/store";
+import { AuthState } from "../store/slices/authSlice";
 
 const Login = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   const dispatch: AppDispatch = useDispatch();
+  const authState = useSelector<RootState, AuthState>((state) => state.auth);
 
   const [error, setError] = useState<string | null>(null);
 
   const signInHandle = async (values: signInDto) => {
     setLoading(true);
     dispatch(loginThunk({ body: values, setError }));
-    const result = await authApi.signIn(values);
-    const token = await result.json();
-    console.log();
     setLoading(false);
   };
+
+  useEffect(() => {
+    console.log(authState);
+    if (authState.authStatus === "authenticated") {
+      router.push("/");
+    }
+  }, [router.pathname, authState.authStatus]);
 
   return (
     <Formik
@@ -55,7 +60,7 @@ const Login = () => {
     >
       {(formik) => (
         <div className={`${styles.login_wrapper} flex w-full `}>
-          <div className="h-vh flex w-4/12  items-baseline justify-center">
+          <div className="h-vh flex w-4/12  items-center justify-center">
             <div className="w-full">
               <div className="m-auto flex w-8/12 flex-col gap-1  text-2xl font-bold text-blueberry-600">
                 <Image src={BetterSaveLogo} alt="Logo" objectFit="fill" />

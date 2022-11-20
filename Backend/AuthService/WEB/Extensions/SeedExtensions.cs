@@ -16,7 +16,8 @@ namespace AuthServiceApp.WEB.Extensions
                 ApplicationUser user = new ApplicationUser
                 {
                     UserName = "admin@zxc.com",
-                    Email = "admin@zxc.com"
+                    Email = "admin@zxc.com",
+                    EmailConfirmed = true
 
                 };
 

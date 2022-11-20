@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import User from "../../types/User/user";
+import loginThunk from "../thunks/auth/authThunks";
 
 export type AuthState = {
   user: User;
@@ -20,17 +21,21 @@ const authSlice = createSlice({
   name: "auth",
   initialState: initState,
   reducers: {
-    login(state, action: PayloadAction<User>) {
-      state.user = action.payload;
-      state.authStatus = "authenticated";
-    },
     logout(state) {
       state.user = initState.user;
       state.authStatus = "notauthenticated";
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(loginThunk.fulfilled, (state, action) => {
+      if (action.payload !== null) {
+        state.user = action.payload;
+        state.authStatus = "authenticated";
+      }
+    });
+  },
 });
 
-export const { login, logout } = authSlice.actions;
+export const { logout } = authSlice.actions;
 
 export default authSlice.reducer;
