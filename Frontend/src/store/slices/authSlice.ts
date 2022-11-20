@@ -13,7 +13,7 @@ const initState: AuthState = {
     firstName: "",
     lastName: "",
   },
-  authStatus: "authenticated",
+  authStatus: "notauthenticated",
 };
 
 const authSlice = createSlice({

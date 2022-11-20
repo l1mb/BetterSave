@@ -5,6 +5,7 @@ import { Formik } from "formik";
 import { useRouter } from "next/router";
 import * as Yup from "yup";
 import HashLoader from "react-spinners/HashLoader";
+import { useDispatch } from "react-redux";
 import mountain from "../../public/backgrounds/mountain-04.jpg";
 import styles from "../styles/login.module.scss";
 import BetterSaveLogo from "../../public/logos/BetterSaveLogo.svg";
@@ -13,17 +14,20 @@ import FormikInput from "../elements/formikInput/formikInput";
 import signInDto from "../types/auth/signInDto";
 import authApi from "./api/auth/authApi";
 import colors from "../styles/colors";
+import loginThunk from "../store/thunks/auth/authThunks";
+import { AppDispatch } from "../store/store";
 
 const Login = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
-  const [error, setError] = useState<string | null>(
-    "Please, enter your credentials"
-  );
+  const dispatch: AppDispatch = useDispatch();
+
+  const [error, setError] = useState<string | null>(null);
 
   const signInHandle = async (values: signInDto) => {
     setLoading(true);
+    dispatch(loginThunk({ body: values, setError }));
     const result = await authApi.signIn(values);
     const token = await result.json();
     console.log();
@@ -82,6 +86,7 @@ const Login = () => {
                   />
                 </div>
 
+                {error && <span className="text-sm text-red-600">{error}</span>}
                 <button
                   type="submit"
                   className={` border-purple-200 hover:border-blue-700 mt-6 rounded-md border py-2 font-semibold transition duration-150 ease-in-out  hover:border-blueberry-800 hover:bg-blueberry-200 hover:text-blueberry-100
