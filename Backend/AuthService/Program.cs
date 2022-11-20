@@ -15,6 +15,8 @@ using Serilog.Events;
 using Serilog.Sinks.RollingFileAlternative;
 using LoggerExtensions = AuthServiceApp.WEB.Extensions.LoggerExtensions;
 using AuthServiceApp.WEB.StartUp.Configuration;
+using Microsoft.AspNetCore.Identity;
+using AuthServiceApp.DAL.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog();
@@ -60,6 +62,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
+using (var scope = scopeFactory.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+    SeedExtensions.SeedUsers(userManager, roleManager);
+}
+
 app.UseRouting();
 app.RegisterExceptionHandler(Log.Logger);
 app.UseSerilogRequestLogging();
@@ -78,7 +88,8 @@ app.UseHttpsRedirection();
 app.Run();
 
 static AppSettings RegisterSettings(IConfiguration configuration) =>
-    new(){
+    new()
+    {
         Database = configuration.GetSection(nameof(AppSettings.Database)).Get<DatabaseSettings>(),
         Token = configuration.GetSection(nameof(AppSettings.Token)).Get<TokenSettings>(),
         SmtpClientSettings = configuration.GetSection(nameof(AppSettings.SmtpClientSettings))
