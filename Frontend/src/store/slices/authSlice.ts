@@ -2,6 +2,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import User from "../../types/User/user";
 import loginThunk from "../thunks/auth/authThunks";
+import getUserInfoThunk from "../thunks/user/userThunks";
 
 export type AuthState = {
   user: User;
@@ -28,6 +29,12 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(loginThunk.fulfilled, (state, action) => {
+      if (action.payload !== null) {
+        state.user = action.payload;
+        state.authStatus = "authenticated";
+      }
+    });
+    builder.addCase(getUserInfoThunk.fulfilled, (state, action) => {
       if (action.payload !== null) {
         state.user = action.payload;
         state.authStatus = "authenticated";

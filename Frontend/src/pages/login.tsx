@@ -16,6 +16,7 @@ import colors from "../styles/colors";
 import loginThunk from "../store/thunks/auth/authThunks";
 import { AppDispatch, RootState } from "../store/store";
 import { AuthState } from "../store/slices/authSlice";
+import authApi from "./api/auth/authApi";
 
 const Login = () => {
   const router = useRouter();
@@ -28,6 +29,14 @@ const Login = () => {
 
   const signInHandle = async (values: signInDto) => {
     setLoading(true);
+
+    const result = await authApi.signIn(values);
+    const json = await result.json();
+
+    if (result.status !== 200) {
+      setError(json.errorMessage);
+    }
+
     dispatch(loginThunk({ body: values, setError }));
     setLoading(false);
   };

@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Head from "next/head";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Sidebar from "../elements/sidebar";
 import fullHeightLinks from "../utils/links/fullHeightLinks";
 import useKeyDown from "../hooks/useKeyDown";
@@ -10,8 +10,9 @@ import Navbar from "./navbar";
 import Footer from "./footer";
 
 import sidebarIcon from "../../public/icons/sidebarIcon.svg";
-import { RootState } from "../store/store";
+import { AppDispatch, RootState } from "../store/store";
 import { AuthState } from "../store/slices/authSlice";
+import getUserInfoThunk from "../store/thunks/user/userThunks";
 
 interface LayoutProps {
   children: JSX.Element;
@@ -21,8 +22,17 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const router = useRouter();
   const fullHeightLayout =
     fullHeightLinks.filter((path) => router.pathname.includes(path)).length > 0;
-  const [isOpened, setIsOpened] = useState(!router.pathname.includes("/login"));
+  const [isOpened, setIsOpened] = useState(false);
   const authState = useSelector<RootState, AuthState>((state) => state.auth);
+  const dispatch: AppDispatch = useDispatch();
+
+  const onTokenInvalid = () => {
+    router.push("/login");
+  };
+
+  useEffect(() => {
+    dispatch(getUserInfoThunk({ onTokenInvalid }));
+  }, []);
 
   useKeyDown(
     (e) => {

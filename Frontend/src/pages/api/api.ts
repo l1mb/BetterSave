@@ -3,6 +3,14 @@ export const apiGet = (url: string) =>
     method: "GET",
   });
 
+export const apiGetProtected = (url: string, token: string) =>
+  fetch(url, {
+    method: "GET",
+    headers: new Headers({
+      Authorization: `Bearer ${token}`,
+    }),
+  });
+
 export const apiPost = <T>(url: string, body: T): Promise<Response> =>
   fetch(url, {
     method: "POST",

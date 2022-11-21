@@ -1,5 +1,5 @@
 import signInDto from "../../../types/auth/signInDto";
-import { apiPost } from "../api";
+import { apiGetProtected, apiPost } from "../api";
 import routes from "../routes";
 
 const signIn = (body: signInDto) =>
@@ -8,4 +8,6 @@ const signIn = (body: signInDto) =>
 const signUp = (body: signInDto) =>
   apiPost<signInDto>(routes.signUpRoute, body);
 
-export default { signIn, signUp };
+const getInfo = (token: string) => apiGetProtected(routes.getInfo, token);
+
+export default { signIn, signUp, getInfo };
