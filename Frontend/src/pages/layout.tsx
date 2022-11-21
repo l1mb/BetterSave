@@ -41,8 +41,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         !fullHeightLayout &&
         authState.authStatus === "authenticated"
       ) {
-        console.log("yas");
-        console.log(authState);
         setIsOpened((prevState) => !prevState);
       }
     },

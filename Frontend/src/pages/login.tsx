@@ -42,7 +42,6 @@ const Login = () => {
   };
 
   useEffect(() => {
-    console.log(authState);
     if (authState.authStatus === "authenticated") {
       router.push("/");
     }

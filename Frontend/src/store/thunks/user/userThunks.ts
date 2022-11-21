@@ -10,7 +10,6 @@ type ThunkParam = {
 const getUserInfoThunk = createAsyncThunk(
   "user/info",
   async (params: ThunkParam): Promise<User | null> => {
-    console.log("kek");
     const { getToken } = useJwtToken();
     const token = getToken();
 

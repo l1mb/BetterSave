@@ -11,7 +11,7 @@ const sidebarLinks: links[] = [
   },
   {
     label: "Balance",
-    link: "/balance",
+    link: "/cards",
   },
 ];
 

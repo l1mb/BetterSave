@@ -13,7 +13,6 @@ const loginThunk = createAsyncThunk(
   "auth/login",
   // Declare the type your function argument here:
   async (params: ThunkParam<signInDto>): Promise<User | null> => {
-    console.log("1");
     const response = await authApi.signIn(params.body);
     // Inferred return type: Promise<MyData>
     const result = await response.json();
