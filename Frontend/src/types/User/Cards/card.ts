@@ -8,7 +8,7 @@ export interface Card {
 }
 
 export const enum Currency {
-  "BYN",
-  "USD",
-  "EUR",
+  "BYN" = "BYN",
+  "USD" = "USD",
+  "EUR" = "EUR",
 }

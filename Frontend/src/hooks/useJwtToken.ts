@@ -3,7 +3,7 @@ import jwtDecode from "jwt-decode";
 interface JWT {
   name: string;
   exp: number;
-  id: string;
+  UserId: string;
   // whatever else is in the JWT.
 }
 

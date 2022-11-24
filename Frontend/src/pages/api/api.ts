@@ -19,3 +19,17 @@ export const apiPost = <T>(url: string, body: T): Promise<Response> =>
       "content-type": "application/json",
     },
   });
+
+export const apiPut = <T>(url: string, body: T): Promise<Response> =>
+  fetch(url, {
+    method: "PUT",
+    body: JSON.stringify(body),
+    headers: {
+      "content-type": "application/json",
+    },
+  });
+
+export const apiDelete = (url: string): Promise<Response> =>
+  fetch(url, {
+    method: "DELETE",
+  });

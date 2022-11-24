@@ -11,4 +11,11 @@ const myCards = `${cardsPostfix}/my`;
 // spendings
 const spendings = `${apiPreffix}/spending`;
 
-export default { signInRoute, signUpRoute, getInfo, myCards, spendings };
+export default {
+  signInRoute,
+  signUpRoute,
+  getInfo,
+  myCards,
+  spendings,
+  cardsPostfix,
+};

@@ -61,7 +61,7 @@ namespace AuthServiceApp.WEB.Controllers
         {
             var res = await _cardService.DeleteAsync(id);
 
-            return res;
+            return NoContent();
         }
     }
 }
