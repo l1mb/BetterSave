@@ -1,18 +1,19 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from "@reduxjs/toolkit";
 import { Card } from "../../types/User/Cards/card";
-import getCardsThunk from "../thunks/cardThunk";
+import { SpendingReportDto } from "../../types/User/Spending/spending";
+import getSpendingThunk from "../thunks/spendingThunks";
 
 export type CardState = Card;
 
-const initState: CardState[] = [];
+const initState: SpendingReportDto[] = [];
 
 const cardSlice = createSlice({
   name: "cards/get",
   initialState: initState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getCardsThunk.fulfilled, (state, action) => [
+    builder.addCase(getSpendingThunk.fulfilled, (state, action) => [
       ...action.payload,
     ]);
   },

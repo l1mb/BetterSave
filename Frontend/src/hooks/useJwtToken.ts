@@ -15,6 +15,7 @@ const useJwtToken = () => {
 
   const decodeToken = (): JWT | null => {
     const token = localStorage.getItem("token");
+    console.log(token);
     if (token) {
       return jwtDecode<JWT>(token) as JWT;
     }

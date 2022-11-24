@@ -20,7 +20,7 @@ const CoolLine: React.FC<CoolLineProps> = ({ time, extraClassName }) => {
     <div
       className={`${
         extraClassName || ""
-      } h-[1px] bg-blueberry-600  transition-all  duration-1000 ease-in-out ${
+      } h-[1px] bg-violet-600  transition-all  duration-1000 ease-in-out ${
         start ? finishDest : startPos
       }`}
     />

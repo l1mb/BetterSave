@@ -8,4 +8,7 @@ const getInfo = `${apiPreffix}/user`;
 const cardsPostfix = `${apiPreffix}/card`;
 const myCards = `${cardsPostfix}/my`;
 
-export default { signInRoute, signUpRoute, getInfo, myCards };
+// spendings
+const spendings = `${apiPreffix}/spending`;
+
+export default { signInRoute, signUpRoute, getInfo, myCards, spendings };

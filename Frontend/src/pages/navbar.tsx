@@ -22,7 +22,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className=" flex items-center justify-between gap-3 border-b border-blueberry-600 py-3 px-7">
+    <div className=" flex items-center justify-between gap-3 border-b border-violet-600 py-3 px-7">
       <div>
         <Link href="/" className="">
           <div className="relative flex h-8 w-52 cursor-pointer items-center text-sm">
@@ -44,7 +44,7 @@ const Navbar = () => {
           <>
             <LinkElement link="/profile" label="Profile" />
             <button
-              className="rounded border border-blueberry-800 pr-3 pl-3 transition hover:bg-blueberry-800 hover:text-blueberry-100"
+              className="rounded border border-violet-800 pr-3 pl-3 transition hover:bg-violet-800 hover:text-violet-100"
               type="button"
               onClick={() => handleLogout()}
             >

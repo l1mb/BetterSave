@@ -10,5 +10,6 @@ namespace AuthServiceApp.WEB.DTOs.Input.Spending
         public List<ShopPositionDto> ShopPositions { get; set; }
         public string ShopName { get; set; }
         public Guid UserId { get; set; }
+        public Guid CardId { get; set; }
     }
 }

@@ -72,10 +72,11 @@ namespace AuthServiceApp.BL.Services.Classes
 
         }
 
-        public async Task<List<SpendingReportDto>> GetSpendingsAsync(DateTime beginDate, int limit, int offset, string orderBy)
+        public async Task<List<SpendingReportDto>> GetSpendingsAsync(DateTime beginDate, int limit, int offset, string orderBy, Guid? cardId)
         {
+            Expression<Func<Spending, bool>> expression = (cardId != null) ? el => el.CardId == cardId && el.SpendingDate > beginDate : el => el.SpendingDate > beginDate;
             var result = await _spendingRepository
-                .SearchForMultipleItemsAsync(res => res.SpendingDate > beginDate, offset: offset, limit: limit, GetExpression(orderBy));
+                .SearchForMultipleItemsAsync(expression, offset: offset, limit: limit, GetExpression(orderBy));
 
             List<SpendingReportDto> dto = result.Select(spending => new SpendingReportDto()
             {
@@ -124,7 +125,7 @@ namespace AuthServiceApp.BL.Services.Classes
     {
         Task<Spending> CreateSpending(SpendingDto spendingDto);
         Task<Spending> GetSpendingAsync(Guid id);
-        Task<List<SpendingReportDto>> GetSpendingsAsync(DateTime beginEnd, int limit, int offset, string orderBy);
+        Task<List<SpendingReportDto>> GetSpendingsAsync(DateTime beginEnd, int limit, int offset, string orderBy, Guid? cardId);
         //todo add update method
         Task<Spending> DeleteSpendingAsync(Guid id);
     }

@@ -1,6 +1,7 @@
 ﻿using AuthServiceApp.BL.Services.Card;
 using AuthServiceApp.DAL.Repo.Card;
 using AuthServiceApp.WEB.DTOs.Card;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthServiceApp.WEB.Controllers
@@ -23,6 +24,7 @@ namespace AuthServiceApp.WEB.Controllers
         }
 
         [HttpGet("/api/card/my")]
+        [Authorize]
         public async Task<ActionResult<List<CardDto>>> GetCards()
         {
             var res = await _cardService.GetCardsByUserId(GetUserId());

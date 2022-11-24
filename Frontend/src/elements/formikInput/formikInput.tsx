@@ -14,7 +14,7 @@ const FormikInput: React.FC<FormikInputProps> = (props) => (
   <div>
     <label
       htmlFor={props.htmlFor}
-      className="text-sm font-medium text-blueberry-800"
+      className="text-sm font-medium text-violet-800"
     >
       {props.label}
       <Field
@@ -23,9 +23,12 @@ const FormikInput: React.FC<FormikInputProps> = (props) => (
         aria-required={props.ariaRequired}
         type={props.type}
         placeholder={props.ariaLabel}
-        className="border-gray-300 text-gray-900 
-                focus:border-blue-500
-                focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 mt-1 mb-[0.5] block w-full rounded-md border bg-blueberry-100 p-2.5 text-sm placeholder:font-light focus:outline-none"
+        className="mt-1 mb-[0.5] 
+                block
+                w-full rounded-md border border-gray-300 bg-violet-50 p-2.5 text-sm text-gray-900 transition-all 
+                placeholder:font-light 
+                
+                focus:border-violet-500 focus:outline-none focus:ring-violet-500 "
       />
     </label>
     <div

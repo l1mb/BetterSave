@@ -1,15 +1,18 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { Card } from "../../types/User/Cards/card";
 import useJwtToken from "../../hooks/useJwtToken";
-import { getCards } from "../../pages/api/cardsApi";
+import { getSpendings } from "../../pages/api/spendings";
+import { SpendingReportDto } from "../../types/User/Spending/spending";
 
 type ThunkParam = {
   setError: (err: string) => void;
+  beginDate: string;
+  orderBy?: string;
+  cardId: string;
 };
 
-const getCardsThunk = createAsyncThunk(
-  "cards/my",
-  async (params: ThunkParam): Promise<Card[]> => {
+const getSpendingThunk = createAsyncThunk(
+  "spendings/get",
+  async (params: ThunkParam): Promise<SpendingReportDto[]> => {
     const { getToken } = useJwtToken();
     const token = getToken();
 
@@ -17,22 +20,25 @@ const getCardsThunk = createAsyncThunk(
       params.setError("Unable to authorize");
     }
 
-    console.log(token);
     let response = new Response();
+
     if (token !== null) {
-      response = await getCards(token);
+      response = await getSpendings(
+        token,
+        params.beginDate,
+        params.cardId,
+        params.orderBy
+      );
     }
     const result = await response.json();
 
-    console.log("here");
     if (response.status !== 200) {
       params.setError(result.errorMessage);
       return [];
     }
-    console.log("there");
 
     return result;
   }
 );
 
-export default getCardsThunk;
+export default getSpendingThunk;

@@ -3,4 +3,9 @@
 //todo add webpack config
 .login_wrapper {
   height: calc(100vh);
+
+  & button,
+  [type="button"] {
+    background-color: white;
+  }
 }
