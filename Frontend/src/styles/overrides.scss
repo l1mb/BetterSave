@@ -1,0 +1,26 @@
+.rs-calendar {
+  .rs-calendar-table-cell-content {
+    border-radius: 6px !important;
+  }
+  .rs-calendar-table-cell-content {
+    transition: all 0.4s;
+  }
+  .rs-calendar-table-cell-content:hover {
+    background-color: #f6f2ff;
+  }
+  .rs-calendar-table-cell-is-today .rs-calendar-table-cell-day {
+    color: #f6f2ff;
+    background-color: #6d28d9;
+  }
+  .rs-calendar-table-cell-selected {
+    .rs-calendar-table-cell-content {
+      box-shadow: inset 0 0 0 1px #6d28d9 !important;
+    }
+  }
+}
+
+.rs-calendar-table-cell
+  .rs-calendar-table-cell-is-today
+  .rs-calendar-table-cell-selected {
+  background-color: #6d28d9 !important;
+}

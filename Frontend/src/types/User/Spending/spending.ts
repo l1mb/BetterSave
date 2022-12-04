@@ -7,4 +7,5 @@ export interface SpendingReportDto {
   date: string;
   shopItems: SpendingShopItemCategory[];
   shop: ShopDto;
+  id?: string;
 }

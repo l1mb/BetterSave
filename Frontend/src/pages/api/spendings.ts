@@ -1,4 +1,5 @@
-import { apiGetProtected } from "./api";
+import { createSpendingRequest } from "../../types/User/Spending/createSpendingRequest";
+import { apiDelete, apiGetProtected, apiPost } from "./api";
 import routes from "./routes";
 
 export const getSpendings = (
@@ -13,5 +14,11 @@ export const getSpendings = (
     }&cardId=${cardId}`,
     token
   );
+
+export const createSpending = (body: createSpendingRequest) =>
+  apiPost(`${routes.spendings}`, body);
+
+export const deleteSpending = (id: string) =>
+  apiDelete(`${routes.spendings}/${id}`);
 
 export const test = "";

@@ -2,15 +2,15 @@ import { links } from "./links";
 
 const sidebarLinks: links[] = [
   {
-    label: "Graphs",
-    link: "/graphs",
+    label: "Stats",
+    link: "/stats",
   },
   {
-    label: "Transactions",
-    link: "/trans",
+    label: "Loans",
+    link: "/loans",
   },
   {
-    label: "Balance",
+    label: "Cards",
     link: "/cards",
   },
 ];

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useState } from "react";
 import Modal from "../../elements/modal/modal";
 import useJwtToken from "../../hooks/useJwtToken";
 import { AppDispatch } from "../../store/store";

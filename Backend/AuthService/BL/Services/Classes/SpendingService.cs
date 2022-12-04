@@ -80,6 +80,7 @@ namespace AuthServiceApp.BL.Services.Classes
 
             List<SpendingReportDto> dto = result.Select(spending => new SpendingReportDto()
             {
+                Id = spending.Id,
                 Coast = spending.Cost,
                 Name = spending.Name,
                 Date = spending.SpendingDate,

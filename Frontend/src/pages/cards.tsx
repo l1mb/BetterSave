@@ -13,17 +13,20 @@ import getCardsThunk, {
   deleteCardThunk,
   updateCardThunk,
 } from "../store/thunks/cardThunk";
-import getSpendingThunk from "../store/thunks/spendingThunks";
+import getSpendingThunk, {
+  deleteSpendingThunk,
+} from "../store/thunks/spendingThunks";
 import styles from "../styles/cards.module.scss";
 import { SpendingReportDto } from "../types/User/Spending/spending";
 import Close from "../../public/icons/close.png";
+import CreateSpendingModal from "../components/modals/createSpendingModal";
 
 const Cards = () => {
   const dispatch: AppDispatch = useDispatch();
   const [error, setError] = useState("");
   const { cards } = useSelector<RootState, CardState>((state) => state.cards);
 
-  const [isOpened, setIsOpened] = useState(false);
+  const [isOpened, setIsOpened] = useState<"spending" | "card" | false>(false);
 
   const spendings = useSelector<RootState, SpendingReportDto[]>(
     (state) => state.spending
@@ -66,6 +69,10 @@ const Cards = () => {
     );
   };
 
+  const handleSpendingDelete = async (id: string) => {
+    await dispatch(deleteSpendingThunk(id));
+  };
+
   const colors = [
     "bg-violet-800 text-violet-100",
     "bg-violet-600 text-violet-200",
@@ -82,7 +89,7 @@ const Cards = () => {
     dispatch(getCardsThunk({ setError }));
   }, []);
 
-  useEffect(() => {}, [cards]);
+  // useEffect(() => {}, [cards]);
 
   const handleCardChange = (index: number) => {
     cancelEdit();
@@ -102,6 +109,25 @@ const Cards = () => {
       );
     }
   }, [selectedCardIndex, orderBy, beginDate, cards]);
+
+  const [spendingModalState, setSpendingModalState] = useState<{
+    mode: "create" | "update";
+    editableModel: Partial<SpendingReportDto>;
+  }>({
+    mode: "create",
+    editableModel: {},
+  });
+
+  const handleUpdateSpending = (spending: SpendingReportDto) => {
+    setIsOpened("spending");
+    setSpendingModalState({ mode: "update", editableModel: spending });
+    console.log(spending);
+  };
+
+  const handleCreateTransaction = () => {
+    setIsOpened("spending");
+    setSpendingModalState({ mode: "create", editableModel: {} });
+  };
 
   return (
     <div className={`${styles.login_wrapper} flex w-full `}>
@@ -223,13 +249,20 @@ const Cards = () => {
                   You didn&apos;t add any card yet
                 </span>
               )}
-              <div>
+              <div className="mt-2 flex w-full justify-between gap-3">
                 <button
                   type="button"
-                  className="pн-2 rounded-md border border-violet-700 bg-violet-50 px-6 py-2 transition-all hover:bg-violet-800 hover:text-violet-50"
-                  onClick={() => setIsOpened(true)}
+                  className="pн-2 rounded-md border border-violet-700 bg-violet-50 px-2 py-2 transition-all hover:bg-violet-800 hover:text-violet-50"
+                  onClick={() => setIsOpened("card")}
                 >
                   Add new card
+                </button>
+                <button
+                  type="button"
+                  className="pн-2 flex-grow rounded-md border border-violet-700 bg-violet-700 px-2 py-2 text-violet-50 transition-all hover:bg-violet-800 hover:text-violet-50"
+                  onClick={handleCreateTransaction}
+                >
+                  I want to add my transactions
                 </button>
               </div>
             </div>
@@ -278,7 +311,7 @@ const Cards = () => {
                                   Spending date
                                 </th>
                                 <th className="bg-blueGray-50 text-blueGray-500 border-blueGray-100 whitespace-nowrap border border-l-0 border-r-0 border-solid px-6 py-3 text-left align-middle text-xs font-semibold uppercase">
-                                  See list of shop positions
+                                  Actions
                                 </th>
                               </tr>
                             </thead>
@@ -287,7 +320,7 @@ const Cards = () => {
                               {spendings.map((spending) => (
                                 <tr>
                                   <th className="text-blueGray-700 whitespace-nowrap border-t-0 border-l-0 border-r-0 p-4 px-6 text-left align-middle text-xs ">
-                                    {spending.name}
+                                    <span>{spending.name}</span>
                                   </th>
                                   <td className="whitespace-nowrap border-t-0 border-l-0 border-r-0 p-4 px-6 align-middle text-xs ">
                                     {spending.coast}
@@ -296,12 +329,22 @@ const Cards = () => {
                                     {spending.shop.shopName}
                                   </td>
                                   <td className="align-center whitespace-nowrap border-t-0 border-l-0 border-r-0 p-4 px-6 text-xs">
-                                    {spending.date}
+                                    {moment(spending.date).format("L")}
                                   </td>
                                   <td className="whitespace-nowrap border-t-0 border-l-0 border-r-0 p-4 px-6 align-middle text-xs">
-                                    <i className="fas fa-arrow-up mr-4 text-emerald-500" />
-                                    {spending.shopItems.length > 0 &&
-                                      "See positions"}
+                                    <div className="flex gap-2">
+                                      <button
+                                        type="button"
+                                        className="rounded bg-red-400 px-3 py-2 text-violet-50 transition-all hover:bg-red-500  "
+                                        onClick={() => {
+                                          handleSpendingDelete(
+                                            spending.id as string
+                                          );
+                                        }}
+                                      >
+                                        Delete
+                                      </button>
+                                    </div>
                                   </td>
                                 </tr>
                               ))}
@@ -315,11 +358,19 @@ const Cards = () => {
               </div>
             </div>
           </div>
-          {isOpened && (
+          {isOpened === "card" && (
             <CreateCardModal
               setIsOpen={(e: boolean) => {
-                setIsOpened(e);
+                setIsOpened(false);
               }}
+            />
+          )}
+          {isOpened === "spending" && (
+            <CreateSpendingModal
+              setIsOpen={(e: boolean) => {
+                setIsOpened(false);
+              }}
+              cardId={cards[selectedCardIndex].id}
             />
           )}
         </>

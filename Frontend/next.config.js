@@ -24,9 +24,22 @@ const nextConfig = {
     return [
       {
         source: "/api/:path*",
-        destination: "http://localhost:12571/api/:path*", // Proxy to Backend
+        destination: "http://localhost:5000/api/:path*", // Proxy to Backend
       },
     ];
+  },
+  webpack: {
+    rules: [
+      {
+        test: /\.less$/i,
+        use: [
+          // compiles Less to CSS
+          "style-loader",
+          "css-loader",
+          "less-loader",
+        ],
+      },
+    ],
   },
 };
 
