@@ -55,7 +55,7 @@ const Register = () => {
         <div className={`${styles.login_wrapper} flex w-full `}>
           <div className="h-vh  flex w-4/12 items-center justify-center">
             <div className="w-full min-w-[325px] ">
-              <div className="m-auto flex w-8/12 flex-col gap-1  text-2xl font-bold text-blueberry-600">
+              <div className="m-auto flex w-8/12 flex-col gap-1  text-2xl font-bold text-violet-600">
                 <Image src={BetterSaveLogo} alt="Logo" objectFit="fill" />
                 <CoolLine />
               </div>
@@ -88,7 +88,7 @@ const Register = () => {
                     <HashLoader
                       loading={loading}
                       size={26}
-                      color={colors["blueberry-600"]}
+                      color={colors["violet-600"]}
                       aria-label="Loading Spinner"
                       data-testid="loader"
                     />
@@ -96,17 +96,17 @@ const Register = () => {
                 ) : (
                   <button
                     type="submit"
-                    className={` border-purple-200 hover:border-blue-700 mt-6 rounded-md border py-2 font-semibold transition duration-150 ease-in-out  hover:border-blueberry-800 hover:bg-blueberry-800 hover:text-blueberry-100
+                    className={` mt-6 rounded-md border border-purple-200 py-2 font-semibold transition duration-150 ease-in-out hover:border-violet-700  hover:border-violet-800 hover:bg-violet-800 hover:text-violet-100
                   `}
                   >
                     Register
                   </button>
                 )}
 
-                <span className=" text-right text-xs text-blueberry-800">
+                <span className=" text-right text-xs text-violet-800">
                   Or you may want to{" "}
                   <Link href="/login">
-                    <span className="cursor-pointer text-blueberry-600">
+                    <span className="cursor-pointer text-violet-600">
                       login
                     </span>
                   </Link>{" "}

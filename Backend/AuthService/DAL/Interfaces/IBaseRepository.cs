@@ -10,6 +10,7 @@ namespace AuthServiceApp.DAL.Interfaces
             params Expression<Func<T, object>>[] includes);
 
         Task<T> CreateItemAsync(T entity);
+        Task<T> CreateItemAsyncAsNoTracking(T entity);
 
         Task<List<T>> CreateItemsAsync(IEnumerable<T> items);
 
@@ -28,5 +29,9 @@ namespace AuthServiceApp.DAL.Interfaces
         );
 
         Task<T> UpdateItemAsync(T item, params Expression<Func<T, object>>[] unmodifiedProperties);
+
+        Task<T> UpdateItemAsyncWithModified(T item, params Expression<Func<T, object>>[] modifiedProperties);
+        Task<T> RemoveItemAsync(Expression<Func<T, bool>> expression);
+
     }
 }

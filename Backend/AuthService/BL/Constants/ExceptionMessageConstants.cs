@@ -7,5 +7,9 @@
         public const string ConfirmEmail = "Please, confirm your email first";
         public const string UserWithoutRoles = "User without roles";
         public const string UserAlreadyExist = "User with this email already exist";
+        public const string TokenIsBroken = "Token isn't valid";
+        public const string NotFound = "Entity not found";
+        public const string SaveIsImposiible = "Unable to save changes to database";
+
     }
 }

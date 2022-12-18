@@ -15,7 +15,7 @@ const Profile = () => {
     <div className="w-full">
       <Content>
         <div className="flex w-full gap-3 pt-8">
-          <div className=" border-r border-r-blueberry-800 pr-6">
+          <div className=" border-r border-r-violet-800 pr-6">
             <ImageContainer
               width="w-96"
               height="h-96"
@@ -25,11 +25,11 @@ const Profile = () => {
           </div>
           <div className="w-full">
             <div className="w-full">
-              <div className="w-full border-b border-blueberry-800 pb-3">
-                <span className=" text-2xl font-bold text-blueberry-800">{`${user.firstName} ${user.lastname}`}</span>
+              <div className="w-full border-b border-violet-800 pb-3">
+                <span className=" text-2xl font-bold text-violet-800">{`${user.firstName} ${user.lastname}`}</span>
               </div>
               <div>
-                <div className="flex gap-2 text-lg text-blueberry-800">
+                <div className="flex gap-2 text-lg text-violet-800">
                   <span>Birthday date:</span>
                   <span className="font-bold">{user.birthday}</span>
                 </div>

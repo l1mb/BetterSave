@@ -1,0 +1,17 @@
+@import "./variables.module.scss";
+
+//todo add webpack config
+.login_wrapper {
+  height: calc(100vh);
+
+  .cards {
+    & button,
+    [type="button"] {
+      background-color: white;
+    }
+  }
+
+  .edit_button {
+    background-color: transparent !important;
+  }
+}

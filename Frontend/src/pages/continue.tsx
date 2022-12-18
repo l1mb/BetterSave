@@ -12,7 +12,7 @@ const Continue: NextPage = () => (
         Please, visit your mailbox and confirm your account
       </p>
       <Link href="/login">
-        <a className="  rounded rounded-b-none border-b  py-2 px-2  pb-2 transition-all hover:bg-blueberry-800 hover:text-blueberry-100">
+        <a className="  rounded rounded-b-none border-b  py-2 px-2  pb-2 transition-all hover:bg-violet-800 hover:text-violet-100">
           Go to login
         </a>
       </Link>

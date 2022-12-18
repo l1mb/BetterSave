@@ -2,7 +2,6 @@ using AuthServiceApp.DAL.Models;
 using AuthServiceApp.Settings.Extensions;
 using AuthServiceApp.WEB.Extensions;
 using AuthServiceApp.WEB.Settings;
-using GameStore.WEB.StartUp.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -14,30 +13,18 @@ using Newtonsoft.Json.Converters;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.RollingFileAlternative;
+using LoggerExtensions = AuthServiceApp.WEB.Extensions.LoggerExtensions;
+using AuthServiceApp.WEB.StartUp.Configuration;
+using Microsoft.AspNetCore.Identity;
+using AuthServiceApp.DAL.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Host.UseSerilog();
 
 var appSettings = RegisterSettings(builder.Configuration);
+Log.Logger = LoggerExtensions.RegisterLogger();
+
 builder.Services.RegisterServices(appSettings);
-Log.Logger = new LoggerConfiguration()
-                       .MinimumLevel.Debug()
-                       .WriteTo.Logger(l =>
-                           l.Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Information).WriteTo
-                               .RollingFile(@"Logs\Info-{Date}.log"))
-                       .WriteTo.Logger(l =>
-                           l.Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Debug).WriteTo
-                               .RollingFile(@"Logs\Debug-{Date}.log"))
-                       .WriteTo.Logger(l =>
-                           l.Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Warning).WriteTo
-                               .RollingFile(@"Logs\Warning-{Date}.log"))
-                       .WriteTo.Logger(l =>
-                           l.Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Error).WriteTo
-                               .RollingFile(@"Logs\Error-{Date}.log"))
-                       .WriteTo.Logger(l =>
-                           l.Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Fatal).WriteTo
-                               .RollingFile(@"Logs\Fatal-{Date}.log"))
-                       .WriteTo.RollingFile(@"Logs\Verbose-{Date}.log")
-                       .CreateLogger();
 
 builder.Services.AddSwaggerGen();
 
@@ -69,16 +56,29 @@ builder.Services.AddCors(opts =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
+var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
+using (var scope = scopeFactory.CreateScope())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+    SeedExtensions.SeedUsers(userManager, roleManager);
 }
 
 app.UseRouting();
+app.RegisterExceptionHandler(Log.Logger);
+app.UseSerilogRequestLogging();
 app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseEndpoints((endpoints) =>
+{
+    endpoints.MapGet("/", async context => await context.Response.WriteAsync("healthy"));
+});
 app.UseStaticFiles();
 app.MapControllers();
 
@@ -86,7 +86,8 @@ app.UseHttpsRedirection();
 app.Run();
 
 static AppSettings RegisterSettings(IConfiguration configuration) =>
-    new(){
+    new()
+    {
         Database = configuration.GetSection(nameof(AppSettings.Database)).Get<DatabaseSettings>(),
         Token = configuration.GetSection(nameof(AppSettings.Token)).Get<TokenSettings>(),
         SmtpClientSettings = configuration.GetSection(nameof(AppSettings.SmtpClientSettings))

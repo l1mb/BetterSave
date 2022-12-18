@@ -1,4 +1,4 @@
-﻿namespace GameStore.WEB.StartUp.Configuration
+﻿namespace AuthServiceApp.WEB.StartUp.Configuration
 {
     public static class AutoMapperExtensions
     {

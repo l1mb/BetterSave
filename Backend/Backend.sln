@@ -9,8 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit tests", "Unit tests", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthServiceApp", "AuthService\AuthServiceApp.csproj", "{1042C971-E9DF-4DC8-A880-D79DE4529D2A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserService", "UserService\UserService.csproj", "{636AA5D1-C49E-4EE6-8337-DB451FD59A91}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{85C10058-71FD-4A5F-B683-A5A60A63A716}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
@@ -26,17 +24,12 @@ Global
 		{1042C971-E9DF-4DC8-A880-D79DE4529D2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1042C971-E9DF-4DC8-A880-D79DE4529D2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1042C971-E9DF-4DC8-A880-D79DE4529D2A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{636AA5D1-C49E-4EE6-8337-DB451FD59A91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{636AA5D1-C49E-4EE6-8337-DB451FD59A91}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{636AA5D1-C49E-4EE6-8337-DB451FD59A91}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{636AA5D1-C49E-4EE6-8337-DB451FD59A91}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1042C971-E9DF-4DC8-A880-D79DE4529D2A} = {FB708F1E-6178-44C3-9FDB-D0F7EFEAC479}
-		{636AA5D1-C49E-4EE6-8337-DB451FD59A91} = {FB708F1E-6178-44C3-9FDB-D0F7EFEAC479}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {98C19EE4-5D4A-4597-961C-BFC309C73E24}

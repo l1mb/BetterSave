@@ -1,4 +1,10 @@
-﻿namespace AuthServiceApp.WEB.Settings
+﻿using Microsoft.IdentityModel.Logging;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+
+namespace AuthServiceApp.WEB.Settings
 {
     public class TokenSettings
     {
@@ -20,4 +26,6 @@
 
         public bool ValidateIssuerSigningKey { get; set; }
     }
+
+   
 }

@@ -6,7 +6,7 @@ namespace AuthServiceApp.WEB.Extensions
 {
     public static class ExceptionHandlerExtension
     {
-        public static void RegisterExceptionHandler(this IApplicationBuilder app, ILogger Logger)
+        public static void RegisterExceptionHandler(this IApplicationBuilder app, Serilog.ILogger Logger)
         {
 #if DEBUG
             app.UseDeveloperExceptionPage();
@@ -30,20 +30,20 @@ namespace AuthServiceApp.WEB.Extensions
                         _ => throw ex
                     };
 
-                    Logger.LogError($"Error caught in ApplicationHelperException: {ex.Message}");
+                    Logger.Information($"Error caught in ApplicationHelperException: {ex.Message}");
                     var result = new { errorMessage = ex.Message };
                     await context.Response.WriteAsJsonAsync(result);
                 }
                 catch (System.Exception ex)
                 {
-                    Logger.LogError($"{ex.Message}");
-#if DEBUG
+                    Logger.Information($"{ex.Message}");
+//#if DEBUG
                     throw ex;
-#else
+//#else
                     context.Response.StatusCode = (int)System.Net.HttpStatusCode.InternalServerError;
                     var result = new { errorMessage = "Something went wrong..." };
                     await context.Response.WriteAsJsonAsync(result);
-#endif
+//#endif
                 }
             });
         }
