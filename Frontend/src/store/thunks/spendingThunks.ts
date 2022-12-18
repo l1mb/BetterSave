@@ -9,7 +9,7 @@ import { createSpendingRequest } from "../../types/User/Spending/createSpendingR
 import { SpendingReportDto } from "../../types/User/Spending/spending";
 
 type ThunkParam = {
-  setError: (err: string) => void;
+  setError?: (err: string) => void;
   beginDate?: string;
   orderBy?: string;
   cardId?: string;

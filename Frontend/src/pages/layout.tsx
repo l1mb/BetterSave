@@ -68,7 +68,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           {children}
           {isOpened === false && !fullHeightLayout && (
             <button
-              className="fixed  bottom-4 left-4 flex h-9 w-9 items-center justify-center rounded-full bg-violet-200 transition-all hover:rotate-90  hover:bg-violet-500 "
+              className="fixed  bottom-4 left-4 flex h-9 w-9 items-center justify-center rounded-full bg-transparent transition-all hover:rotate-90  hover:bg-violet-500 "
               type="button"
               onClick={() => setIsOpened((prevState) => !prevState)}
             >

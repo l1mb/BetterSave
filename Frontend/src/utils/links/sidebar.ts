@@ -13,6 +13,10 @@ const sidebarLinks: links[] = [
     label: "Cards",
     link: "/cards",
   },
+  {
+    label: "Goals",
+    link: "/goals",
+  },
 ];
 
 export default sidebarLinks;

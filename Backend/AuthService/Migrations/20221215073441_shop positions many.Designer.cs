@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AuthServiceApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221119124317_Add columns to loans")]
-    partial class Addcolumnstoloans
+    [Migration("20221215073441_shop positions many")]
+    partial class shoppositionsmany
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

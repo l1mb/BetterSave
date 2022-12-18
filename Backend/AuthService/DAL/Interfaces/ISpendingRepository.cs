@@ -4,6 +4,6 @@ namespace AuthServiceApp.DAL.Interfaces
 {
     public interface ISpendingRepository : IBaseRepository<Spending>
     {
-
+        Task<IEnumerable<ShopPosition>> GetCategoriesSpendings(Guid cardId);
     }
 }

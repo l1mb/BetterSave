@@ -1,4 +1,5 @@
 ﻿using AuthServiceApp.BL.Enums;
+using AuthServiceApp.WEB.DTOs.Aim;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -8,11 +9,9 @@ namespace AuthServiceApp.DAL.Entities
     public class AimEntity : BaseEntity
     {
         public string Name { get; set; }
-        public string Description { get; set; }
-
-        [ForeignKey("AimTypeId")]
-        public Guid AimTypeId { get; set; }
-        public virtual AimTypeEntity AimType { get; set; }
+        public DateTime FinishDate { get; set; }
+        public float Amount { get; set; }
+        public AimType AimType { get; set; }
 
         [ForeignKey("UserId")]
         public Guid UserId { get; set; }

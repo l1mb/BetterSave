@@ -20,7 +20,6 @@ namespace AuthServiceApp.WEB.Extensions
                     EmailConfirmed = true
 
                 };
-
                 IdentityResult result = userManager.CreateAsync(user, "Pa$$w0rd").Result;
 
                 if (result.Succeeded)

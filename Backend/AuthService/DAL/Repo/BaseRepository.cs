@@ -69,6 +69,17 @@ namespace AuthServiceApp.DAL.Repo
             return createdEntity.Entity;
         }
 
+        public virtual async Task<T> CreateItemAsyncAsNoTracking(T entity)
+        {
+            var createdEntity = await DbContext.AddAsync(entity);
+
+            createdEntity.State = EntityState.Detached;
+
+            await DbContext.SaveChangesAsync();
+
+            return createdEntity.Entity;
+        }
+
         public async Task<List<T>> CreateItemsAsync(IEnumerable<T> items)
         {
             var entitiesList = items.ToList();

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AuthServiceApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221119123911_add loans")]
-    partial class addloans
+    [Migration("20221215212848_t")]
+    partial class t
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -227,6 +227,13 @@ namespace AuthServiceApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<float>("Amount")
+                        .HasColumnType("real");
+
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -277,7 +284,7 @@ namespace AuthServiceApp.Migrations
 
             modelBuilder.Entity("AuthServiceApp.DAL.Entities.ShopPosition", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -367,6 +374,11 @@ namespace AuthServiceApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SpendingCategories");
+                });
+
+            modelBuilder.Entity("AuthServiceApp.DAL.Interfaces.res", b =>
+                {
+                    b.ToView(null);
                 });
 
             modelBuilder.Entity("AuthServiceApp.DAL.Repo.Card.CardEntity", b =>

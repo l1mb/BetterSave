@@ -40,14 +40,22 @@ namespace AuthServiceApp.BL.Services.Classes
             foreach (var item in positionsList)
             {
                 spending.Cost += item.Price;
-                var res = await _spendingCategoryService
-                    .GetOneAsync(one => one.Keywords.IndexOf(item.Name) > 0);
-                if (res is null)
-                {
-                    res = new SpendingCategory() { Name = "Uncategorized", Keywords = "" };
-                }
 
-                item.SpendingCategory = res;
+                var categ = await _spendingCategoryService.GetOneAsync(one => one.Keywords.IndexOf(item.Name) >= 0);
+                if (categ is null)
+                {
+                    categ = await _spendingCategoryService.GetOneAsync(one => one.Name == "Uncategorized");
+
+                    if (categ is null)
+                    {
+                        categ = new SpendingCategory() { Name = "Uncategorized", Keywords = "" };
+                        item.SpendingCategory = categ;
+                        continue;
+                    }
+                }
+                item.SpendingCategoryId = categ.Id;
+
+
             }
 
             //foreach (var item in positionsList)
@@ -120,6 +128,21 @@ namespace AuthServiceApp.BL.Services.Classes
                 _ => x => x.Name,
             };
         }
+
+        public async Task<IEnumerable<res>> GetInfoOnCategories(Guid cardId, string userId)
+        {
+
+            var spendings = await _spendingRepository.SearchForMultipleItemsAsync(item => item.CardId == cardId && item.UserId.ToString() == userId, ord => ord.Id);
+            var allCategories = _spendingCategoryService.GetAsync(i => i.IsDeleted == false, ord => ord.Id);
+            var t = spendings.ToList();
+
+
+            var result = await _spendingRepository.GetCategoriesSpendings(cardId);
+            //var result = await _spendingRepository.SearchForMultipleItemsAsync(items => items.CardId == cardId && items.UserId.ToString() == userId, ord => ord.Id);
+            return new List<res>();
+        }
+
+
     }
 
     public interface ISpendingService
@@ -129,5 +152,6 @@ namespace AuthServiceApp.BL.Services.Classes
         Task<List<SpendingReportDto>> GetSpendingsAsync(DateTime beginEnd, int limit, int offset, string orderBy, Guid? cardId);
         //todo add update method
         Task<Spending> DeleteSpendingAsync(Guid id);
+        Task<IEnumerable<res>> GetInfoOnCategories(Guid cardId, string userId);
     }
 }

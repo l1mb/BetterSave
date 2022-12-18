@@ -23,10 +23,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpened }) => {
       } overflow-hidden`}
     >
       <div className="flex h-full flex-col justify-between">
-        <div className="">
+        <div className="mt-12 flex flex-col gap-1">
           {sidebarLinks.map((link) => (
             <Link href={link.link} key={link.link}>
-              <a className="mx-auto flex w-3/4 border-b border-violet-800 px-2 py-2 text-center">
+              <a className="decoration-none mx-auto flex w-3/4 rounded-t-md border-b border-violet-800 px-2 py-2 text-center text-base transition hover:bg-violet-600 hover:text-violet-50 ">
                 {link.label}
               </a>
             </Link>

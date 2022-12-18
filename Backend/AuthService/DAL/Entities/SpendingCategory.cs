@@ -4,6 +4,6 @@
     {
         public string Name { get; set; }
         public string Keywords { get; set; }
-        public List<ShopPosition> ShopPositions { get; set; }
+        public virtual ICollection<ShopPosition> ShopPositions { get; set; }
     }
 }

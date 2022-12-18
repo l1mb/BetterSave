@@ -37,13 +37,13 @@ namespace AuthServiceApp.WEB.Extensions
                 catch (System.Exception ex)
                 {
                     Logger.Information($"{ex.Message}");
-#if DEBUG
+//#if DEBUG
                     throw ex;
-#else
+//#else
                     context.Response.StatusCode = (int)System.Net.HttpStatusCode.InternalServerError;
                     var result = new { errorMessage = "Something went wrong..." };
                     await context.Response.WriteAsJsonAsync(result);
-#endif
+//#endif
                 }
             });
         }

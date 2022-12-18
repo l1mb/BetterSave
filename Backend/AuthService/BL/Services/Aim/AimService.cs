@@ -57,7 +57,6 @@ namespace AuthServiceApp.BL.Services.Aim
             var item = await _repository.SearchForSingleItemAsync(item => item.Id == dto.Id);
 
             item.Name = dto.Name;
-            item.Description = dto.Name;
 
 
             var res = await _repository.UpdateItemAsync(item);

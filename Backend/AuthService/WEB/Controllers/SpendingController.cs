@@ -1,4 +1,5 @@
 ﻿using AuthServiceApp.BL.Services.Classes;
+using AuthServiceApp.DAL.Entities;
 using AuthServiceApp.WEB.DTOs.Input.Spending;
 using AuthServiceApp.WEB.DTOs.Spending;
 using Microsoft.AspNetCore.Http;
@@ -7,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AuthServiceApp.WEB.Controllers
 {
     [ApiController]
-    public class SpendingController : ControllerBase
+    public class SpendingController : GenericController<Spending>
     {
         private readonly ISpendingService spendingService;
         public SpendingController(ISpendingService spendingService)
@@ -20,6 +21,14 @@ namespace AuthServiceApp.WEB.Controllers
         {
             var result = await spendingService.CreateSpending(spendingDto);
 
+            return Ok(result);
+        }
+
+        [HttpGet("api/spending/byCategories/{cardId}")]
+        public async Task<ActionResult> GetSpendingData(Guid cardId)
+        {
+            var userId = GetUserId();
+            var result = await spendingService.GetInfoOnCategories(cardId, userId);
             return Ok(result);
         }
 
