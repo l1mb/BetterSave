@@ -57,6 +57,8 @@ const Cards = () => {
         value: { id: cards[selectedCardIndex].id, balance: newBalance },
       })
     );
+
+    dispatch(getCardsThunk({ setError }));
     cancelEdit();
   };
 
@@ -67,6 +69,8 @@ const Cards = () => {
         value: { id: cards[selectedCardIndex].id },
       })
     );
+
+    dispatch(getCardsThunk({ setError }));
   };
 
   const handleSpendingDelete = async (id: string) => {
@@ -257,13 +261,15 @@ const Cards = () => {
                 >
                   Add new card
                 </button>
-                <button
-                  type="button"
-                  className="pн-2 flex-grow rounded-md border border-violet-700 bg-violet-700 px-2 py-2 text-violet-50 transition-all hover:bg-violet-800 hover:text-violet-50"
-                  onClick={handleCreateTransaction}
-                >
-                  I want to add my transactions
-                </button>
+                {cards.length > 0 && (
+                  <button
+                    type="button"
+                    className="pн-2 flex-grow rounded-md border border-violet-700 bg-violet-700 px-2 py-2 text-violet-50 transition-all hover:bg-violet-800 hover:text-violet-50"
+                    onClick={handleCreateTransaction}
+                  >
+                    I want to add my transactions
+                  </button>
+                )}
               </div>
             </div>
             <div className="w-full">

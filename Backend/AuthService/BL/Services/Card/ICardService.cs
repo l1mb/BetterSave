@@ -10,5 +10,6 @@ namespace AuthServiceApp.BL.Services.Card
         Task<CardDto> GetCardById(Guid cardId);
         Task<List<CardDto>> GetCardsByUserId(string cardId);
         Task<CardDto> UpdateCard(CardUpdateDto cardUpdateDto);
+        Task SoftDeleteAsync(Guid id);
     }
 }

@@ -33,17 +33,17 @@ namespace AuthServiceApp.WEB.Controllers
         }
 
         [HttpGet("/api/aim/user/{userId}")]
-        public async Task<ActionResult<AimDto>> GetAimByUserId(Guid userId)
+        public async Task<ActionResult<GetAimDto>> GetAimByUserId(Guid userId)
         {
             var result = await aimService.GetAimByUserId(userId);
             return result;
         }
 
         [HttpDelete("/api/aim/{id}")]
-        public async Task<ActionResult<AimDto>> DeleteAim(Guid Id)
+        public async Task<ActionResult> DeleteAim(Guid Id)
         {
-            var result = await aimService.Delete(Id);
-            return result;
+            await aimService.Delete(Id);
+            return NoContent();
         }
 
     }

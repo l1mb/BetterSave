@@ -1,6 +1,7 @@
 ﻿using AuthServiceApp.DAL.Configuration;
 using AuthServiceApp.DAL.Entities;
 using AuthServiceApp.DAL.Interfaces;
+using AuthServiceApp.DAL.Repo.Card;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -38,6 +39,7 @@ namespace AuthServiceApp.DAL.Models
             base.OnModelCreating(builder);
 
             builder.Entity<res>().HasNoKey().ToView(null); ;
+            builder.Entity<CardEntity>().HasQueryFilter(p => !p.IsDeleted);
 
             builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new ShopPositionConfiguration());
