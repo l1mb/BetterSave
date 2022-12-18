@@ -1,5 +1,6 @@
 ﻿using AuthServiceApp.BL.Enums;
 using AuthServiceApp.BL.Exceptions;
+using AuthServiceApp.DAL.Entities;
 using AuthServiceApp.DAL.Interfaces;
 using AuthServiceApp.DAL.Models;
 using Microsoft.EntityFrameworkCore;
@@ -266,6 +267,7 @@ namespace AuthServiceApp.DAL.Repo
             try
             {
                 var item = Entity.Single(expression);
+
                 Entity.Remove(item);
 
                 await DbContext.SaveChangesAsync();
@@ -278,6 +280,8 @@ namespace AuthServiceApp.DAL.Repo
                 throw new ApplicationHelperException(ServiceResultType.InvalidData, e.Message);
             }
         }
+
+
     }
 
 }

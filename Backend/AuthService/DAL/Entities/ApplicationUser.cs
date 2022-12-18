@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace AuthServiceApp.DAL.Entities
 {
-    public class ApplicationUser : IdentityUser<Guid>
+    public class ApplicationUser : IdentityUser<Guid>, IBaseEntity
     {
         public String? FirstName { get; set; }
         public String? LastName { get; set; }

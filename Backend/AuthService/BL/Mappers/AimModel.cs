@@ -10,6 +10,7 @@ namespace AuthServiceApp.BL.Mappers
         {
             CreateMap<AimEntity, AimDto>().ReverseMap();
             CreateMap<AimEntity, UpdateAimDto>().ReverseMap();
+            CreateMap<AimEntity, GetAimDto>().ReverseMap();
         }
     }
 }

@@ -30,10 +30,10 @@ namespace AuthServiceApp.BL.Services.Aim
             return outResult;
         }
 
-        public async Task<AimDto> GetAimByUserId(Guid id)
+        public async Task<GetAimDto> GetAimByUserId(Guid id)
         {
             var res = await GetOneAsync(item => item.UserId == id);
-            return _mapper.Map<AimDto>(res);
+            return _mapper.Map<GetAimDto>(res);
         }
         public async Task<AimDto> GetAimById(Guid id)
         {

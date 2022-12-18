@@ -7,7 +7,7 @@ namespace AuthServiceApp.BL.Services.Aim
     public interface IAimService : IGenericService<AimEntity>
     {
         Task<AimDto> CreateAim(AimDto dto);
-        Task<AimDto> GetAimByUserId(Guid id);
+        Task<GetAimDto> GetAimByUserId(Guid id);
         Task<AimDto> GetAimById(Guid id);
         Task<AimDto> Delete(Guid id);
         Task<AimDto> UpdateAsync(UpdateAimDto id);

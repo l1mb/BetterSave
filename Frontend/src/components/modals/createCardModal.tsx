@@ -3,7 +3,7 @@ import { useState } from "react";
 import Modal from "../../elements/modal/modal";
 import useJwtToken from "../../hooks/useJwtToken";
 import { AppDispatch } from "../../store/store";
-import { createCardThunk } from "../../store/thunks/cardThunk";
+import getCardsThunk, { createCardThunk } from "../../store/thunks/cardThunk";
 import { Card, Currency } from "../../types/User/Cards/card";
 
 interface CreateCardModal {
@@ -41,6 +41,7 @@ const CreateCardModal: React.FC<CreateCardModal> = ({ setIsOpen }) => {
         })
       );
     }
+    dispatch(getCardsThunk({ setError }));
     setLoading(false);
     setIsOpen(false);
   };

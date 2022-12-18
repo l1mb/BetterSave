@@ -1,4 +1,6 @@
 ﻿using AuthServiceApp.BL.Services.Card;
+using AuthServiceApp.BL.Services.Classes;
+using AuthServiceApp.DAL.Interfaces;
 using AuthServiceApp.DAL.Repo.Card;
 using AuthServiceApp.WEB.DTOs.Card;
 using Microsoft.AspNetCore.Authorization;
@@ -10,6 +12,7 @@ namespace AuthServiceApp.WEB.Controllers
     public class CardController : GenericController<CardEntity>
     {
         private readonly ICardService _cardService;
+        private readonly ISpendingRepository _spendingRepository;
         public CardController(ICardService cardService)
         {
             _cardService = cardService;
@@ -59,7 +62,8 @@ namespace AuthServiceApp.WEB.Controllers
         [HttpDelete("/api/card/{id}")]
         public async Task<ActionResult<CardEntity>> DeleteCard(Guid id)
         {
-            var res = await _cardService.DeleteAsync(id);
+
+            await _cardService.SoftDeleteAsync(id);
 
             return NoContent();
         }

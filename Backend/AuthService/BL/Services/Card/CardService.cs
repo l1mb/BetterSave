@@ -57,5 +57,11 @@ namespace AuthServiceApp.BL.Services.Card
             var result = await UpdateAsync(card);
             return mapper.Map<CardDto>(result);
         }
+
+
+        public async Task SoftDeleteAsync(Guid id)
+        {
+            await cardRepository.SoftDeleteAsync(item => item.Id == id);
+        }
     }
 }

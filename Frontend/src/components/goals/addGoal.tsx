@@ -4,31 +4,20 @@ import { Calendar, Radio } from "rsuite";
 import moment from "moment";
 import useJwtToken from "../../hooks/useJwtToken";
 import { createAim } from "../../pages/api/aimApi";
-
-enum AimType {
-  daily,
-  saveToDate,
-}
-
-export interface Aim {
-  aimType: AimType;
-  name: string;
-  userId: string;
-  amount: number;
-  finishDate: string;
-}
+import { Aim, AimType } from "../../types/User/goals/goals";
 
 interface AddGoalProps {
   goal?: Aim;
+  setRefresh: (e: string) => void;
 }
 
-const AddGoal: React.FC<AddGoalProps> = ({ goal }) => {
+const AddGoal: React.FC<AddGoalProps> = ({ goal, setRefresh }) => {
   const [userChoices, setUserChoices] = useState<Aim>({
     aimType: AimType.daily,
     name: "",
     amount: 0,
     userId: "",
-    finishDate: "",
+    finishDate: new Date() as unknown as string,
   });
 
   const { decodeToken } = useJwtToken();
@@ -36,13 +25,12 @@ const AddGoal: React.FC<AddGoalProps> = ({ goal }) => {
   const [succ, setSucc] = useState("");
 
   const handleUpdateName = (e: string) => {
-    console.log(e);
-
-    setUserChoices((prev) => ({ ...prev, e }));
+    setUserChoices({ ...userChoices, name: e });
   };
 
   const handleUpdateAmount = (e: number) => {
-    setUserChoices((prev) => ({ ...prev, e }));
+    console.log(e);
+    setUserChoices((prev) => ({ ...prev, amount: e }));
   };
 
   const setAimType = (e: AimType) => {
@@ -54,22 +42,26 @@ const AddGoal: React.FC<AddGoalProps> = ({ goal }) => {
 
     if (uid) {
       const model: Aim = {
-        ...userChoices,
         finishDate:
           userChoices.aimType === AimType.daily
-            ? moment(new Date()).endOf("month").format("L")
-            : userChoices.finishDate,
+            ? (moment(new Date()).endOf("month").format("L") as unknown as Date)
+            : (moment(userChoices.finishDate).format("L") as unknown as Date),
         userId: uid,
+        aimType: userChoices.aimType,
+        amount: userChoices.amount,
+        name: userChoices.name,
       };
+      console.log(model);
       setLoading(true);
       const res = await createAim(model);
 
       setTimeout(() => {
-        setLoading(true);
+        setLoading(false);
       }, 1000);
       const t = await res.json();
       if (t) {
         setSucc("Success");
+        setRefresh((Math.random() + 1).toString(36).substring(7));
       }
     }
   };
@@ -138,7 +130,10 @@ const AddGoal: React.FC<AddGoalProps> = ({ goal }) => {
               format="YYYY-MM-DD HH:mm:ss"
               value={new Date(userChoices.finishDate)}
               onChange={(value) =>
-                setUserChoices({ ...userChoices, finishDate: value.toString() })
+                setUserChoices({
+                  ...userChoices,
+                  finishDate: value as unknown as string,
+                })
               }
             />
           </div>

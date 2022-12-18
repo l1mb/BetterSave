@@ -12,7 +12,7 @@ namespace AuthServiceApp.DAL.Configuration
             builder.HasKey(key => key.Id);
             builder.Property(prop => prop.Id).IsRequired();
 
-            builder.HasMany(key => key.Spendings).WithOne(one => one.Card).OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(key => key.Spendings).WithOne(one => one.Card).OnDelete(DeleteBehavior.ClientCascade);
             builder.HasOne(key => key.User).WithMany(one => one.Cards).OnDelete(DeleteBehavior.NoAction);
         }
     }
