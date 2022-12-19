@@ -1,5 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  typescript: {
+    // !! WARN !!
+    // Dangerously allow production builds to successfully complete even if
+    // your project has type errors.
+    // !! WARN !!
+    ignoreBuildErrors: true,
+  },
+  output: "standalone",
   reactStrictMode: true,
   swcMinify: true,
   images: {
@@ -24,7 +32,7 @@ const nextConfig = {
     return [
       {
         source: "/api/:path*",
-        destination: "http://localhost:12571/api/:path*", // Proxy to Backend
+        destination: "http://api:80/api/:path*", // Proxy to Backend
       },
     ];
   },

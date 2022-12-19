@@ -1,0 +1,38 @@
+version: "3.4"
+
+services:
+    api:
+        container_name: api
+        build:
+          context: Backend
+          dockerfile: Dockerfile
+        ports:
+          - "8081:80"
+        depends_on:
+          - db
+        networks: 
+          - meowNetwork
+
+    db:
+        container_name: db
+        image: "mcr.microsoft.com/mssql/server:2022-latest"
+        ports:
+          - "1433:1433"
+        environment:
+            SA_PASSWORD: "S3cur3P@ssW0rd!"
+            ACCEPT_EULA: "Y"
+        networks: 
+          - meowNetwork
+    frontend: 
+        container_name: frontend 
+        build: 
+          context: Frontend 
+          dockerfile: Dockerfile 
+        ports: 
+        - "8080:3000" 
+        depends_on: 
+        - api
+        networks:
+          - meowNetwork
+networks:
+  meowNetwork:

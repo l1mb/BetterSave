@@ -81,7 +81,9 @@ namespace AuthServiceApp.Services.Classes
         {
             var confirmationLink = _urlHelper.Action(actionName, controllerName, new { data.user.Id, token = data.confirmToken }, scheme);
 
-            await _emailSender.SendConfirmationEmailAsync(data.user.Email, "Account confirmation", FilePathConstants.ConfirmEmail, confirmationLink);
+            var t = confirmationLink.Substring(0, 11);
+            confirmationLink = confirmationLink.Replace(t, "http://localhost:8080/");
+            await _emailSender.SendEmailAsync(data.user.Email, "Account confirmation", confirmationLink);
         }
 
         public async Task<ServiceResult> ConfirmAsync(string id, string token)
