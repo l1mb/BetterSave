@@ -5,6 +5,7 @@ import React, { ChangeEvent, useState } from "react";
 import { Calendar } from "rsuite";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 import { Currency } from "../../types/User/Cards/card";
 import { SpendingShopItemCategory } from "../../types/User/Spending/SpendingShopItemCategory";
 import Stepper from "./spendingModal/stepper";
@@ -12,6 +13,7 @@ import Close from "../../../public/icons/close.png";
 import { AppDispatch } from "../../store/store";
 import useJwtToken from "../../hooks/useJwtToken";
 import { createSpendingThunk } from "../../store/thunks/spendingThunks";
+import getCardsThunk from "../../store/thunks/cardThunk";
 
 interface CreateSpendingModalProps {
   setIsOpen: (e: boolean) => void;
@@ -82,7 +84,7 @@ const CreateSpendingModal: React.FC<CreateSpendingModalProps> = ({
       if (uid) {
         dispatch(
           createSpendingThunk({
-            setError: setErrors,
+            setError: (e) => toast.error(e),
             body: {
               cardId,
               userId: uid,
@@ -93,6 +95,7 @@ const CreateSpendingModal: React.FC<CreateSpendingModalProps> = ({
             },
           })
         );
+        dispatch(getCardsThunk());
       }
 
       setTimeout(() => {
@@ -124,7 +127,12 @@ const CreateSpendingModal: React.FC<CreateSpendingModalProps> = ({
   };
 
   const updatePrice = (value: ChangeEvent<HTMLInputElement>) => {
-    editShopPosition(Number(value.currentTarget.value), "price");
+    if (
+      Number(value.currentTarget.value) > 0 &&
+      value.currentTarget.value.length < 5
+    ) {
+      editShopPosition(Number(value.currentTarget.value), "price");
+    }
   };
   const updateShopPositionCurrency = (prop: ChangeEvent<HTMLSelectElement>) => {
     editShopPosition(prop.currentTarget.value, "currency");
@@ -145,6 +153,7 @@ const CreateSpendingModal: React.FC<CreateSpendingModalProps> = ({
         className="fixed inset-0 h-full w-full bg-black opacity-40"
         onClick={() => setIsOpen(false)}
       />
+
       <div className="flex min-h-screen items-center px-4 py-8">
         <div className="relative mx-auto w-full max-w-2xl rounded-md bg-white p-4 shadow-lg">
           <div className="mt-3 flex h-[600px] flex-col">
@@ -234,6 +243,7 @@ const CreateSpendingModal: React.FC<CreateSpendingModalProps> = ({
                           //   updateModel(val.currentTarget.value, "currency")
                           // }
                           id="grid-state"
+                          disabled
                           value={editableShopPosition.currency}
                           onChange={updateShopPositionCurrency}
                           placeholder="How much did you spend"

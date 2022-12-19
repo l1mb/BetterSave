@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import MyResponsivePie from "../elements/pieDiag/pie";
@@ -102,12 +103,18 @@ const Stats = () => {
         <div className="mx-auto my-auto h-1/2 w-1/2">
           <div className="flex justify-between gap-10">
             <div />
-            <div className="flex h-[600px] w-[600px]">
-              <MyResponsivePie data={data} />
-              <span>
-                {spendings.length === 0 ? <span>No items</span> : <div />}
-              </span>
-            </div>
+            <span>
+              {spendings.length === 0 ? (
+                <div className="mt-16">
+                  <h2>You haven't add any data about your spendings</h2>
+                  <Link href="/cards">You can add it here</Link>
+                </div>
+              ) : (
+                <div className="flex h-[600px] w-[600px]">
+                  <MyResponsivePie data={data} />
+                </div>
+              )}
+            </span>
             <div className="mt-20 max-h-80 w-52 overflow-x-auto rounded border-2 p-6">
               {cards.cards.map((card, index) => (
                 <button

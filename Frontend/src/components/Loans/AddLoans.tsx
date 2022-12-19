@@ -90,10 +90,12 @@ const AddLoans: React.FC<LoanBaseProps> = (props, children) => {
                 className="w-40 rounded-md"
                 value={pageState.name}
                 onChange={(val) => {
-                  setPageState((prev) => ({
-                    ...prev,
-                    name: val.target.value,
-                  }));
+                  if (val.target.value.length < 15) {
+                    setPageState((prev) => ({
+                      ...prev,
+                      name: val.target.value,
+                    }));
+                  }
                 }}
               />
             </div>
@@ -105,10 +107,12 @@ const AddLoans: React.FC<LoanBaseProps> = (props, children) => {
                   className="w-40 rounded-md"
                   value={pageState.borrowAmount}
                   onChange={(val) => {
-                    setPageState((prev) => ({
-                      ...prev,
-                      borrowAmount: val.target.value,
-                    }));
+                    if (val.target.value.length < 6) {
+                      setPageState((prev) => ({
+                        ...prev,
+                        borrowAmount: val.target.value,
+                      }));
+                    }
                   }}
                 />
                 <select

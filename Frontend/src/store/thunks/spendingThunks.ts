@@ -1,4 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 import useJwtToken from "../../hooks/useJwtToken";
 import {
   createSpending,
@@ -54,7 +55,7 @@ export const createSpendingThunk = createAsyncThunk(
     const token = getToken();
 
     if (token == null) {
-      params.setError("Unable to authorize");
+      toast.error("Unabele to authorize");
     }
 
     let response = new Response();
@@ -65,11 +66,9 @@ export const createSpendingThunk = createAsyncThunk(
     const result = await response.json();
 
     if (response.status !== 200) {
-      params.setError(result.errorMessage);
+      alert(result.errorMessage);
       return;
     }
-
-    console.log(result);
 
     return result;
   }

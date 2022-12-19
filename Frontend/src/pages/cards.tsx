@@ -71,11 +71,14 @@ const Cards = () => {
     );
 
     dispatch(getCardsThunk({ setError }));
+    setSelectedCardIndex((prev) => prev - 1);
   };
 
   const handleSpendingDelete = async (id: string) => {
     await dispatch(deleteSpendingThunk(id));
   };
+
+  console.log(spendings);
 
   const colors = [
     "bg-violet-800 text-violet-100",
@@ -132,6 +135,10 @@ const Cards = () => {
     setIsOpened("spending");
     setSpendingModalState({ mode: "create", editableModel: {} });
   };
+
+  useEffect(() => {
+    console.log(selectedCardIndex);
+  }, [selectedCardIndex]);
 
   return (
     <div className={`${styles.login_wrapper} flex w-full `}>
@@ -200,11 +207,12 @@ const Cards = () => {
                                         type="number"
                                         className="w-28 rounded-lg border border-violet-50 bg-violet-600 px-2 py-1 outline-none"
                                         value={newBalance}
-                                        onInput={(val) =>
-                                          setNewBalance(
-                                            Number(val.currentTarget.value)
-                                          )
-                                        }
+                                        onInput={(val) => {
+                                          const v = val.currentTarget.value;
+                                          if (v.length < 6) {
+                                            setNewBalance(Number(v));
+                                          }
+                                        }}
                                       />
                                       <button
                                         type="button"
@@ -230,12 +238,8 @@ const Cards = () => {
                                 <span className="px-1 tracking-wide">
                                   {el.cardNumber.substring(0, 4)}
                                 </span>
-                                <span className="px-1 tracking-wide">
-                                  {el.cardNumber.substring(4, 8)}
-                                </span>
-                                <span className="px-1 tracking-wide">
-                                  {el.cardNumber.substring(8, 12)}
-                                </span>
+                                <span className="px-1 tracking-wide">XXXX</span>
+                                <span className="px-1 tracking-wide">XXXX</span>
                                 <span className="px-1 tracking-wide">
                                   {el.cardNumber.substring(12, 16)}
                                 </span>
@@ -250,7 +254,7 @@ const Cards = () => {
                 </div>
               ) : (
                 <span className="text-lg font-bold text-violet-600">
-                  You didn&apos;t add any card yet
+                  You haven't added any cards yet
                 </span>
               )}
               <div className="mt-2 flex w-full justify-between gap-3">
@@ -274,7 +278,7 @@ const Cards = () => {
             </div>
             <div className="w-full">
               <div className="mt-6 flex w-full justify-center">
-                {spendings.length === 0 ? (
+                {!spendings || spendings.length === 0 || cards.length === 0 ? (
                   <h3 className="text-xl font-bold">
                     There is no spendings there
                   </h3>
@@ -300,7 +304,7 @@ const Cards = () => {
                           </div>
                         </div>
 
-                        <div className="block w-full overflow-x-auto">
+                        <div className="block max-h-[400px] w-full overflow-y-auto">
                           <table className="w-full border-collapse items-center bg-transparent ">
                             <thead>
                               <tr>

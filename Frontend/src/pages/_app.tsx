@@ -1,6 +1,7 @@
 import "../styles/globals.scss";
 import type { AppProps } from "next/app";
 import { Provider } from "react-redux";
+
 import Layout from "./layout";
 import store from "../store/store";
 import "rsuite/dist/rsuite.min.css";

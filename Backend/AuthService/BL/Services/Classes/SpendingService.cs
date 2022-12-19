@@ -5,6 +5,7 @@ using AuthServiceApp.BL.Helpers;
 using AuthServiceApp.BL.Services.GenericService;
 using AuthServiceApp.DAL.Entities;
 using AuthServiceApp.DAL.Interfaces;
+using AuthServiceApp.DAL.Repo.Card;
 using AuthServiceApp.WEB.DTOs.Input.Shop;
 using AuthServiceApp.WEB.DTOs.Input.Spending;
 using AuthServiceApp.WEB.DTOs.Spending;
@@ -19,14 +20,16 @@ namespace AuthServiceApp.BL.Services.Classes
         private readonly IMapper _mapper;
         private readonly ISpendingRepository _spendingRepository;
         private readonly IGenericService<SpendingCategory> _spendingCategoryService;
+        private readonly IGenericService<CardEntity> _cardRepository;
 
-        public SpendingService(IMapper mapper, ISpendingRepository spendingRepository, IGenericService<SpendingCategory> spendingCategoryService)
+        public SpendingService(IMapper mapper, ISpendingRepository spendingRepository, IGenericService<SpendingCategory> spendingCategoryService, IGenericService<CardEntity> cardRepository)
         {
             _mapper = mapper;
             _spendingCategoryService = spendingCategoryService;
             _spendingRepository = spendingRepository;
+            _cardRepository = cardRepository;
         }
-        public async Task<Spending> CreateSpending(SpendingDto spendingDto)
+        public async Task<SpendingReportDto> CreateSpending(SpendingDto spendingDto)
         {
             //create shops
             //var shop = await _shopService.CreateShop(new(spendingDto.ShopName));
@@ -68,8 +71,30 @@ namespace AuthServiceApp.BL.Services.Classes
             var createResult = await _spendingRepository.CreateItemAsync(spending);
 
             ExceptionUtilities.CheckSaveStatus(createResult);
+            SpendingReportDto dto = new()
+            {
+                Id = createResult.Id,
+                Coast = createResult.Cost,
+                Name = createResult.Name,
+                Date = createResult.SpendingDate,
+                Shop = _mapper.Map<ShopDto>(createResult.Shop),
+                ShopItems = createResult.ShopPositions.Select(shopItem => new SpendingShopItemCategory()
+                {
+                    Name = shopItem.Name,
+                    Price = shopItem.Price,
+                    CategoryName = shopItem.SpendingCategoryId.ToString()
+                }).ToList()
+            };
 
-            return createResult;
+            var card = await _cardRepository.GetOneAsync(it => it.Id == createResult.CardId);
+            card.Balance -= createResult.Cost;
+            if (card.Balance < 0)
+            {
+                throw new ApplicationHelperException(ServiceResultType.InvalidData, "Balance couldn't be negative");
+            }
+            await _cardRepository.UpdateAsync(card);
+
+            return dto;
         }
 
         private Spending AggregateSpending(SpendingDto spendingDto)
@@ -147,7 +172,7 @@ namespace AuthServiceApp.BL.Services.Classes
 
     public interface ISpendingService
     {
-        Task<Spending> CreateSpending(SpendingDto spendingDto);
+        Task<SpendingReportDto> CreateSpending(SpendingDto spendingDto);
         Task<Spending> GetSpendingAsync(Guid id);
         Task<List<SpendingReportDto>> GetSpendingsAsync(DateTime beginEnd, int limit, int offset, string orderBy, Guid? cardId);
         //todo add update method

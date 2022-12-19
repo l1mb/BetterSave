@@ -3,7 +3,7 @@ import { useState } from "react";
 import Modal from "../../elements/modal/modal";
 import useJwtToken from "../../hooks/useJwtToken";
 import { AppDispatch } from "../../store/store";
-import getCardsThunk, { createCardThunk } from "../../store/thunks/cardThunk";
+import { createCardThunk } from "../../store/thunks/cardThunk";
 import { Card, Currency } from "../../types/User/Cards/card";
 
 interface CreateCardModal {
@@ -26,6 +26,22 @@ const CreateCardModal: React.FC<CreateCardModal> = ({ setIsOpen }) => {
   const { decodeToken } = useJwtToken();
 
   const updateModel = (value: string | number, property: keyof Card) => {
+    if (property === "cardNumber") {
+      if (value.toString().length > 16) {
+        return;
+      }
+    }
+    if (property === "name") {
+      if (value.toString().length > 40) {
+        return;
+      }
+    }
+
+    if (property === "balance") {
+      if (value.toString().length > 6) {
+        return;
+      }
+    }
     setCardModel((prevstate) => ({ ...prevstate, [property]: value }));
   };
 
@@ -41,7 +57,6 @@ const CreateCardModal: React.FC<CreateCardModal> = ({ setIsOpen }) => {
         })
       );
     }
-    dispatch(getCardsThunk({ setError }));
     setLoading(false);
     setIsOpen(false);
   };

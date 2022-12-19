@@ -39,7 +39,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       if (
         e.key === "s" &&
         !fullHeightLayout &&
-        authState.authStatus === "authenticated"
+        authState.authStatus === "authenticated" &&
+        !(e.target instanceof HTMLInputElement)
       ) {
         setIsOpened((prevState) => !prevState);
       }

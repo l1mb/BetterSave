@@ -1,4 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import { useRouter } from "next/dist/client/router";
 import Link from "next/link";
 import React from "react";
 import { useDispatch } from "react-redux";
@@ -12,8 +13,11 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpened }) => {
   const dispatch: AppDispatch = useDispatch();
+  const router = useRouter();
   function logoutHandler() {
     dispatch(logout());
+    localStorage.clear();
+    router.push("/");
   }
 
   return (
@@ -34,7 +38,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpened }) => {
         </div>
 
         <div>
-          <button type="button" onClick={() => logoutHandler()}>
+          <button
+            type="button"
+            className="mx-5 rounded px-2 py-1 transition hover:bg-violet-200"
+            onClick={() => logoutHandler()}
+          >
             Logout
           </button>
           <Link href="/settings">

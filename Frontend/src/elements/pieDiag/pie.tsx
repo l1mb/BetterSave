@@ -27,7 +27,7 @@ const MyResponsivePie = ({ data /* see data tab */ }) => {
         from: "color",
         modifiers: [["darker", 0.2]],
       }}
-      colors={{ scheme: "purpleRed_green" }}
+      colors={{ scheme: "purple_red" }}
       arcLinkLabelsSkipAngle={10}
       arcLinkLabelsTextColor="#000"
       arcLinkLabelsThickness={2}

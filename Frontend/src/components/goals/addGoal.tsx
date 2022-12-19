@@ -29,8 +29,9 @@ const AddGoal: React.FC<AddGoalProps> = ({ goal, setRefresh }) => {
   };
 
   const handleUpdateAmount = (e: number) => {
-    console.log(e);
-    setUserChoices((prev) => ({ ...prev, amount: e }));
+    if (e.toString().length < 6) {
+      setUserChoices((prev) => ({ ...prev, amount: e }));
+    }
   };
 
   const setAimType = (e: AimType) => {

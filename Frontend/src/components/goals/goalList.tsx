@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
+import Link from "next/link";
 import { AppDispatch, RootState } from "../../store/store";
 import getCardsThunk from "../../store/thunks/cardThunk";
 import getSpendingThunk from "../../store/thunks/spendingThunks";
@@ -72,10 +73,12 @@ const GoalList: React.FC<GoalListProps> = ({ goal, setRefresh }) => {
       if (goal.aimType === AimType.saveToDate) {
         const temp: number[] =
           mergeArr.length === 0 ? [0] : mergeArr.map((prop) => prop.y);
+
         mergeArr.push({
           x: index,
           y: Math.max(...temp) + (prik[ind]?.y || 0),
         });
+        console.log(mergeArr);
       } else {
         mergeArr.push({
           x: index,
@@ -102,11 +105,10 @@ const GoalList: React.FC<GoalListProps> = ({ goal, setRefresh }) => {
       },
       {
         id: "Baseline",
-        color: "hsl(0, 100%, 50%)",
+        color: "hsl(84, 100%, 70%)",
         data: baseline,
       },
     ];
-    console.log(dataObject);
     setData(dataObject);
   };
 
@@ -148,50 +150,62 @@ const GoalList: React.FC<GoalListProps> = ({ goal, setRefresh }) => {
 
   return (
     <div>
-      <div className="flex justify-between">
-        <h4>
-          Task is:{" "}
-          <span>
-            save {goal.amount}{" "}
-            {goal.aimType === 0
-              ? "each day"
-              : `untill ${moment(goal.finishDate).format("l")}`}
-          </span>
-        </h4>
-        <button
-          type="button"
-          onClick={() => handleDeleteGoal(goal.id as string)}
-        >
-          Delete goal
-        </button>
-      </div>
-      <h5>Your progress</h5>
-      <div className="flex">
-        {data.length > 0 && (
-          <div className="flex h-[500px] w-full">
-            <MyResponsiveLine data={data} />
+      {cards.cards.length > 0 ? (
+        <>
+          <div className="flex justify-between">
+            <h4>
+              Task is:{" "}
+              <span>
+                save {goal.amount}{" "}
+                {goal.aimType === 0
+                  ? "each day"
+                  : `untill ${moment(goal.finishDate).format("l")}`}
+              </span>
+            </h4>
+            <button
+              type="button"
+              onClick={() => handleDeleteGoal(goal.id as string)}
+            >
+              Delete goal
+            </button>
           </div>
-        )}
-        <div className="flex">
-          {" "}
-          <div className="mt-20 max-h-80 w-52 overflow-x-auto rounded border-2 p-6">
-            {cards.cards.map((card, index) => (
-              <button
-                type="button"
-                onClick={() => handleCardClick(index)}
-                key={card.id}
-                className="flex w-full  flex-col rounded border-b-2 bg-white p-2 pb-2 transition hover:cursor-pointer hover:bg-slate-50 
+          <h5>Your progress</h5>
+          <div className="flex">
+            {data.length > 0 && (
+              <div className="flex h-[500px] w-full">
+                <MyResponsiveLine data={data} />
+              </div>
+            )}
+            <div className="flex">
+              {" "}
+              <div className="mt-20 max-h-80 w-52 overflow-x-auto rounded border-2 p-6">
+                {cards.cards.map((card, index) => (
+                  <button
+                    type="button"
+                    onClick={() => handleCardClick(index)}
+                    key={card.id}
+                    className="flex w-full  flex-col rounded border-b-2 bg-white p-2 pb-2 transition hover:cursor-pointer hover:bg-slate-50 
                 "
-              >
-                <span className="text-lg font-bold">{card.name}</span>
-                <span>
-                  {card.balance} {card.currency}
-                </span>
-              </button>
-            ))}
+                  >
+                    <span className="text-lg font-bold">{card.name}</span>
+                    <span>
+                      {card.balance} {card.currency}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
+        </>
+      ) : (
+        <div>
+          <h2>
+            We support your will to achive something, but we need to start from
+            tracking your cards
+          </h2>
+          <Link href="/cards">You can start here</Link>
         </div>
-      </div>
+      )}
     </div>
   );
 };
