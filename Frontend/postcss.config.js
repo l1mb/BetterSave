@@ -8,5 +8,7 @@ module.exports = {
     // it adds normalize.css and sanitize.css. https://github.com/csstools/postcss-normalize
     // forceImport: true, //it adds twice
     require("postcss-normalize")({ allowDuplicates: false }),
+    require("tailwindcss/nesting"),
+    require("tailwindcss")({}),
   ],
 };
