@@ -73,11 +73,7 @@ const AddGoal: React.FC<AddGoalProps> = ({ goal, setRefresh }) => {
         <div className="flex flex-col gap-4">
           <div className="mt-5 flex flex-col">
             <span className="font-bold">Name your goal</span>
-            <input
-              type="text"
-              className="w-40 rounded-md"
-              onChange={(e) => handleUpdateName(e.target.value)}
-            />
+            <input type="text" className="w-40 rounded-md" onChange={(e) => handleUpdateName(e.target.value)} />
           </div>
           <div>
             <span className=" font-bold">What is your purpose</span>
@@ -88,9 +84,7 @@ const AddGoal: React.FC<AddGoalProps> = ({ goal, setRefresh }) => {
                 checked={userChoices.aimType === AimType.daily}
                 onChange={() => setAimType(AimType.daily)}
               >
-                <span>
-                  I want to spend no more than a certain amount per day
-                </span>
+                <span>I want to spend no more than a certain amount per day</span>
               </Radio>
               <Radio
                 id="react"
@@ -99,9 +93,7 @@ const AddGoal: React.FC<AddGoalProps> = ({ goal, setRefresh }) => {
                 checked={userChoices.aimType === AimType.saveToDate}
                 onChange={() => setAimType(AimType.saveToDate)}
               >
-                <span>
-                  I want to spend less than a certain amount by a certain date
-                </span>{" "}
+                <span>I want to spend less than a certain amount by a certain date</span>{" "}
               </Radio>
             </div>
           </div>
@@ -110,9 +102,7 @@ const AddGoal: React.FC<AddGoalProps> = ({ goal, setRefresh }) => {
             <input
               type="number"
               className="w-40 rounded-md"
-              onChange={(e) =>
-                handleUpdateAmount(Number(e.currentTarget.value))
-              }
+              onChange={(e) => handleUpdateAmount(Number(e.currentTarget.value))}
             />
           </div>
           <button

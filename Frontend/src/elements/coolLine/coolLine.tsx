@@ -18,9 +18,7 @@ const CoolLine: React.FC<CoolLineProps> = ({ time, extraClassName }) => {
 
   return (
     <div
-      className={`${
-        extraClassName || ""
-      } h-[1px] bg-violet-600  transition-all  duration-1000 ease-in-out ${
+      className={`${extraClassName || ""} h-[1px] bg-violet-600  transition-all  duration-1000 ease-in-out ${
         start ? finishDest : startPos
       }`}
     />

@@ -4,10 +4,7 @@ interface ConditionalWrapperProps {
   children: JSX.Element;
 }
 
-const ConditionalWrapper: React.FC<ConditionalWrapperProps> = ({
-  condition,
-  wrapper,
-  children,
-}) => (condition ? wrapper(children) : children);
+const ConditionalWrapper: React.FC<ConditionalWrapperProps> = ({ condition, wrapper, children }) =>
+  condition ? wrapper(children) : children;
 
 export default ConditionalWrapper;

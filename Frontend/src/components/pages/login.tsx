@@ -1,25 +1,23 @@
-import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Formik } from "formik";
-import { useRouter } from "next/router";
 import * as Yup from "yup";
 import HashLoader from "react-spinners/HashLoader";
 import { useDispatch, useSelector } from "react-redux";
-import mountain from "../../public/backgrounds/mountain-04.jpg";
-import styles from "../styles/login.module.scss";
-import BetterSaveLogo from "../../public/logos/BetterSaveLogo.svg";
-import CoolLine from "../elements/coolLine/coolLine";
-import FormikInput from "../elements/formikInput/formikInput";
-import signInDto from "../types/auth/signInDto";
-import colors from "../styles/colors";
-import loginThunk from "../store/thunks/auth/authThunks";
-import { AppDispatch, RootState } from "../store/store";
-import { AuthState } from "../store/slices/authSlice";
+import BetterSaveLogo from "images/logos/BetterSaveLogo.svg";
+import { Link, useNavigate } from "react-router-dom";
+import mountain from "images/backgrounds/mountain-04.jpg";
+import styles from "../../styles/login.module.scss";
+import CoolLine from "../../elements/coolLine/coolLine";
+import FormikInput from "../../elements/formikInput/formikInput";
+import signInDto from "../../types/auth/signInDto";
+import colors from "../../styles/colors";
+import loginThunk from "../../store/thunks/auth/authThunks";
+import { AppDispatch, RootState } from "../../store/store";
+import { AuthState } from "../../store/slices/authSlice";
 import authApi from "./api/auth/authApi";
 
-const Login = () => {
-  const router = useRouter();
+function Login() {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
   const dispatch: AppDispatch = useDispatch();
@@ -43,9 +41,9 @@ const Login = () => {
 
   useEffect(() => {
     if (authState.authStatus === "authenticated") {
-      router.push("/");
+      navigate("/");
     }
-  }, [router.pathname, authState.authStatus]);
+  }, [window.location.pathname, authState.authStatus]);
 
   return (
     <Formik
@@ -71,7 +69,7 @@ const Login = () => {
           <div className="h-vh flex w-4/12  items-center justify-center">
             <div className="w-full">
               <div className="m-auto flex w-8/12 flex-col gap-1  text-2xl font-bold text-violet-600">
-                <Image src={BetterSaveLogo} alt="Logo" objectFit="fill" />
+                <img src={BetterSaveLogo} alt="Logo" />
                 <CoolLine />
               </div>
 
@@ -123,10 +121,8 @@ const Login = () => {
 
                 <span className=" text-right text-xs text-violet-800">
                   Or you may want to{" "}
-                  <Link href="/register">
-                    <span className="cursor-pointer text-violet-600">
-                      register
-                    </span>
+                  <Link to="/register">
+                    <span className="cursor-pointer text-violet-600">register</span>
                   </Link>{" "}
                   instead
                 </span>
@@ -134,17 +130,12 @@ const Login = () => {
             </div>
           </div>
           <div className="h-vh relative w-8/12">
-            <Image
-              src={mountain}
-              alt="Mountain background"
-              layout="fill"
-              objectFit="cover"
-            />
+            <img src={mountain} alt="Mountain background" />
           </div>
         </div>
       )}
     </Formik>
   );
-};
+}
 
 export default Login;

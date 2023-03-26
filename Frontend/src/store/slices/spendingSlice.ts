@@ -2,10 +2,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Card } from "../../types/User/Cards/card";
 import { SpendingReportDto } from "../../types/User/Spending/spending";
-import getSpendingThunk, {
-  createSpendingThunk,
-  deleteSpendingThunk,
-} from "../thunks/spendingThunks";
+import getSpendingThunk, { createSpendingThunk, deleteSpendingThunk } from "../thunks/spendingThunks";
 
 export type CardState = Card;
 
@@ -16,9 +13,7 @@ const cardSlice = createSlice({
   initialState: initState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getSpendingThunk.fulfilled, (state, action) => [
-      ...action.payload,
-    ]);
+    builder.addCase(getSpendingThunk.fulfilled, (state, action) => [...action.payload]);
     builder.addCase(createSpendingThunk.fulfilled, (state, action) => {
       if (action.payload) {
         return [...state, action.payload];

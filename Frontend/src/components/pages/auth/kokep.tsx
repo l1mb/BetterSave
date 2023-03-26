@@ -1,5 +1,7 @@
 import React from "react";
 
-const Kokep = () => <div>Kokep</div>;
+function Kokep() {
+  return <div>Kokep</div>;
+}
 
 export default Kokep;

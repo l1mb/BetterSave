@@ -1,33 +1,29 @@
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import Image from "next/image";
-import Head from "next/head";
 import { useDispatch, useSelector } from "react-redux";
-import Sidebar from "../elements/sidebar";
-import fullHeightLinks from "../utils/links/fullHeightLinks";
-import useKeyDown from "../hooks/useKeyDown";
+import sidebarIcon from "images/icons/sidebarIcon.svg";
+import { useNavigate } from "react-router-dom";
+import { AuthState } from "@/store/slices/authSlice";
+import { RootState, AppDispatch } from "@/store/store";
+import getUserInfoThunk from "@/store/thunks/user/userThunks";
+import Sidebar from "../../elements/sidebar";
+import fullHeightLinks from "../../utils/links/fullHeightLinks";
+import useKeyDown from "../../hooks/useKeyDown";
 import Navbar from "./navbar";
 import Footer from "./footer";
-
-import sidebarIcon from "../../public/icons/sidebarIcon.svg";
-import { AppDispatch, RootState } from "../store/store";
-import { AuthState } from "../store/slices/authSlice";
-import getUserInfoThunk from "../store/thunks/user/userThunks";
 
 interface LayoutProps {
   children: JSX.Element;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children }) => {
-  const router = useRouter();
-  const fullHeightLayout =
-    fullHeightLinks.filter((path) => router.pathname.includes(path)).length > 0;
+function Layout({ children }: LayoutProps) {
+  const navigate = useNavigate();
+  const fullHeightLayout = fullHeightLinks.filter((path) => window.location.pathname.includes(path)).length > 0;
   const [isOpened, setIsOpened] = useState(false);
   const authState = useSelector<RootState, AuthState>((state) => state.auth);
   const dispatch: AppDispatch = useDispatch();
 
   const onTokenInvalid = () => {
-    router.push("/login");
+    navigate("/login");
   };
 
   useEffect(() => {
@@ -45,7 +41,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         setIsOpened((prevState) => !prevState);
       }
     },
-    [router.pathname, authState.authStatus]
+    [window.location.pathname, authState.authStatus]
   );
 
   useEffect(() => {
@@ -56,11 +52,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <>
-      <Head>
-        <title>Better save</title>
-        <meta name="description" content="Save money for great goals" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
       {authState.authStatus === "notauthenticated" && <Navbar />}
       <div className="flex w-full">
         <Sidebar isOpened={isOpened} />
@@ -73,16 +64,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               type="button"
               onClick={() => setIsOpened((prevState) => !prevState)}
             >
-              <Image src={sidebarIcon} alt="Toggle sidebar" />
+              <img src={sidebarIcon} alt="Toggle sidebar" />
             </button>
           )}
         </div>
       </div>
-      {fullHeightLayout && authState.authStatus === "notauthenticated" && (
-        <Footer />
-      )}
+      {fullHeightLayout && authState.authStatus === "notauthenticated" && <Footer />}
     </>
   );
-};
+}
 
 export default Layout;

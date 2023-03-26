@@ -1,28 +1,22 @@
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import MyResponsivePie from "../elements/pieDiag/pie";
-import { AppDispatch, RootState } from "../store/store";
-import getCardsThunk from "../store/thunks/cardThunk";
-import getSpendingThunk from "../store/thunks/spendingThunks";
-import { SpendingReportDto } from "../types/User/Spending/spending";
-import { SpendingShopItemCategory } from "../types/User/Spending/SpendingShopItemCategory";
+import { Link } from "react-router-dom";
+import MyResponsivePie from "../../elements/pieDiag/pie";
+import { AppDispatch, RootState } from "../../store/store";
+import getCardsThunk from "../../store/thunks/cardThunk";
+import getSpendingThunk from "../../store/thunks/spendingThunks";
+import { SpendingReportDto } from "../../types/User/Spending/spending";
+import { SpendingShopItemCategory } from "../../types/User/Spending/SpendingShopItemCategory";
 
-const Stats = () => {
-  const spendings = useSelector<RootState, SpendingReportDto[]>(
-    (state) => state.spending
-  );
+function Stats() {
+  const spendings = useSelector<RootState, SpendingReportDto[]>((state) => state.spending);
 
   const dispatch: AppDispatch = useDispatch();
-  const { cards, spending } = useSelector<RootState, RootState>(
-    (state) => state
-  );
+  const { cards, spending } = useSelector<RootState, RootState>((state) => state);
 
   const [selectedCardIndex, setSelectedCardIndex] = useState(0);
 
-  const [data, setData] = useState<
-    Array<{ id: string; label: string; value: number; color: string }>
-  >([]);
+  const [data, setData] = useState<Array<{ id: string; label: string; value: number; color: string }>>([]);
   const colors = [
     "hsl(200, 70%, 50%)",
     "hsl(21, 70%, 50%)",
@@ -67,19 +61,22 @@ const Stats = () => {
     }
     const t = spendings.map((item) => [...item.shopItems])[0];
     const result: Array<{ categoryName: string; price: number }> = [];
-    const t2 = t?.reduce((res, value: SpendingShopItemCategory) => {
-      // console.log(res, value);
-      if (!res[value.categoryName]) {
-        res[value.categoryName] = {
-          categoryName: value.categoryName,
-          price: 0,
-        };
-        result.push(res[value.categoryName]);
-      }
-      res[value.categoryName].price += value.price;
+    const t2 = t?.reduce(
+      (res: { [key: string]: { categoryName: string; price: number } }, value: SpendingShopItemCategory) => {
+        // console.log(res, value);
+        if (!res[value.categoryName]) {
+          res[value.categoryName] = {
+            categoryName: value.categoryName,
+            price: 0,
+          };
+          result.push(res[value.categoryName]);
+        }
+        res[value.categoryName].price += value.price;
 
-      return res;
-    }, {});
+        return res;
+      },
+      {}
+    );
 
     const w = result.map((n) => ({
       id: n.categoryName,
@@ -106,8 +103,8 @@ const Stats = () => {
             <span>
               {spendings.length === 0 ? (
                 <div className="mt-16">
-                  <h2>You haven't add any data about your spendings</h2>
-                  <Link href="/cards">You can add it here</Link>
+                  <h2>You haven&apos;t add any data about your spendings</h2>
+                  <Link to="/cards">You can add it here</Link>
                 </div>
               ) : (
                 <div className="flex h-[600px] w-[600px]">
@@ -136,6 +133,6 @@ const Stats = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Stats;

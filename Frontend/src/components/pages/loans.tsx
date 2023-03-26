@@ -8,7 +8,7 @@ enum ActivePage {
   list = 1,
 }
 
-const Loans = () => {
+function Loans() {
   const [activePage, setActivePage] = useState(ActivePage.add);
 
   const goToAdd = () => {
@@ -40,13 +40,11 @@ const Loans = () => {
               Watch all loans
             </button>
           </div>
-          <div className="w-full">
-            {activePage === ActivePage.add ? <AddLoans /> : <LoansList />}
-          </div>
+          <div className="w-full">{activePage === ActivePage.add ? <AddLoans /> : <LoansList />}</div>
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default Loans;

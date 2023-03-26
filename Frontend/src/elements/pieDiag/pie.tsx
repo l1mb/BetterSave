@@ -8,7 +8,7 @@ import { useEffect } from "react";
 // no chart will be rendered.
 // website examples showcase many properties,
 // you'll often use just a few of them.
-const MyResponsivePie = ({ data /* see data tab */ }) => {
+function MyResponsivePie({ data /* see data tab */ }) {
   useEffect(() => {
     console.log(data);
   }, [data]);
@@ -134,5 +134,5 @@ const MyResponsivePie = ({ data /* see data tab */ }) => {
       ]}
     />
   );
-};
+}
 export default MyResponsivePie;

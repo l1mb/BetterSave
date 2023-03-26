@@ -5,7 +5,7 @@ import useJwtToken from "../../hooks/useJwtToken";
 import { Loan } from "../../types/User/loans/loans";
 import loanApi from "../../pages/api/loans/loans";
 
-const LoansList = () => {
+function LoansList() {
   const [loanList, setLoanList] = useState<Loan[]>([]);
   const { decodeToken } = useJwtToken();
 
@@ -105,6 +105,6 @@ const LoansList = () => {
       <Calendar compact bordered renderCell={renderCell} />{" "}
     </div>
   );
-};
+}
 
 export default LoansList;

@@ -1,5 +1,7 @@
 import React from "react";
 
-const TakeLoanComponent = () => <span>l</span>;
+function TakeLoanComponent() {
+  return <span>l</span>;
+}
 
 export default TakeLoanComponent;

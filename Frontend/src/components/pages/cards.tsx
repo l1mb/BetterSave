@@ -1,41 +1,31 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { Carousel } from "@mantine/carousel";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Image from "next/image";
-import CreateCardModal from "../components/modals/createCardModal";
-import Content from "../elements/content/Content";
-import { CardState } from "../store/slices/cardSlice";
-import { AppDispatch, RootState } from "../store/store";
-import getCardsThunk, {
-  deleteCardThunk,
-  updateCardThunk,
-} from "../store/thunks/cardThunk";
-import getSpendingThunk, {
-  deleteSpendingThunk,
-} from "../store/thunks/spendingThunks";
-import styles from "../styles/cards.module.scss";
-import { SpendingReportDto } from "../types/User/Spending/spending";
-import Close from "../../public/icons/close.png";
-import CreateSpendingModal from "../components/modals/createSpendingModal";
+import Close from "images/icons/close.png";
+import getCardsThunk, { updateCardThunk, deleteCardThunk } from "@/store/thunks/cardThunk";
+import getSpendingThunk, { deleteSpendingThunk } from "@/store/thunks/spendingThunks";
+import { Carousel } from "rsuite";
+import CreateCardModal from "../modals/createCardModal";
+import Content from "../../elements/content/Content";
+import { CardState } from "../../store/slices/cardSlice";
+import { AppDispatch, RootState } from "../../store/store";
+import styles from "../../styles/cards.module.scss";
+import { SpendingReportDto } from "../../types/User/Spending/spending";
+import CreateSpendingModal from "../modals/createSpendingModal";
 
-const Cards = () => {
+function Cards() {
   const dispatch: AppDispatch = useDispatch();
   const [error, setError] = useState("");
   const { cards } = useSelector<RootState, CardState>((state) => state.cards);
 
   const [isOpened, setIsOpened] = useState<"spending" | "card" | false>(false);
 
-  const spendings = useSelector<RootState, SpendingReportDto[]>(
-    (state) => state.spending
-  );
+  const spendings = useSelector<RootState, SpendingReportDto[]>((state) => state.spending);
   const [orderBy, setOrderBy] = useState("date");
   const [selectedCardIndex, setSelectedCardIndex] = useState(0);
-  const [beginDate, setBeginDate] = useState<string>(
-    moment().subtract("days", 7).format("MM-DD-YYYY")
-  );
+  const [beginDate, setBeginDate] = useState<string>(moment().subtract("days", 7).format("MM-DD-YYYY"));
 
   const [editableIndex, setEditable] = useState(-1);
   const [newBalance, setNewBalance] = useState(0);
@@ -149,26 +139,26 @@ const Cards = () => {
               {cards.length > 0 ? (
                 <div className={`${styles.cards}  h-52 w-96`}>
                   <Carousel
-                    sx={{ maxWidth: 440 }}
-                    mx="auto"
-                    withIndicators
-                    height={200}
-                    slideGap="md"
-                    onSlideChange={(index) => handleCardChange(index)}
-                    styles={{
-                      indicator: {
-                        width: 12,
-                        height: 4,
-                        transition: "width 250ms ease",
-                        backgroundColor: "white",
-                        "&[data-active]": {
-                          width: 40,
-                        },
-                      },
-                    }}
+                  // sx={{ maxWidth: 440 }}
+                  // mx="auto"
+                  // withIndicators
+                  // height={200}
+                  // slideGap="md"
+                  // onSlideChange={(index) => handleCardChange(index)}
+                  // styles={{
+                  //   indicator: {
+                  //     width: 12,
+                  //     height: 4,
+                  //     transition: "width 250ms ease",
+                  //     backgroundColor: "white",
+                  //     "&[data-active]": {
+                  //       width: 40,
+                  //     },
+                  //   },
+                  // }}
                   >
                     {cards.map((el, index) => (
-                      <Carousel.Slide key={el.id}>
+                      <Carousel key={el.id}>
                         <div
                           className={`relative h-full rounded-xl border border-opacity-95 px-4 ${colors[index]}  bg-gradient-to-r  from-violet-800
                       to-violet-500`}
@@ -178,7 +168,7 @@ const Cards = () => {
                             onClick={() => handleDelete()}
                           >
                             <div className="relative flex items-center">
-                              <Image src={Close} width={14} height={14} />
+                              <img src={Close} width={14} height={14} alt="close" />
                             </div>
                           </div>
                           <div className="mx-4 flex h-full flex-col justify-evenly">
@@ -187,12 +177,8 @@ const Cards = () => {
                                 <span>
                                   {editableIndex !== index ? (
                                     <>
-                                      <span className="pr-2 text-xl font-bold">
-                                        {el.balance}
-                                      </span>
-                                      <span className="text-sm">
-                                        {el.currency}
-                                      </span>
+                                      <span className="pr-2 text-xl font-bold">{el.balance}</span>
+                                      <span className="text-sm">{el.currency}</span>
                                       <button
                                         type="button"
                                         onClick={() => handleStartEdit()}
@@ -235,27 +221,21 @@ const Cards = () => {
                             </div>
                             <div className="flex w-full justify-between">
                               <span className="mx-auto text-center text-xl font-bold">
-                                <span className="px-1 tracking-wide">
-                                  {el.cardNumber.substring(0, 4)}
-                                </span>
+                                <span className="px-1 tracking-wide">{el.cardNumber.substring(0, 4)}</span>
                                 <span className="px-1 tracking-wide">XXXX</span>
                                 <span className="px-1 tracking-wide">XXXX</span>
-                                <span className="px-1 tracking-wide">
-                                  {el.cardNumber.substring(12, 16)}
-                                </span>
+                                <span className="px-1 tracking-wide">{el.cardNumber.substring(12, 16)}</span>
                               </span>
                             </div>
                             <span className="text-lg font-bold">{el.name}</span>
                           </div>
                         </div>
-                      </Carousel.Slide>
+                      </Carousel>
                     ))}
                   </Carousel>
                 </div>
               ) : (
-                <span className="text-lg font-bold text-violet-600">
-                  You haven't added any cards yet
-                </span>
+                <span className="text-lg font-bold text-violet-600">You haven&apos;t added any cards yet</span>
               )}
               <div className="mt-2 flex w-full justify-between gap-3">
                 <button
@@ -279,9 +259,7 @@ const Cards = () => {
             <div className="w-full">
               <div className="mt-6 flex w-full justify-center">
                 {!spendings || spendings.length === 0 || cards.length === 0 ? (
-                  <h3 className="text-xl font-bold">
-                    There is no spendings there
-                  </h3>
+                  <h3 className="text-xl font-bold">There is no spendings there</h3>
                 ) : (
                   <section className="w-full bg-violet-50 py-1 xl:mx-auto xl:w-8/12">
                     <div className="mx-auto mb-12 mt-24 w-full px-4 xl:mb-0 ">
@@ -289,9 +267,7 @@ const Cards = () => {
                         <div className="mb-0 rounded-t border-0 px-4 py-3">
                           <div className="flex flex-wrap items-center">
                             <div className="relative w-full max-w-full flex-1 flex-grow px-4">
-                              <h3 className="text-blueGray-700 text-base font-semibold">
-                                Your spendings
-                              </h3>
+                              <h3 className="text-blueGray-700 text-base font-semibold">Your spendings</h3>
                             </div>
                             <div className="relative w-full max-w-full flex-1 flex-grow px-4 text-right">
                               <button
@@ -347,9 +323,7 @@ const Cards = () => {
                                         type="button"
                                         className="rounded bg-red-400 px-3 py-2 text-violet-50 transition-all hover:bg-red-500  "
                                         onClick={() => {
-                                          handleSpendingDelete(
-                                            spending.id as string
-                                          );
+                                          handleSpendingDelete(spending.id as string);
                                         }}
                                       >
                                         Delete
@@ -387,6 +361,6 @@ const Cards = () => {
       </Content>
     </div>
   );
-};
+}
 
 export default Cards;

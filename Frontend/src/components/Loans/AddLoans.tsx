@@ -15,9 +15,7 @@ const AddLoans: React.FC<LoanBaseProps> = (props, children) => {
 
   const { decodeToken } = useJwtToken();
 
-  const [loanTarget, setLoanTarget] = useState<"increase" | "decrease">(
-    "increase"
-  );
+  const [loanTarget, setLoanTarget] = useState<"increase" | "decrease">("increase");
 
   const [pageState, setPageState] = useState<{
     borrowAmount: number;
@@ -82,9 +80,7 @@ const AddLoans: React.FC<LoanBaseProps> = (props, children) => {
               </Radio>
             </div>
             <div className="mt-2 flex flex-col gap-2">
-              <span className="px-2 text-gray-400">
-                {loanTarget === "increase" ? "From" : "To"} who
-              </span>
+              <span className="px-2 text-gray-400">{loanTarget === "increase" ? "From" : "To"} who</span>
               <input
                 type="text"
                 className="w-40 rounded-md"
@@ -147,11 +143,7 @@ const AddLoans: React.FC<LoanBaseProps> = (props, children) => {
         </div>
       </div>
       <div className="text-viole  mx-auto mt-10 w-8">
-        {loading ? (
-          <HashLoader loading color="#6d28d9" />
-        ) : (
-          <span>{resMessage}</span>
-        )}
+        {loading ? <HashLoader loading color="#6d28d9" /> : <span>{resMessage}</span>}
       </div>
     </>
   );

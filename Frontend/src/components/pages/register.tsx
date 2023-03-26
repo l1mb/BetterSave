@@ -1,24 +1,22 @@
-import Image from "next/image";
-import Link from "next/link";
 import { HashLoader } from "react-spinners";
 import { useState } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { useRouter } from "next/router";
-import mountain from "../../public/backgrounds/mountain-04.jpg";
-import styles from "../styles/login.module.scss";
-import BetterSaveLogo from "../../public/logos/BetterSaveLogo.svg";
-import CoolLine from "../elements/coolLine/coolLine";
-import signUpDto from "../types/auth/signUpDto";
-import FormikInput from "../elements/formikInput/formikInput";
-import authApi from "./api/auth/authApi";
-import colors from "../styles/colors";
+import mountain from "images/backgrounds/mountain-04.jpg";
+import BetterSaveLogo from "images/logos/BetterSaveLogo.svg";
+import { Link, useNavigate } from "react-router-dom";
+import CoolLine from "@/elements/coolLine/coolLine";
+import FormikInput from "@/elements/formikInput/formikInput";
+import ErrorDto from "@/types/auth/errorDto";
+import signUpDto from "@/types/auth/signUpDto";
 import { StatusCodes } from "./api/codes";
-import ErrorDto from "../types/auth/errorDto";
+import colors from "../../styles/colors";
+import styles from "../../styles/login.module.scss";
+import authApi from "./api/auth/authApi";
 
-const Register = () => {
+function Register() {
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
+  const navigate = useNavigate();
   const [error, setError] = useState("");
   const signUpHandle = async (values: signUpDto) => {
     setLoading(true);
@@ -27,7 +25,7 @@ const Register = () => {
     if (result.status !== StatusCodes.Created) {
       setError((body as ErrorDto).errorMessage);
     } else {
-      router.push("/continue");
+      navigate("/continue");
     }
     setLoading(false);
   };
@@ -56,7 +54,7 @@ const Register = () => {
           <div className="h-vh  flex w-4/12 items-center justify-center">
             <div className="w-full min-w-[325px] ">
               <div className="m-auto flex w-8/12 flex-col gap-1  text-2xl font-bold text-violet-600">
-                <Image src={BetterSaveLogo} alt="Logo" objectFit="fill" />
+                <img src={BetterSaveLogo} alt="Logo" />
                 <CoolLine />
               </div>
 
@@ -105,19 +103,15 @@ const Register = () => {
 
                 <span className=" text-right text-xs text-violet-800">
                   Or you may want to{" "}
-                  <Link href="/login">
-                    <span className="cursor-pointer text-violet-600">
-                      login
-                    </span>
+                  <Link to="/login">
+                    <span className="cursor-pointer text-violet-600">login</span>
                   </Link>{" "}
                   instead
                 </span>
 
                 <span
                   className={`${
-                    error
-                      ? "max-h-min text-red-600 opacity-100"
-                      : "max-h-0 opacity-0"
+                    error ? "max-h-min text-red-600 opacity-100" : "max-h-0 opacity-0"
                   } absolute  bottom-0 mt-8 text-sm transition-all`}
                 >
                   {error}
@@ -126,17 +120,12 @@ const Register = () => {
             </div>
           </div>
           <div className="h-vh relative w-8/12">
-            <Image
-              src={mountain}
-              alt="Mountain background"
-              layout="fill"
-              objectFit="cover"
-            />
+            <img src={mountain} alt="Mountain background" />
           </div>
         </div>
       )}
     </Formik>
   );
-};
+}
 
 export default Register;
