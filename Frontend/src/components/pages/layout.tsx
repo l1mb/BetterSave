@@ -33,7 +33,8 @@ function Layout({ children }: LayoutProps) {
   useKeyDown(
     (e) => {
       if (
-        e.key === "s" &&
+        e.key &&
+        e.key.toLowerCase() === "s" &&
         !fullHeightLayout &&
         authState.authStatus === "authenticated" &&
         !(e.target instanceof HTMLInputElement)
@@ -58,7 +59,7 @@ function Layout({ children }: LayoutProps) {
 
         <div className="relative w-full flex-auto">
           {children}
-          {isOpened === false && !fullHeightLayout && (
+          {isOpened === false && authState.authStatus === "authenticated" && !fullHeightLayout && (
             <button
               className="fixed  bottom-4 left-4 flex h-9 w-9 items-center justify-center rounded-full bg-transparent transition-all hover:rotate-90  hover:bg-violet-500 "
               type="button"
