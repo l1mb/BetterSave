@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import styles from "../styles/loans.module.scss";
-import AddLoans from "../components/Loans/AddLoans";
-import LoansList from "../components/Loans/LoansList";
+import styles from "../../styles/loans.module.scss";
+import AddLoans from "../Loans/AddLoans";
+import LoansList from "../Loans/LoansList";
 
 enum ActivePage {
   add = 0,

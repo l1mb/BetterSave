@@ -1,16 +1,17 @@
+import useJwtToken from "@/hooks/useJwtToken";
+import { Aim } from "@/types/User/goals/goals";
 import React, { useEffect, useState } from "react";
-import AddGoal, { Aim } from "../components/goals/addGoal";
-import GoalList from "../components/goals/goalList";
-import useJwtToken from "../hooks/useJwtToken";
-import styles from "../styles/loans.module.scss";
+import AddGoal from "../goals/addGoal";
+import GoalList from "../goals/goalList";
 import { getUserAims } from "./api/aimApi";
+import styles from "../../styles/loans.module.scss";
 
 enum SelectedSubPage {
   AddGoals,
   List,
 }
 
-const goals = () => {
+function Goals() {
   const [activePage, setActivePage] = useState(SelectedSubPage.AddGoals);
   const { decodeToken } = useJwtToken();
   const [loading, setLoading] = useState(false);
@@ -82,6 +83,6 @@ const goals = () => {
       </div>
     </div>
   );
-};
+}
 
-export default goals;
+export default Goals;

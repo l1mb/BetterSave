@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Badge, Calendar, Popover, Whisper } from "rsuite";
 import useJwtToken from "../../hooks/useJwtToken";
 import { Loan } from "../../types/User/loans/loans";
-import loanApi from "../../pages/api/loans/loans";
+import loanApi from "../pages/api/loans/loans";
 
 function LoansList() {
   const [loanList, setLoanList] = useState<Loan[]>([]);
@@ -81,18 +81,19 @@ function LoansList() {
               </Popover>
             }
           >
-            <a>{moreCount} more</a>
+            <span>{moreCount} more</span>
           </Whisper>
         </li>
       );
 
       return (
         <ul className="calendar-todo-list">
-          {displayList.map((item, index) => (
-            <li key={index}>
-              <Badge /> <b>{item.time}</b> - {item.amount}
-            </li>
-          ))}
+          {displayList &&
+            displayList.map((item, index) => (
+              <li key={index}>
+                <Badge /> <b>{item.time}</b> - {item.amount}
+              </li>
+            ))}
           {moreCount ? moreItem : null}
         </ul>
       );

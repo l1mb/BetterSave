@@ -5,11 +5,9 @@ import { Radio, Calendar } from "rsuite";
 import useJwtToken from "../../hooks/useJwtToken";
 import { Currency } from "../../types/User/Cards/card";
 import { Loan } from "../../types/User/loans/loans";
-import loanApi from "../../pages/api/loans/loans";
+import loanApi from "../pages/api/loans/loans";
 
-interface LoanBaseProps {}
-
-const AddLoans: React.FC<LoanBaseProps> = (props, children) => {
+function AddLoans() {
   const [resMessage, setResMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -106,7 +104,7 @@ const AddLoans: React.FC<LoanBaseProps> = (props, children) => {
                     if (val.target.value.length < 6) {
                       setPageState((prev) => ({
                         ...prev,
-                        borrowAmount: val.target.value,
+                        borrowAmount: Number(val.target.value),
                       }));
                     }
                   }}
@@ -147,6 +145,6 @@ const AddLoans: React.FC<LoanBaseProps> = (props, children) => {
       </div>
     </>
   );
-};
+}
 
 export default AddLoans;

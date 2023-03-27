@@ -46,7 +46,7 @@ namespace AuthServiceApp.Services.Classes
             var user = await _userManager.FindByEmailAsync(basicUserModel.Email);
             if (user is null)
             {
-                throw new ApplicationHelperException(ServiceResultType.NotFound, "Not Found");
+                throw new ApplicationHelperException(ServiceResultType.NotFound, ExceptionMessageConstants.MissingUser);
             }
 
             var userRoleList = await _userManager.GetRolesAsync(user);

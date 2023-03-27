@@ -3,21 +3,21 @@ import { HashLoader } from "react-spinners";
 import { Calendar, Radio } from "rsuite";
 import moment from "moment";
 import useJwtToken from "../../hooks/useJwtToken";
-import { createAim } from "../../pages/api/aimApi";
 import { Aim, AimType } from "../../types/User/goals/goals";
+import { createAim } from "../pages/api/aimApi";
 
 interface AddGoalProps {
   goal?: Aim;
   setRefresh: (e: string) => void;
 }
 
-const AddGoal: React.FC<AddGoalProps> = ({ goal, setRefresh }) => {
+function AddGoal({ goal, setRefresh }: AddGoalProps) {
   const [userChoices, setUserChoices] = useState<Aim>({
     aimType: AimType.daily,
     name: "",
     amount: 0,
     userId: "",
-    finishDate: new Date() as unknown as string,
+    finishDate: new Date(),
   });
 
   const { decodeToken } = useJwtToken();
@@ -123,7 +123,7 @@ const AddGoal: React.FC<AddGoalProps> = ({ goal, setRefresh }) => {
               onChange={(value) =>
                 setUserChoices({
                   ...userChoices,
-                  finishDate: value as unknown as string,
+                  finishDate: value,
                 })
               }
             />
@@ -136,5 +136,5 @@ const AddGoal: React.FC<AddGoalProps> = ({ goal, setRefresh }) => {
       </div>
     </div>
   );
-};
+}
 export default AddGoal;
