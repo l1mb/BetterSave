@@ -1,10 +1,10 @@
 import useJwtToken from "@/hooks/useJwtToken";
 import { Aim } from "@/types/User/goals/goals";
 import React, { useEffect, useState } from "react";
-import AddGoal from "../goals/addGoal";
-import GoalList from "../goals/goalList";
-import { getUserAims } from "./api/aimApi";
-import styles from "../../styles/loans.module.scss";
+import AddGoal from "../../goals/addGoal";
+import GoalList from "../../goals/goalList";
+import { getUserAims } from "../api/aimApi";
+import styles from "./loans.module.scss";
 
 enum SelectedSubPage {
   AddGoals,
@@ -48,8 +48,8 @@ function Goals() {
   };
 
   return (
-    <div className={` w-full ${styles.page}`}>
-      <div className={`${styles.pageContent}  my-12 h-full p-14 shadow-xl`}>
+    <div className={` w-full ${styles.page} h-screen`}>
+      <div className={`${styles.content}  my-12 h-full p-14 shadow-xl`}>
         <h3>Your goals</h3>
         {!goal && (
           <div className="flex gap-3">
