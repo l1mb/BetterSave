@@ -7,6 +7,7 @@ import { createRoot } from "react-dom/client";
 import AppRoot from "./components/root/app";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import "react-toastify/dist/ReactToastify.css";
 
 const container = document.getElementById("app");
 if (container) {

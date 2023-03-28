@@ -1,6 +1,7 @@
 import moment from "moment";
 import React, { useState } from "react";
 import { HashLoader } from "react-spinners";
+import { toast } from "react-toastify";
 import { Radio, Calendar } from "rsuite";
 import useJwtToken from "../../hooks/useJwtToken";
 import { Currency } from "../../types/User/Cards/card";
@@ -44,7 +45,7 @@ function AddLoans() {
       const res = await loanApi.createLoan(dto);
 
       const message = await res.json();
-      setResMessage("Success");
+      toast.success("Выполнено успешно");
 
       setTimeout(() => {
         setLoading(false);
