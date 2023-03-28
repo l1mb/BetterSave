@@ -1,0 +1,15 @@
+.slick-slider > .slick-dots {
+  bottom: 8px;
+
+  li button:before {
+    color: white;
+  }
+
+  li.slick-active button:before {
+    color: white;
+  }
+
+  & > button {
+    background-color: transparent;
+  }
+}

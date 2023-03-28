@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "../pages";
-import Cards from "../pages/cards";
+import Cards from "../pages/cards/cards";
 import Goals from "../pages/goals";
 import Layout from "../pages/layout";
 import Loans from "../pages/loans";

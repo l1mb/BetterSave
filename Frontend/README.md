@@ -1,6 +1,14 @@
-##Todo
+# BUGS
+
+- [ ] - balance couldn't be negative
+  - add new card
+  - add transaction
+  - negative balance crash app
+
+## Todo
 
 ### React transfer
+
 - [ ] - Add router
   - [ ] - Home
   - [ ] - Login
@@ -11,9 +19,8 @@
 
 - [ ] - Change crlf ot lf
 
-- [ ] - 
+- [ ] -
 - [ ] - text
-
 
 ## Getting Started
 

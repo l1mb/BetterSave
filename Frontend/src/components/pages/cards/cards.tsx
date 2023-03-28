@@ -6,14 +6,16 @@ import { useDispatch, useSelector } from "react-redux";
 import Close from "images/icons/close.png";
 import getCardsThunk, { updateCardThunk, deleteCardThunk } from "@/store/thunks/cardThunk";
 import getSpendingThunk, { deleteSpendingThunk } from "@/store/thunks/spendingThunks";
-import { Carousel } from "rsuite";
-import CreateCardModal from "../modals/createCardModal";
-import Content from "../../elements/content/Content";
-import { CardState } from "../../store/slices/cardSlice";
-import { AppDispatch, RootState } from "../../store/store";
-import styles from "../../styles/cards.module.scss";
-import { SpendingReportDto } from "../../types/User/Spending/spending";
-import CreateSpendingModal from "../modals/createSpendingModal";
+import SliderWrapper from "@/elements/slider/slider";
+import { Settings } from "react-slick";
+import CreateCardModal from "../../modals/createCardModal";
+import Content from "../../../elements/content/Content";
+import { CardState } from "../../../store/slices/cardSlice";
+import { AppDispatch, RootState } from "../../../store/store";
+import styles from "./cards.module.scss";
+import "./overrides.scss";
+import { SpendingReportDto } from "../../../types/User/Spending/spending";
+import CreateSpendingModal from "../../modals/createSpendingModal";
 
 function Cards() {
   const dispatch: AppDispatch = useDispatch();
@@ -130,6 +132,16 @@ function Cards() {
     console.log(selectedCardIndex);
   }, [selectedCardIndex]);
 
+  const sliderSettings: Settings = {
+    dots: true,
+    infinite: true,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    pauseOnHover: true,
+  };
+
   return (
     <div className={`${styles.login_wrapper} flex w-full `}>
       <Content>
@@ -137,102 +149,101 @@ function Cards() {
           <div className="mt-10 flex w-full flex-col items-center ">
             <div>
               {cards.length > 0 ? (
-                <div className={`${styles.cards}  h-52 w-96`}>
-                  <Carousel
-                  // sx={{ maxWidth: 440 }}
-                  // mx="auto"
-                  // withIndicators
-                  // height={200}
-                  // slideGap="md"
-                  // onSlideChange={(index) => handleCardChange(index)}
-                  // styles={{
-                  //   indicator: {
-                  //     width: 12,
-                  //     height: 4,
-                  //     transition: "width 250ms ease",
-                  //     backgroundColor: "white",
-                  //     "&[data-active]": {
-                  //       width: 40,
-                  //     },
-                  //   },
-                  // }}
+                <div className={`${styles.cards} w-96`}>
+                  <SliderWrapper
+                    settings={sliderSettings}
+                    // sx={{ maxWidth: 440 }}
+                    // mx="auto"
+                    // withIndicators
+                    // height={200}
+                    // slideGap="md"
+                    // onSlideChange={(index) => handleCardChange(index)}
+                    // styles={{
+                    //   indicator: {
+                    //     width: 12,
+                    //     height: 4,
+                    //     transition: "width 250ms ease",
+                    //     backgroundColor: "white",
+                    //     "&[data-active]": {
+                    //       width: 40,
+                    //     },
+                    //   },
+                    // }}
                   >
                     {cards.map((el, index) => (
-                      <Carousel key={el.id}>
+                      <div
+                        className={`relative h-48 rounded-xl border border-opacity-95 px-4 ${colors[index]}  bg-gradient-to-r
+                      from-violet-800 to-violet-500`}
+                      >
                         <div
-                          className={`relative h-full rounded-xl border border-opacity-95 px-4 ${colors[index]}  bg-gradient-to-r  from-violet-800
-                      to-violet-500`}
+                          className="absolute top-1 right-1 flex h-7 w-7 items-center justify-center rounded-full transition-all hover:bg-violet-400"
+                          onClick={() => handleDelete()}
                         >
-                          <div
-                            className="absolute top-1 right-1 flex h-7 w-7 items-center justify-center rounded-full transition-all hover:bg-violet-400"
-                            onClick={() => handleDelete()}
-                          >
-                            <div className="relative flex items-center">
-                              <img src={Close} width={14} height={14} alt="close" />
-                            </div>
-                          </div>
-                          <div className="mx-4 flex h-full flex-col justify-evenly">
-                            <div className="flex flex-col">
-                              <div>
-                                <span>
-                                  {editableIndex !== index ? (
-                                    <>
-                                      <span className="pr-2 text-xl font-bold">{el.balance}</span>
-                                      <span className="text-sm">{el.currency}</span>
-                                      <button
-                                        type="button"
-                                        onClick={() => handleStartEdit()}
-                                        className={`bg-transparent px-2 opacity-40 transition-all hover:opacity-80 ${styles.edit_button}`}
-                                      >
-                                        Edit
-                                      </button>
-                                    </>
-                                  ) : (
-                                    <>
-                                      <input
-                                        type="number"
-                                        className="w-28 rounded-lg border border-violet-50 bg-violet-600 px-2 py-1 outline-none"
-                                        value={newBalance}
-                                        onInput={(val) => {
-                                          const v = val.currentTarget.value;
-                                          if (v.length < 6) {
-                                            setNewBalance(Number(v));
-                                          }
-                                        }}
-                                      />
-                                      <button
-                                        type="button"
-                                        className={`bg-transparent px-2 opacity-40 transition-all hover:opacity-80 ${styles.edit_button}`}
-                                        onClick={() => handleFinishEdit()}
-                                      >
-                                        Save
-                                      </button>
-                                      <button
-                                        type="button"
-                                        className={`bg-transparent px-2 opacity-40 transition-all hover:opacity-80 ${styles.edit_button}`}
-                                        onClick={() => cancelEdit()}
-                                      >
-                                        Cancel
-                                      </button>
-                                    </>
-                                  )}
-                                </span>
-                              </div>
-                            </div>
-                            <div className="flex w-full justify-between">
-                              <span className="mx-auto text-center text-xl font-bold">
-                                <span className="px-1 tracking-wide">{el.cardNumber.substring(0, 4)}</span>
-                                <span className="px-1 tracking-wide">XXXX</span>
-                                <span className="px-1 tracking-wide">XXXX</span>
-                                <span className="px-1 tracking-wide">{el.cardNumber.substring(12, 16)}</span>
-                              </span>
-                            </div>
-                            <span className="text-lg font-bold">{el.name}</span>
+                          <div className="relative flex items-center">
+                            <img src={Close} width={14} height={14} alt="close" />
                           </div>
                         </div>
-                      </Carousel>
+                        <div className="mx-4 flex h-full flex-col justify-evenly ">
+                          <div className="flex flex-col">
+                            <div>
+                              <span>
+                                {editableIndex !== index ? (
+                                  <>
+                                    <span className="pr-2 text-xl font-bold">{el.balance}</span>
+                                    <span className="text-sm">{el.currency}</span>
+                                    <button
+                                      type="button"
+                                      onClick={() => handleStartEdit()}
+                                      className={`bg-transparent px-2 opacity-40 transition-all hover:opacity-80 ${styles.edit_button}`}
+                                    >
+                                      Edit
+                                    </button>
+                                  </>
+                                ) : (
+                                  <>
+                                    <input
+                                      type="number"
+                                      className="w-28 rounded-lg border border-violet-50 bg-violet-600 px-2 py-1 outline-none"
+                                      value={newBalance}
+                                      onInput={(val) => {
+                                        const v = val.currentTarget.value;
+                                        if (v.length < 6) {
+                                          setNewBalance(Number(v));
+                                        }
+                                      }}
+                                    />
+                                    <button
+                                      type="button"
+                                      className={`bg-transparent px-2 opacity-40 transition-all hover:opacity-80 ${styles.edit_button}`}
+                                      onClick={() => handleFinishEdit()}
+                                    >
+                                      Save
+                                    </button>
+                                    <button
+                                      type="button"
+                                      className={`bg-transparent px-2 opacity-40 transition-all hover:opacity-80 ${styles.edit_button}`}
+                                      onClick={() => cancelEdit()}
+                                    >
+                                      Cancel
+                                    </button>
+                                  </>
+                                )}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="flex w-full justify-between">
+                            <span className="mx-auto text-center text-xl font-bold">
+                              <span className="px-1 tracking-wide">{el.cardNumber.substring(0, 4)}</span>
+                              <span className="px-1 tracking-wide">XXXX</span>
+                              <span className="px-1 tracking-wide">XXXX</span>
+                              <span className="px-1 tracking-wide">{el.cardNumber.substring(12, 16)}</span>
+                            </span>
+                          </div>
+                          <span className="text-lg font-bold">{el.name}</span>
+                        </div>
+                      </div>
                     ))}
-                  </Carousel>
+                  </SliderWrapper>
                 </div>
               ) : (
                 <span className="text-lg font-bold text-violet-600">You haven&apos;t added any cards yet</span>
