@@ -22,6 +22,9 @@ function AppRouter() {
           <Route path="/loans" element={<Loans />} />
           <Route path="/goals" element={<Goals />} />
           <Route path="/stats" element={<Stats />} />
+          <Route path="/budget" element={<Stats />} />
+          <Route path="/operations" element={<Stats />} />
+          <Route path="/settings" element={<Stats />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>

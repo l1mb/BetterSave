@@ -36,16 +36,16 @@ function Sidebar({ isOpened }: SidebarProps) {
           ))}
         </div>
 
-        <div>
+        <div className="flex flex-col justify-start gap-1 rounded align-baseline">
           <button
             type="button"
-            className="mx-5 rounded px-2 py-1 transition hover:bg-violet-200"
+            className="mx-5 rounded  border-2 border-gray-900 bg-gray-900 px-2 py-2 text-start text-violet-50 transition-colors hover:bg-white hover:text-gray-900 "
             onClick={() => logoutHandler()}
           >
             Logout
           </button>
           <Link to="/settings">
-            <a className="mx-auto flex w-3/4 border-b border-violet-800 px-2 py-2 text-center">Settings</a>
+            <span className="mx-auto flex w-3/4 rounded border border-violet-800 px-2 py-2 text-center">Settings</span>
           </Link>
         </div>
       </div>
