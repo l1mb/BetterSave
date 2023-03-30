@@ -7,6 +7,7 @@ import Layout from "../pages/layout";
 import Loans from "../pages/loans";
 import Login from "../pages/login";
 import NotFound from "../pages/notFound";
+import Operations from "../pages/operations/operations";
 import Register from "../pages/register";
 import Stats from "../pages/stats";
 
@@ -23,7 +24,7 @@ function AppRouter() {
           <Route path="/goals" element={<Goals />} />
           <Route path="/stats" element={<Stats />} />
           <Route path="/budget" element={<Stats />} />
-          <Route path="/operations" element={<Stats />} />
+          <Route path="/operations" element={<Operations />} />
           <Route path="/settings" element={<Stats />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
