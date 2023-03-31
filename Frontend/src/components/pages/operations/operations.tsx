@@ -63,6 +63,7 @@ function Operations({}: OperationProps) {
           handleDecrement={handleDecrement}
         />
       </div>
+      <div className="my-16 flex justify-center">Current type is {operationType}</div>
     </div>
   );
 }

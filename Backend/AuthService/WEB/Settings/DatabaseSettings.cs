@@ -18,11 +18,7 @@
             $"Database={Database};" +
             $"User ID={UserId};" +
             $"Password={Password};" +
-            $"Connect Timeout={ConnectTimeout};" +
-            $"Encrypt={Encrypt};" +
-            $"TrustServerCertificate={TrustedServerCertificate};" +
-            $"ApplicationIntent={ApplicationIntent};" +
-            $"MultiSubnetFailover={MultiSubnetFailover};" +
-            $"MultipleActiveResultSets=True;";
+            $"Connect Timeout={ConnectTimeout};";
+            
     }
 }
