@@ -1,6 +1,6 @@
+import authApi from "@/components/pages/api/auth/authApi";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import useJwtToken from "../../../hooks/useJwtToken";
-import authApi from "../../../pages/api/auth/authApi";
 import signInDto from "../../../types/auth/signInDto";
 import User from "../../../types/User/user";
 

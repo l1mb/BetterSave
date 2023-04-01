@@ -1,11 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from "@reduxjs/toolkit";
 import { Card } from "../../types/User/Cards/card";
-import getCardsThunk, {
-  createCardThunk,
-  deleteCardThunk,
-  updateCardThunk,
-} from "../thunks/cardThunk";
+import getCardsThunk, { createCardThunk, deleteCardThunk, updateCardThunk } from "../thunks/cardThunk";
 
 export type CardState = {
   cards: Card[];

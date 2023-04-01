@@ -3,13 +3,12 @@
 import moment from "moment";
 import React, { ChangeEvent, useState } from "react";
 import { Calendar } from "rsuite";
-import Image from "next/image";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import Close from "images/icons/close.png";
 import { Currency } from "../../types/User/Cards/card";
 import { SpendingShopItemCategory } from "../../types/User/Spending/SpendingShopItemCategory";
 import Stepper from "./spendingModal/stepper";
-import Close from "../../../public/icons/close.png";
 import { AppDispatch } from "../../store/store";
 import useJwtToken from "../../hooks/useJwtToken";
 import { createSpendingThunk } from "../../store/thunks/spendingThunks";
@@ -20,10 +19,7 @@ interface CreateSpendingModalProps {
   cardId: string;
 }
 
-const CreateSpendingModal: React.FC<CreateSpendingModalProps> = ({
-  setIsOpen,
-  cardId,
-}) => {
+function CreateSpendingModal({ setIsOpen, cardId }: CreateSpendingModalProps) {
   const dispatch: AppDispatch = useDispatch();
 
   const [loading, setLoading] = useState(false);
@@ -44,10 +40,7 @@ const CreateSpendingModal: React.FC<CreateSpendingModalProps> = ({
 
   const [errors, setErrors] = useState("");
 
-  const updateSpending = (
-    value: string | Date,
-    prop: "date" | "shopName" | "spendingName"
-  ) => {
+  const updateSpending = (value: string | Date, prop: "date" | "shopName" | "spendingName") => {
     setSpending((prev) => ({ ...prev, [prop]: value }));
   };
 
@@ -63,13 +56,11 @@ const CreateSpendingModal: React.FC<CreateSpendingModalProps> = ({
     updateSpending(param, "date");
   };
 
-  const [shopPositions, setShopPositions] = useState<
-    Partial<SpendingShopItemCategory>[]
-  >([]);
+  const [shopPositions, setShopPositions] = useState<Partial<SpendingShopItemCategory>[]>([]);
 
-  const [editableShopPosition, setEditableShopPosition] = useState<
-    Partial<SpendingShopItemCategory>
-  >({ currency: Currency.BYN });
+  const [editableShopPosition, setEditableShopPosition] = useState<Partial<SpendingShopItemCategory>>({
+    currency: Currency.BYN,
+  });
 
   const handleChange = (newValue: Date) => {
     if (newValue) {
@@ -95,15 +86,12 @@ const CreateSpendingModal: React.FC<CreateSpendingModalProps> = ({
             },
           })
         );
-        dispatch(getCardsThunk());
+        dispatch(getCardsThunk({ setError: setErrors }));
       }
 
       setTimeout(() => {
         setIsOpen(false);
       }, 500);
-      return;
-    }
-    if (number < 0 || number > allSteps.length) {
     }
   };
 
@@ -115,10 +103,7 @@ const CreateSpendingModal: React.FC<CreateSpendingModalProps> = ({
     onChange(step - 1);
   };
 
-  const editShopPosition = (
-    value: number | string | Currency,
-    prop: keyof SpendingShopItemCategory
-  ) => {
+  const editShopPosition = (value: number | string | Currency, prop: keyof SpendingShopItemCategory) => {
     setEditableShopPosition((prevState) => ({ ...prevState, [prop]: value }));
   };
 
@@ -127,10 +112,7 @@ const CreateSpendingModal: React.FC<CreateSpendingModalProps> = ({
   };
 
   const updatePrice = (value: ChangeEvent<HTMLInputElement>) => {
-    if (
-      Number(value.currentTarget.value) > 0 &&
-      value.currentTarget.value.length < 5
-    ) {
+    if (Number(value.currentTarget.value) > 0 && value.currentTarget.value.length < 5) {
       editShopPosition(Number(value.currentTarget.value), "price");
     }
   };
@@ -149,18 +131,13 @@ const CreateSpendingModal: React.FC<CreateSpendingModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-10 overflow-y-auto">
-      <div
-        className="fixed inset-0 h-full w-full bg-black opacity-40"
-        onClick={() => setIsOpen(false)}
-      />
+      <div className="fixed inset-0 h-full w-full bg-black opacity-40" onClick={() => setIsOpen(false)} />
 
       <div className="flex min-h-screen items-center px-4 py-8">
         <div className="relative mx-auto w-full max-w-2xl rounded-md bg-white p-4 shadow-lg">
           <div className="mt-3 flex h-[600px] flex-col">
             <div className="border-b border-b-violet-400">
-              <h3 className="mb-1 text-2xl font-bold text-violet-700">
-                Add new transaction
-              </h3>
+              <h3 className="mb-1 text-2xl font-bold text-violet-700">Add new transaction</h3>
             </div>
             <div className="my-2">
               <Stepper steps={allSteps} currentStep={step} />
@@ -275,9 +252,7 @@ const CreateSpendingModal: React.FC<CreateSpendingModalProps> = ({
                           </div>
                           <div className="flex items-center gap-3">
                             <div className="flex flex-col">
-                              <span className="text-xs text-gray-400">
-                                Price
-                              </span>
+                              <span className="text-xs text-gray-400">Price</span>
                               <span>{position.price}</span>
                             </div>
                             <button
@@ -285,7 +260,7 @@ const CreateSpendingModal: React.FC<CreateSpendingModalProps> = ({
                               className="flex h-[28px] w-[28px] items-center justify-center rounded-full bg-transparent transition-all hover:bg-violet-100"
                               onClick={() => deleteShopItem(index)}
                             >
-                              <Image src={Close} width={14} height={14} />
+                              <img src={Close} width={14} height={14} alt="close" />
                             </button>
                           </div>
                         </div>
@@ -297,9 +272,7 @@ const CreateSpendingModal: React.FC<CreateSpendingModalProps> = ({
             )}
             {step === 2 && (
               <div className="flex h-full w-full items-center justify-center">
-                <span className="text-5xl font-bold text-gray-400">
-                  Success
-                </span>
+                <span className="text-5xl font-bold text-gray-400">Success</span>
               </div>
             )}
 
@@ -341,6 +314,6 @@ const CreateSpendingModal: React.FC<CreateSpendingModalProps> = ({
       </div>
     </div>
   );
-};
+}
 
 export default CreateSpendingModal;

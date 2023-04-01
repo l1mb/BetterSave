@@ -1,9 +1,6 @@
 import { useEffect } from "react";
 
-const useKeyDown = (
-  handler: (e: KeyboardEvent) => void,
-  deps: unknown[] = []
-) => {
+const useKeyDown = (handler: (e: KeyboardEvent) => void, deps: unknown[] = []) => {
   useEffect(() => {
     document.addEventListener("keydown", handler);
     // clean up

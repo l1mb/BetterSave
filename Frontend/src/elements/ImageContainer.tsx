@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 
 interface ImageContainerProps {
   width: string;
@@ -8,15 +7,12 @@ interface ImageContainerProps {
   alt: string;
 }
 
-const ImageContainer: React.FC<ImageContainerProps> = ({
-  src,
-  alt,
-  height,
-  width,
-}) => (
-  <div className={`relative ${width} ${height}`}>
-    <Image src={src} alt={alt} layout="fill" />
-  </div>
-);
+function ImageContainer({ src, alt, height, width }: ImageContainerProps) {
+  return (
+    <div className={`relative ${width} ${height}`}>
+      <img src={src} alt={alt} />
+    </div>
+  );
+}
 
 export default ImageContainer;

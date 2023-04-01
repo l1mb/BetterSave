@@ -1,13 +1,35 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# BUGS
+
+- [ ] - balance couldn't be negative
+  - add new card
+  - add transaction
+  - negative balance crash app
+
+## Todo
+
+### React transfer
+
+- [ ] - Add router
+  - [ ] - Home
+  - [ ] - Login
+  - [ ] - Signup
+  - [ ] - Cards
+  - [ ] - Stats
+  - [ ] - Pie
+
+- [ ] - Change crlf ot lf
+
+- [ ] -
+- [ ] - text
 
 ## Getting Started
 
 First, run the development server:
 
 ```bash
-npm run dev
+npm run serve
 # or
-yarn dev
+yarn serve
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.

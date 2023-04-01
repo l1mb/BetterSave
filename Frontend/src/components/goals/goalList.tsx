@@ -1,30 +1,28 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { AppDispatch, RootState } from "../../store/store";
 import getCardsThunk from "../../store/thunks/cardThunk";
 import getSpendingThunk from "../../store/thunks/spendingThunks";
 import MyResponsiveLine from "../../elements/nivoLine/responsiveLine";
 import { SpendingReportDto } from "../../types/User/Spending/spending";
-import { deleteAim } from "../../pages/api/aimApi";
 import { Aim, AimType } from "../../types/User/goals/goals";
+import { deleteAim } from "../pages/api/aimApi";
 
 interface GoalListProps {
   goal: Aim;
   setRefresh: (e: string) => void;
 }
 
-const GoalList: React.FC<GoalListProps> = ({ goal, setRefresh }) => {
-  const { cards, spending } = useSelector<RootState, RootState>(
-    (state) => state
-  );
+function GoalList({ goal, setRefresh }: GoalListProps) {
+  const { cards, spending } = useSelector<RootState, RootState>((state) => state);
 
   const [data, setData] = useState<
     {
       id: string;
       color: string;
-      data: { x: string; y: number }[];
+      data: { x: number; y: number }[];
     }[]
   >([]);
   const [selectedCardIndex, setSelectedCardIndex] = useState(0);
@@ -39,9 +37,10 @@ const GoalList: React.FC<GoalListProps> = ({ goal, setRefresh }) => {
     }
     const result: Array<{ date: string; coast: number; id: string }> = [];
     // сгруппировать по дате
-    const t = initData.reduce((groups, item) => {
+    const t = initData.reduce((groups: { [key: string]: SpendingReportDto[] }, item) => {
       const date = item.date.split("T")[0];
       if (!groups[date]) {
+        // eslint-disable-next-line no-param-reassign
         groups[date] = [];
       }
       groups[date].push(item);
@@ -55,8 +54,7 @@ const GoalList: React.FC<GoalListProps> = ({ goal, setRefresh }) => {
     const prik = groupArrays.map((item) => ({
       x: moment(item.date).date(),
       y: item.spenings.reduce(
-        (accumulator: number, currentValue: SpendingReportDto) =>
-          accumulator + currentValue.coast,
+        (accumulator: number, currentValue: SpendingReportDto) => accumulator + currentValue.coast,
         0
       ),
     }));
@@ -71,8 +69,7 @@ const GoalList: React.FC<GoalListProps> = ({ goal, setRefresh }) => {
     for (let index = beginDate; index < endDate; index++) {
       const ind = prik.findIndex((item) => item.x === index);
       if (goal.aimType === AimType.saveToDate) {
-        const temp: number[] =
-          mergeArr.length === 0 ? [0] : mergeArr.map((prop) => prop.y);
+        const temp: number[] = mergeArr.length === 0 ? [0] : mergeArr.map((prop) => prop.y);
 
         mergeArr.push({
           x: index,
@@ -89,7 +86,7 @@ const GoalList: React.FC<GoalListProps> = ({ goal, setRefresh }) => {
     let merged = [];
     if (goal.aimType === 0) {
       merged = [...mergeArr, ...prik].sort((q, w) => {
-        const z = new Date(q.x) - new Date(w.x);
+        const z = new Date(q.x).getTime() - new Date(w.x).getTime();
         return z;
       });
     } else {
@@ -156,16 +153,10 @@ const GoalList: React.FC<GoalListProps> = ({ goal, setRefresh }) => {
             <h4>
               Task is:{" "}
               <span>
-                save {goal.amount}{" "}
-                {goal.aimType === 0
-                  ? "each day"
-                  : `untill ${moment(goal.finishDate).format("l")}`}
+                save {goal.amount} {goal.aimType === 0 ? "each day" : `untill ${moment(goal.finishDate).format("l")}`}
               </span>
             </h4>
-            <button
-              type="button"
-              onClick={() => handleDeleteGoal(goal.id as string)}
-            >
+            <button type="button" onClick={() => handleDeleteGoal(goal.id as string)}>
               Delete goal
             </button>
           </div>
@@ -199,15 +190,12 @@ const GoalList: React.FC<GoalListProps> = ({ goal, setRefresh }) => {
         </>
       ) : (
         <div>
-          <h2>
-            We support your will to achive something, but we need to start from
-            tracking your cards
-          </h2>
-          <Link href="/cards">You can start here</Link>
+          <h2>We support your will to achive something, but we need to start from tracking your cards</h2>
+          <Link to="/cards">You can start here</Link>
         </div>
       )}
     </div>
   );
-};
+}
 
 export default GoalList;

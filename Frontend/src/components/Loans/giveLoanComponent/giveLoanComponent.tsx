@@ -1,7 +1,7 @@
 import React, { FormEvent, useState } from "react";
 import { Currency } from "../../../types/User/Cards/card";
 
-const GiveLoanComponent = () => {
+function GiveLoanComponent() {
   const [pageState, setPageState] = useState<{
     borrowAmount: number;
     isBorrowAmountActive: boolean;
@@ -71,6 +71,6 @@ const GiveLoanComponent = () => {
       </div>
     </div>
   );
-};
+}
 
 export default GiveLoanComponent;

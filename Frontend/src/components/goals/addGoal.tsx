@@ -3,21 +3,21 @@ import { HashLoader } from "react-spinners";
 import { Calendar, Radio } from "rsuite";
 import moment from "moment";
 import useJwtToken from "../../hooks/useJwtToken";
-import { createAim } from "../../pages/api/aimApi";
 import { Aim, AimType } from "../../types/User/goals/goals";
+import { createAim } from "../pages/api/aimApi";
 
 interface AddGoalProps {
   goal?: Aim;
   setRefresh: (e: string) => void;
 }
 
-const AddGoal: React.FC<AddGoalProps> = ({ goal, setRefresh }) => {
+function AddGoal({ goal, setRefresh }: AddGoalProps) {
   const [userChoices, setUserChoices] = useState<Aim>({
     aimType: AimType.daily,
     name: "",
     amount: 0,
     userId: "",
-    finishDate: new Date() as unknown as string,
+    finishDate: new Date(),
   });
 
   const { decodeToken } = useJwtToken();
@@ -73,11 +73,7 @@ const AddGoal: React.FC<AddGoalProps> = ({ goal, setRefresh }) => {
         <div className="flex flex-col gap-4">
           <div className="mt-5 flex flex-col">
             <span className="font-bold">Name your goal</span>
-            <input
-              type="text"
-              className="w-40 rounded-md"
-              onChange={(e) => handleUpdateName(e.target.value)}
-            />
+            <input type="text" className="w-40 rounded-md" onChange={(e) => handleUpdateName(e.target.value)} />
           </div>
           <div>
             <span className=" font-bold">What is your purpose</span>
@@ -88,9 +84,7 @@ const AddGoal: React.FC<AddGoalProps> = ({ goal, setRefresh }) => {
                 checked={userChoices.aimType === AimType.daily}
                 onChange={() => setAimType(AimType.daily)}
               >
-                <span>
-                  I want to spend no more than a certain amount per day
-                </span>
+                <span>I want to spend no more than a certain amount per day</span>
               </Radio>
               <Radio
                 id="react"
@@ -99,9 +93,7 @@ const AddGoal: React.FC<AddGoalProps> = ({ goal, setRefresh }) => {
                 checked={userChoices.aimType === AimType.saveToDate}
                 onChange={() => setAimType(AimType.saveToDate)}
               >
-                <span>
-                  I want to spend less than a certain amount by a certain date
-                </span>{" "}
+                <span>I want to spend less than a certain amount by a certain date</span>{" "}
               </Radio>
             </div>
           </div>
@@ -110,9 +102,7 @@ const AddGoal: React.FC<AddGoalProps> = ({ goal, setRefresh }) => {
             <input
               type="number"
               className="w-40 rounded-md"
-              onChange={(e) =>
-                handleUpdateAmount(Number(e.currentTarget.value))
-              }
+              onChange={(e) => handleUpdateAmount(Number(e.currentTarget.value))}
             />
           </div>
           <button
@@ -133,7 +123,7 @@ const AddGoal: React.FC<AddGoalProps> = ({ goal, setRefresh }) => {
               onChange={(value) =>
                 setUserChoices({
                   ...userChoices,
-                  finishDate: value as unknown as string,
+                  finishDate: value,
                 })
               }
             />
@@ -146,5 +136,5 @@ const AddGoal: React.FC<AddGoalProps> = ({ goal, setRefresh }) => {
       </div>
     </div>
   );
-};
+}
 export default AddGoal;

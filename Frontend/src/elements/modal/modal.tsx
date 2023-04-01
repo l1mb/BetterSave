@@ -9,10 +9,7 @@ interface props {
 
 const Modal: React.FC<props> = ({ setOpenModal, onSucc, children, title }) => (
   <div className="fixed inset-0 z-10 overflow-y-auto">
-    <div
-      className="fixed inset-0 h-full w-full bg-black opacity-40"
-      onClick={() => setOpenModal(false)}
-    />
+    <div className="fixed inset-0 h-full w-full bg-black opacity-40" onClick={() => setOpenModal(false)} />
     <div className="flex min-h-screen items-center px-4 py-8">
       <div className="relative mx-auto w-full max-w-lg rounded-md bg-white p-4 shadow-lg">
         <div className="mt-3 flex flex-col">

@@ -8,18 +8,9 @@ interface InputElementProps {
   required?: boolean;
 }
 
-const InputElement: React.FC<InputElementProps> = ({
-  htmlFor,
-  label,
-  type,
-  placeholder,
-  required,
-}) => (
+const InputElement: React.FC<InputElementProps> = ({ htmlFor, label, type, placeholder, required }) => (
   <div className="mb-2">
-    <label
-      htmlFor={htmlFor}
-      className="mb-2 block to-violet-800 text-sm font-medium dark:text-gray-300"
-    >
+    <label htmlFor={htmlFor} className="mb-2 block to-violet-800 text-sm font-medium dark:text-gray-300">
       {label}
     </label>
     <input

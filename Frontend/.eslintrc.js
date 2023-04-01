@@ -12,13 +12,7 @@ module.exports = {
       jsx: true,
     },
   },
-  extends: [
-    "eslint:recommended",
-    "airbnb",
-    "prettier",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:@next/next/recommended",
-  ],
+  extends: ["eslint:recommended", "airbnb", "prettier", "plugin:@typescript-eslint/recommended"],
   env: {
     es6: true,
     node: true,
@@ -27,20 +21,8 @@ module.exports = {
   globals: {
     DEV: true,
   },
-  plugins: [
-    "json",
-    "prettier",
-    "import",
-    "@typescript-eslint",
-    "unused-imports",
-  ],
+  plugins: ["json", "prettier", "import", "@typescript-eslint", "unused-imports"],
   rules: {
-    "no-param-reassign": [
-      "off",
-      {
-        props: false,
-      },
-    ],
     "@typescript-eslint/no-explicit-any": [
       "error",
       {
@@ -48,26 +30,9 @@ module.exports = {
         ignoreRestArgs: false,
       },
     ],
-    "react/require-default-props": "off",
     "@typescript-eslint/no-shadow": ["error"],
     "@typescript-eslint/no-use-before-define": "error",
 
-    "jsx-a11y/label-has-associated-control": [
-      "error",
-      {
-        required: {
-          some: ["nesting", "id"],
-        },
-      },
-    ],
-    "jsx-a11y/label-has-for": [
-      "error",
-      {
-        required: {
-          some: ["nesting", "id"],
-        },
-      },
-    ],
     "react/jsx-filename-extension": ["error", { extensions: [".tsx"] }],
     "react/destructuring-assignment": 0,
     // "react/jsx-max-props-per-line": [1, { maximum: 1 }], //it doesn't work with prettier, you can remove prettier from rules: 'prettier/prettier'...
@@ -77,22 +42,14 @@ module.exports = {
     "react/react-in-jsx-scope": 0,
     "react/jsx-props-no-spreading": 0,
     "react/jsx-curly-newline": 0, // it conflicts with prettier
-    "react/jsx-wrap-multilines": [
-      "error",
-      { arrow: true, return: true, declaration: true },
-    ],
-    "react/function-component-definition": [
-      2,
-      { namedComponents: "arrow-function" },
-    ],
-    "prettier/prettier": [
-      "error",
-      {
-        endOfLine: "auto",
-      },
-    ],
+    "react/jsx-wrap-multilines": ["error", { arrow: true, return: true, declaration: true }],
+    "react/function-component-definition": [2, { namedComponents: "function-declaration" }],
+
+    "prettier/prettier": ["error"],
+
     "no-shadow": "off",
     "no-use-before-define": "off",
+    "import/no-extraneous-dependencies": "off",
     "require-await": "error",
     "spaced-comment": ["error", "always"],
     "unused-imports/no-unused-imports": "error",

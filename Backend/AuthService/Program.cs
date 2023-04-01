@@ -18,6 +18,9 @@ using AuthServiceApp.WEB.StartUp.Configuration;
 using Microsoft.AspNetCore.Identity;
 using AuthServiceApp.DAL.Entities;
 
+Console.WriteLine("fuck");
+Console.WriteLine(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")??"Pasasi");
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog();
 
@@ -67,7 +70,6 @@ using (var scope = scopeFactory.CreateScope())
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
     SeedExtensions.SeedUsers(userManager, roleManager);
 }
-
 app.UseRouting();
 app.RegisterExceptionHandler(Log.Logger);
 app.UseSerilogRequestLogging();
@@ -85,13 +87,22 @@ app.MapControllers();
 app.UseHttpsRedirection();
 app.Run();
 
-static AppSettings RegisterSettings(IConfiguration configuration) =>
-    new()
+static AppSettings RegisterSettings(IConfiguration configuration)
+{
+    Console.WriteLine(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"));
+    var conf = new ConfigurationBuilder()
+        .AddJsonFile("appsettings.json")
+        .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ??"Development"}.json", optional: true)
+        .AddEnvironmentVariables()
+        .Build();
+
+    return new()
     {
-        Database = configuration.GetSection(nameof(AppSettings.Database)).Get<DatabaseSettings>(),
-        Token = configuration.GetSection(nameof(AppSettings.Token)).Get<TokenSettings>(),
-        SmtpClientSettings = configuration.GetSection(nameof(AppSettings.SmtpClientSettings))
+        Database = conf.GetSection(nameof(AppSettings.Database)).Get<DatabaseSettings>(),
+        Token = conf.GetSection(nameof(AppSettings.Token)).Get<TokenSettings>(),
+        SmtpClientSettings = conf.GetSection(nameof(AppSettings.SmtpClientSettings))
             .Get<SmtpClientSettings>(),
-        GoogleAuthSettings = configuration.GetSection(nameof(AppSettings.GoogleAuthSettings))
+        GoogleAuthSettings = conf.GetSection(nameof(AppSettings.GoogleAuthSettings))
             .Get<GoogleAuthSettings>()
     };
+}

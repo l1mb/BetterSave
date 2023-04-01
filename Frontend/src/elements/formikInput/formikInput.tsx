@@ -12,10 +12,7 @@ interface FormikInputProps {
 
 const FormikInput: React.FC<FormikInputProps> = (props) => (
   <div>
-    <label
-      htmlFor={props.htmlFor}
-      className="text-sm font-medium text-violet-800"
-    >
+    <label htmlFor={props.htmlFor} className="text-sm font-medium text-violet-800">
       {props.label}
       <Field
         name={props.htmlFor}
@@ -31,11 +28,7 @@ const FormikInput: React.FC<FormikInputProps> = (props) => (
                 focus:border-violet-500 focus:outline-none focus:ring-violet-500 "
       />
     </label>
-    <div
-      className={`h-5    text-sm text-red-600 transition duration-500 ${
-        props.error ? "opacity-100" : "opacity-0"
-      }`}
-    >
+    <div className={`h-5    text-sm text-red-600 transition duration-500 ${props.error ? "opacity-100" : "opacity-0"}`}>
       <ErrorMessage name={props.htmlFor} className="" />
     </div>
   </div>

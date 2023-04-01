@@ -6,6 +6,7 @@ EXPOSE 80
 EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+ENV ASPNETCORE_ENVIRONMENT="Docker"
 WORKDIR /src
 COPY ["AuthService/AuthService.csproj", "AuthService/"]
 RUN dotnet restore "AuthService/AuthService.csproj"
