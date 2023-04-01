@@ -1,9 +1,10 @@
 import { BaseProps } from "@/types/props/defaultProps";
 import checkSwitchStatementDefaultCase from "@/utils/switchCheck";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DatePicker from "./datePicker/datePicker";
 import OperationList from "./operationList/operationList";
 import OperationType, { OperaionTypeProps } from "./operationType/operationType";
+import styles from "./styles.module.scss";
 
 type OperationProps = BaseProps;
 type OperationType = "income" | "outcome" | "balance";
@@ -50,7 +51,7 @@ function Operations({}: OperationProps) {
       value: 98,
     },
   ];
-  const [arr, setArr] = useState(incomeArr);
+  const [arr, setArr] = useState(outcomeArr.reverse());
 
   // dates
   const [date, setDate] = useState(new Date());
@@ -75,9 +76,15 @@ function Operations({}: OperationProps) {
     if (operationType === "income") {
       setArr(incomeArr);
     } else {
-      setArr(outcomeArr);
+      setArr(outcomeArr.reverse());
     }
   }
+
+  useEffect(() => {
+    console.log(operationType);
+    getOpeartionArray();
+    console.log(operationType);
+  }, [operationType]);
 
   function getOperationName(type: OperationType) {
     switch (type) {
@@ -91,6 +98,13 @@ function Operations({}: OperationProps) {
         checkSwitchStatementDefaultCase(type);
         return "";
     }
+  }
+
+  function selectActiveIncome() {
+    setOperationType("income");
+  }
+  function selectActiveOutcome() {
+    setOperationType("outcome");
   }
 
   const headerLine: OperaionTypeProps[] = [
@@ -127,7 +141,24 @@ function Operations({}: OperationProps) {
         />
       </div>
       <div className="my-16 flex flex-col items-center justify-center">
-        <span>Сейчас отображаются: {getOperationName(operationType)}</span>
+        <span>
+          Сейчас отображаются:{" "}
+          <span className={`${styles.operationDropdown}`}>
+            <span className="font-bold">{getOperationName(operationType)}</span>
+            <div className="rounded px-2 py-1 shadow">
+              {operationType === "income" && (
+                <button type="button" onClick={selectActiveOutcome}>
+                  Расходы
+                </button>
+              )}
+              {operationType === "outcome" && (
+                <button type="button" onClick={selectActiveIncome}>
+                  Доходы
+                </button>
+              )}
+            </div>
+          </span>
+        </span>
         <OperationList list={arr} />
       </div>
     </div>
