@@ -1,7 +1,8 @@
 import { BaseProps } from "@/types/props/defaultProps";
-import React, { useEffect, useState } from "react";
+import checkSwitchStatementDefaultCase from "@/utils/switchCheck";
+import React, { useState } from "react";
 import DatePicker from "./datePicker/datePicker";
-import OperaionType, { OperaionTypeProps } from "./operationType/operationType";
+import OperationType, { OperaionTypeProps } from "./operationType/operationType";
 
 type OperationProps = BaseProps;
 type OperationType = "income" | "outcome" | "balance";
@@ -11,6 +12,7 @@ function Operations({}: OperationProps) {
 
   // dates
   const [date, setDate] = useState(new Date());
+
   const handleIncrement = () => {
     setDate((prevState) => {
       const t = prevState;
@@ -26,9 +28,19 @@ function Operations({}: OperationProps) {
     });
   };
 
-  useEffect(() => {
-    console.log(date);
-  }, [date]);
+  function getOperationName(type: OperationType) {
+    switch (type) {
+      case "income":
+        return "Доходы";
+      case "outcome":
+        return "Расходы";
+      case "balance":
+        return "Баланс";
+      default:
+        checkSwitchStatementDefaultCase(type);
+        return "";
+    }
+  }
 
   const headerLine: OperaionTypeProps[] = [
     {
@@ -45,12 +57,12 @@ function Operations({}: OperationProps) {
     },
   ];
   return (
-    <div className="mx-auto my-24 flex w-[566px] flex-col">
+    <div className="mx-auto flex h-screen w-[566px]  flex-col py-24">
       {/* Header line */}
       <div className=" flex justify-evenly gap-4">
         {headerLine.map((x, index) => (
           <>
-            <OperaionType label={x.label} onSelect={x.onSelect} />
+            <OperationType label={x.label} onSelect={x.onSelect} />
             {index !== headerLine.length - 1 && <span className="w-[1px] rounded bg-gray-700" />}
           </>
         ))}
@@ -63,7 +75,9 @@ function Operations({}: OperationProps) {
           handleDecrement={handleDecrement}
         />
       </div>
-      <div className="my-16 flex justify-center">Current type is {operationType}</div>
+      <div className="my-16 flex justify-center">
+        <span>Сейчас отображаются: {getOperationName(operationType)}</span>
+      </div>
     </div>
   );
 }

@@ -21,8 +21,8 @@ function Sidebar({ isOpened }: SidebarProps) {
 
   return (
     <div
-      className={`flex w-full  flex-col gap-2 border-violet-800 shadow-2xl transition-all ${
-        isOpened ? "max-w-[164px]" : "max-w-0"
+      className={`flex flex-col gap-2 border-violet-800 shadow-2xl transition-all ${
+        isOpened ? "w-[164px] scale-x-100" : "w-0 scale-x-0"
       } overflow-hidden`}
     >
       <div className="flex h-full flex-col justify-between">
@@ -36,10 +36,10 @@ function Sidebar({ isOpened }: SidebarProps) {
           ))}
         </div>
 
-        <div className="flex flex-col justify-start gap-1 rounded align-baseline">
+        <div className="my-10 flex flex-col justify-start gap-1 rounded align-baseline">
           <button
             type="button"
-            className="mx-5 rounded  border-2 border-gray-900 bg-gray-900 px-2 py-2 text-start text-violet-50 transition-colors hover:bg-white hover:text-gray-900 "
+            className="mx-5 rounded  border border-violet-700 bg-gray-50 px-2 py-2 text-start text-violet-700 transition-colors hover:bg-white hover:text-gray-900 "
             onClick={() => logoutHandler()}
           >
             Logout
