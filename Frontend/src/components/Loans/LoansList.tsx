@@ -70,7 +70,7 @@ function LoansList() {
                         <button
                           onClick={() => handleDelete(item.id)}
                           type="button"
-                          className="mx-2 rounded p-1 transition hover:bg-violet-100 "
+                          className="mx-2 rounded p-1 transition hover:bg-indigo-100 "
                         >
                           Delete
                         </button>

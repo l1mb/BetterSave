@@ -68,7 +68,7 @@ function Login() {
         <div className={`${styles.login_wrapper} flex w-full `}>
           <div className="h-vh flex w-4/12  items-center justify-center">
             <div className="w-full">
-              <div className="m-auto flex w-8/12 flex-col gap-1  text-2xl font-bold text-violet-600">
+              <div className="m-auto flex w-8/12 flex-col gap-1  text-2xl font-bold text-indigo-600">
                 <img src={BetterSaveLogo} alt="Logo" />
                 <CoolLine />
               </div>
@@ -100,8 +100,8 @@ function Login() {
                 {error && <span className="text-sm text-red-600">{error}</span>}
                 <button
                   type="submit"
-                  className={` mt-6 rounded-md border border-purple-200 bg-violet-50 py-2 font-semibold text-violet-700 transition  duration-150 ease-in-out
-                  hover:border-violet-800 hover:bg-violet-700 hover:text-violet-50
+                  className={` mt-6 rounded-md border border-purple-200 bg-indigo-50 py-2 font-semibold text-indigo-700 transition  duration-150 ease-in-out
+                  hover:border-indigo-800 hover:bg-indigo-700 hover:text-indigo-50
                   `}
                 >
                   {!loading ? (
@@ -111,7 +111,7 @@ function Login() {
                       <HashLoader
                         loading={loading}
                         size={30}
-                        color={colors["violet-600"]}
+                        color={colors["indigo-600"]}
                         aria-label="Loading Spinner"
                         data-testid="loader"
                       />
@@ -119,10 +119,10 @@ function Login() {
                   )}
                 </button>
 
-                <span className=" text-right text-xs text-violet-800">
+                <span className=" text-right text-xs text-indigo-800">
                   Or you may want to{" "}
                   <Link to="/register">
-                    <span className="cursor-pointer text-violet-600">register</span>
+                    <span className="cursor-pointer text-indigo-600">register</span>
                   </Link>{" "}
                   instead
                 </span>

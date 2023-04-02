@@ -61,7 +61,7 @@ function Layout({ children }: LayoutProps) {
           {children}
           {isOpened === false && authState.authStatus === "authenticated" && !fullHeightLayout && (
             <button
-              className="fixed  bottom-4 left-4 flex h-9 w-9 items-center justify-center rounded-full bg-transparent transition-all hover:rotate-90  hover:bg-violet-500 "
+              className="fixed  bottom-4 left-4 flex h-9 w-9 items-center justify-center rounded-full bg-transparent transition-all hover:rotate-90  hover:bg-indigo-500 "
               type="button"
               onClick={() => setIsOpened((prevState) => !prevState)}
             >

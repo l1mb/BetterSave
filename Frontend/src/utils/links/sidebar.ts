@@ -25,6 +25,10 @@ const sidebarLinks: links[] = [
     label: "Бюджет",
     link: "/budget",
   },
+  {
+    label: "Разбивка",
+    link: "/split",
+  },
 ];
 
 export default sidebarLinks;

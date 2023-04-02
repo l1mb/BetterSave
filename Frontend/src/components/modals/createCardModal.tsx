@@ -72,17 +72,17 @@ const CreateCardModal: React.FC<CreateCardModal> = ({ setIsOpen }) => {
                 type="number"
                 value={cardModel?.cardNumber}
                 onInput={(val) => updateModel(val.currentTarget.value, "cardNumber")}
-                className="  
+                className="
                 block
-                w-full rounded-md border border-gray-300 bg-violet-50 p-2.5 text-sm text-gray-900 transition-all 
-                placeholder:font-light 
-                focus:border-violet-500 focus:outline-none focus:ring-violet-500 "
+                w-full rounded-md border border-gray-300 bg-indigo-50 p-2.5 text-sm text-gray-900 transition-all
+                placeholder:font-light
+                focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 "
               />
             </div>
             <div className="relative w-28">
               <select
                 value={cardModel?.currency}
-                className="block w-full appearance-none rounded border  bg-violet-200 py-3 px-4 pr-8 leading-tight text-violet-700 focus:border-violet-500 focus:bg-white focus:outline-none"
+                className="block w-full appearance-none rounded border  bg-indigo-200 py-3 px-4 pr-8 leading-tight text-indigo-700 focus:border-indigo-500 focus:bg-white focus:outline-none"
                 onChange={(val) => updateModel(val.currentTarget.value, "currency")}
                 id="grid-state"
               >
@@ -105,10 +105,10 @@ const CreateCardModal: React.FC<CreateCardModal> = ({ setIsOpen }) => {
                 <input
                   type="text"
                   value={cardModel?.name}
-                  className="  
-                placeholder:font-lightfocus:border-violet-500
-                block w-full rounded-md border border-gray-300 bg-violet-50 p-2.5 text-sm text-gray-900 
-                transition-all focus:outline-none focus:ring-violet-500 "
+                  className="
+                placeholder:font-lightfocus:border-indigo-500
+                block w-full rounded-md border border-gray-300 bg-indigo-50 p-2.5 text-sm text-gray-900
+                transition-all focus:outline-none focus:ring-indigo-500 "
                   onInput={(val) => updateModel(val.currentTarget.value, "name")}
                 />
               </div>
@@ -117,10 +117,10 @@ const CreateCardModal: React.FC<CreateCardModal> = ({ setIsOpen }) => {
                 <input
                   type="number"
                   value={cardModel?.balance}
-                  className="  
-                placeholder:font-lightfocus:border-violet-500
-                block w-full rounded-md border border-gray-300 bg-violet-50 p-2.5 text-sm text-gray-900 
-                transition-all focus:outline-none focus:ring-violet-500 "
+                  className="
+                placeholder:font-lightfocus:border-indigo-500
+                block w-full rounded-md border border-gray-300 bg-indigo-50 p-2.5 text-sm text-gray-900
+                transition-all focus:outline-none focus:ring-indigo-500 "
                   onInput={(val) => updateModel(val.currentTarget.value, "balance")}
                 />
               </div>

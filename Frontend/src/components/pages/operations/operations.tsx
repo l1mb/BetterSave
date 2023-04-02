@@ -72,6 +72,9 @@ function Operations({}: OperationProps) {
     });
   };
 
+  // income amount
+  // outcome amount
+
   function getOpeartionArray() {
     if (operationType === "income") {
       setArr(incomeArr);

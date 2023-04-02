@@ -52,7 +52,7 @@ function GiveLoanComponent() {
         ) : (
           <input
             type="number"
-            className="mx-1 w-28 rounded-lg border border-violet-50 bg-transparent px-2 py-1 outline-none"
+            className="mx-1 w-28 rounded-lg border border-indigo-50 bg-transparent px-2 py-1 outline-none"
             onBlur={handleFocusOver}
             value={pageState.borrowAmount}
             onInput={handleUpdateBorrowed}
@@ -60,7 +60,7 @@ function GiveLoanComponent() {
         )}{" "}
         <select
           value={pageState?.currency}
-          className="flex   appearance-none rounded border bg-violet-200  pr-8 leading-tight text-violet-700 focus:border-violet-500 focus:bg-white focus:outline-none"
+          className="flex   appearance-none rounded border bg-indigo-200  pr-8 leading-tight text-indigo-700 focus:border-indigo-500 focus:bg-white focus:outline-none"
           onChange={(val) => handleUpdateCurrency(val)}
           id="grid-state"
         >

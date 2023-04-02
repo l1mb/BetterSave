@@ -1,4 +1,4 @@
-$violet: #0070f3;
+$indigo: #0070f3;
 $border: #222;
 @import "../styles/variables.module.scss";
 
@@ -13,6 +13,7 @@ $border: #222;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
+
   & > div {
     flex: 0 0 42%;
   }
@@ -41,6 +42,7 @@ $border: #222;
     justify-content: center;
     text-align: center;
     position: relative;
+
     img {
       border-radius: 20px 0 0 20px;
     }
@@ -54,6 +56,7 @@ $border: #222;
   border: 1px solid #222;
   border-radius: 8px;
   padding: 16px 18px;
+
   &:active,
   &:hover {
     color: #0070f3;

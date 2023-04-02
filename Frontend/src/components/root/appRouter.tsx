@@ -10,6 +10,7 @@ import NotFound from "../pages/notFound";
 import Operations from "../pages/operations/operations";
 import Register from "../pages/register";
 import Stats from "../pages/stats";
+import Split from "../pages/split/split";
 
 function AppRouter() {
   return (
@@ -25,6 +26,7 @@ function AppRouter() {
           <Route path="/stats" element={<Stats />} />
           <Route path="/budget" element={<Stats />} />
           <Route path="/operations" element={<Operations />} />
+          <Route path="/split" element={<Split />} />
           <Route path="/settings" element={<Stats />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
