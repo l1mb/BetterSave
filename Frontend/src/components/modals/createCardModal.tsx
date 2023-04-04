@@ -10,7 +10,7 @@ interface CreateCardModal {
   setIsOpen: (e: boolean) => void;
 }
 
-const CreateCardModal: React.FC<CreateCardModal> = ({ setIsOpen }) => {
+function CreateCardModal({ setIsOpen }: CreateCardModal) {
   const [cardModel, setCardModel] = useState<Partial<Card>>({
     balance: 0,
     cardNumber: "",
@@ -130,6 +130,6 @@ const CreateCardModal: React.FC<CreateCardModal> = ({ setIsOpen }) => {
       </Modal>
     </div>
   );
-};
+}
 
 export default CreateCardModal;

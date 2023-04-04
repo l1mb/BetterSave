@@ -8,7 +8,7 @@ interface HintProps extends BaseProps {
 function Hint({ message }: HintProps) {
   return (
     <div className="bg-viol flex items-center justify-center gap-4 rounded-lg bg-indigo-50 px-3 py-2">
-      <span className="text-5xl">!</span>
+      <span className="text-5xl text-indigo-700">!</span>
       <span className="font-bold">{message}</span>
     </div>
   );

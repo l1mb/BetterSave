@@ -18,9 +18,6 @@ using AuthServiceApp.WEB.StartUp.Configuration;
 using Microsoft.AspNetCore.Identity;
 using AuthServiceApp.DAL.Entities;
 
-Console.WriteLine("fuck");
-Console.WriteLine(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")??"Pasasi");
-
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog();
 
