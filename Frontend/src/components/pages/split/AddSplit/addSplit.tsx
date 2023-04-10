@@ -9,6 +9,7 @@ type Person = {
 function AddSplit() {
   const [people, setPeople] = useState<Person[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [isSpendingOpen, setIsSpendingOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const [editableUser, setEditableUser] = useState<Person>();
@@ -46,15 +47,26 @@ function AddSplit() {
     setEditableUser({ name: value });
   };
 
+  const openAddSpending = () => {
+    setIsSpendingOpen(true);
+  };
+  const handleCloseSpending = () => {
+    setIsSpendingOpen(false);
+  };
+
   return (
     <div className="flex flex-col items-center justify-center">
       <Header>
-        <span
-          className="font-bold
+        {people.length > 0 ? (
+          <span className="font-bold ">Участники</span>
+        ) : (
+          <span
+            className="font-bold
         "
-        >
-          Участники
-        </span>
+          >
+            Участников пока нет
+          </span>
+        )}
       </Header>
       <div className="my-4 flex gap-2">
         {people.map((x, index: number) => (
@@ -83,9 +95,35 @@ function AddSplit() {
           <Input placeholder="Например, Артем" onChange={updateUserName} />
         </div>
       </ModalWrapper>
-      <Button appearance="primary" onClick={openAddUserModal}>
-        Добавить участника
-      </Button>
+
+      <ModalWrapper
+        size="xs"
+        open={isSpendingOpen}
+        backdrop="static"
+        handleClose={handleCloseSpending}
+        handleProceed={handleAddUser}
+        title="Расходы"
+        cancelLabel="Назад"
+        okLabel="Добавить"
+      >
+        <div className=" p-1">
+          <div className="flex flex-col items-center justify-center gap-3">
+            <h2>Сумма</h2>
+            <div className="w-1/2">
+              <Input className="w-1/2" placeholder="15,99" type="number" onChange={updateUserName} />
+            </div>
+          </div>
+        </div>
+      </ModalWrapper>
+
+      <div className="flex gap-2">
+        <Button appearance="primary" onClick={openAddUserModal}>
+          Добавить участника
+        </Button>
+        <Button appearance="primary" onClick={openAddSpending}>
+          Добавить трату
+        </Button>
+      </div>
     </div>
   );
 }

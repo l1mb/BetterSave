@@ -1,0 +1,36 @@
+﻿.swagger-ui {
+}
+
+div.topbar {
+  background-color: #4338ca !important;
+}
+
+h2,
+h3 {
+  color: #4338ca !important;
+}
+
+.swagger-ui .opblock span .nostyle {
+  color: #3730a3 !important;
+}
+.swagger-ui .opblock.opblock-get {
+  background: rgba(37, 99, 235, 0.03);
+}
+.opblock-summary-get > button > span.opblock-summary-method {
+  background-color: #60a5fa !important;
+}
+
+.swagger-ui .opblock.opblock-post {
+  background: rgba(247, 254, 231, 0.3);
+}
+.opblock-summary-post > button > span.opblock-summary-method {
+  background-color: #a3e635 !important;
+}
+
+.opblock-summary-delete > button > span.opblock-summary-method {
+  background-color: #cc231e !important;
+}
+
+.swagger-ui .topbar .download-url-wrapper .select-label select {
+  border: 2px solid #3d3d3d;
+}

@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AuthServiceApp.WEB.Controllers
 {
     [ApiController]
+    [Route("api/user")]
     public class UserController : ControllerBase
     {
         private readonly AppSettings _appSettings;
@@ -22,7 +23,7 @@ namespace AuthServiceApp.WEB.Controllers
             this._userService = userService;
             this._appSettings = appSettings;
         }
-        [HttpGet("api/user")]
+        [HttpGet]
         [Authorize]
         public async Task<ActionResult<UserDto>> GetInfoAboutUser()
         {
@@ -42,7 +43,7 @@ namespace AuthServiceApp.WEB.Controllers
             return NoContent();
         }
 
-        [HttpPatch("api/user")]
+        [HttpPatch]
         [Authorize]
         public async Task<ActionResult> PatchUser([FromBody] JsonPatchDocument<ApplicationUser> patchDoc)
         {
@@ -52,7 +53,7 @@ namespace AuthServiceApp.WEB.Controllers
             return NoContent();
         }
 
-        [HttpDelete("api/user")]
+        [HttpDelete]
         [Authorize]
         public async Task<ActionResult> PatchUser()
         {

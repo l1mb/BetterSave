@@ -1,5 +1,6 @@
 ﻿using AuthServiceApp.DAL.Configuration;
 using AuthServiceApp.DAL.Entities;
+using AuthServiceApp.DAL.Entities.Categories;
 using AuthServiceApp.DAL.Interfaces;
 using AuthServiceApp.DAL.Repo.Card;
 using Microsoft.AspNetCore.Identity;
@@ -29,6 +30,9 @@ namespace AuthServiceApp.DAL.Models
         public DbSet<AimEntity> AimEntities { get; set; }
         public DbSet<AimTypeEntity> AimTypeEntities { get; set; }
         public DbSet<res> CategoryInfo { get; set; }
+        public DbSet<CategoryEntity> Categories { get; set; }
+        public DbSet<SubCategoryEntity> SubCategories { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
             Database.Migrate();

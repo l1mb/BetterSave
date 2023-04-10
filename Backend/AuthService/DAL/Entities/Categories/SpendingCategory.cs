@@ -1,4 +1,6 @@
-﻿namespace AuthServiceApp.DAL.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace AuthServiceApp.DAL.Entities.Categories
 {
     public class SpendingCategory : BaseEntity
     {

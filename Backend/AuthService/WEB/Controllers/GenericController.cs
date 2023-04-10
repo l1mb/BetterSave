@@ -7,8 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace AuthServiceApp.WEB.Controllers
 {
 
-    public class GenericController<T> : ControllerBase where T : class
+    public class GenericController: ControllerBase
     {
+        [HttpGet]
         protected string GetUserId()
         {
             return ClaimHelper.GetUserId(this.User);

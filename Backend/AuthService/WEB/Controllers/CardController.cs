@@ -9,7 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace AuthServiceApp.WEB.Controllers
 {
     [ApiController]
-    public class CardController : GenericController<CardEntity>
+    [Route("api/card")]
+    public class CardController : GenericController
     {
         private readonly ICardService _cardService;
         private readonly ISpendingRepository _spendingRepository;
@@ -18,7 +19,7 @@ namespace AuthServiceApp.WEB.Controllers
             _cardService = cardService;
         }
 
-        [HttpPost("/api/card")]
+        [HttpPost]
         public async Task<ActionResult> CreateCard(CardDto cardDto)
         {
             var res = await _cardService.CreateCard(cardDto);
@@ -26,7 +27,7 @@ namespace AuthServiceApp.WEB.Controllers
             return Created(Url.ActionLink(), res);
         }
 
-        [HttpGet("/api/card/my")]
+        [HttpGet("my")]
         [Authorize]
         public async Task<ActionResult<List<CardDto>>> GetCards()
         {
@@ -35,7 +36,7 @@ namespace AuthServiceApp.WEB.Controllers
             return res;
         }
 
-        [HttpGet("/api/card")]
+        [HttpGet]
         public async Task<ActionResult<List<CardDto>>> GetCards(Guid userId)
         {
             var res = await _cardService.GetCardsByUserId(userId.ToString());
@@ -43,7 +44,7 @@ namespace AuthServiceApp.WEB.Controllers
             return res;
         }
 
-        [HttpGet("/api/card/{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<CardDto>> GetCard(Guid id)
         {
             var res = await _cardService.GetCardById(id);
@@ -51,7 +52,7 @@ namespace AuthServiceApp.WEB.Controllers
             return res;
         }
 
-        [HttpPut("/api/card")]
+        [HttpPut]
         public async Task<ActionResult<CardDto>> UpdateCard(CardUpdateDto updateDto)
         {
             var res = await _cardService.UpdateCard(updateDto);
@@ -59,7 +60,7 @@ namespace AuthServiceApp.WEB.Controllers
             return res;
         }
 
-        [HttpDelete("/api/card/{id}")]
+        [HttpDelete("{id}")]
         public async Task<ActionResult<CardEntity>> DeleteCard(Guid id)
         {
 

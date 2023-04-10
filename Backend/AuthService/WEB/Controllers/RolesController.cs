@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AuthServiceApp.WEB.Controllers
 {
-    [Route("api/roles/")]
     [ApiController]
+    [Route("api/roles")]
     public class RolesController : ControllerBase
     {
         private readonly IRoleService roleService;

@@ -1,4 +1,6 @@
-﻿namespace AuthServiceApp.DAL.Entities
+﻿using AuthServiceApp.DAL.Entities.Categories;
+
+namespace AuthServiceApp.DAL.Entities
 {
     public class ShopPosition
     {
