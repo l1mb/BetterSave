@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { HashLoader } from "react-spinners";
 import { Calendar, Radio } from "rsuite";
 import moment from "moment";
+import { createAim } from "@/api/aimApi";
 import useJwtToken from "../../hooks/useJwtToken";
 import { Aim, AimType } from "../../types/User/goals/goals";
-import { createAim } from "../pages/api/aimApi";
 
 interface AddGoalProps {
   goal?: Aim;

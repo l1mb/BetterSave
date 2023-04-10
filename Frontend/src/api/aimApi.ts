@@ -1,4 +1,4 @@
-import { Aim } from "../../components/goals/addGoal";
+import { Aim } from "@/types/User/goals/goals";
 import { apiDelete, apiGet, apiPost } from "./api";
 import routes from "./routes";
 

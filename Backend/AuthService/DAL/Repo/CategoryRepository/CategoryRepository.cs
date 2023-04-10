@@ -17,7 +17,7 @@ public class CategoryRepository : BaseRepository<CategoryEntity>, ICategoryRepos
     {
         try
         {
-            var items = await Entity.Include(x => x.SubCategories).Where(expression).ToListAsync();
+            var items = await Entity.Include(x => x.Subcategories).Where(expression).ToListAsync();
             return items;
         }
         catch (Exception e)

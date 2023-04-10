@@ -112,6 +112,9 @@ function AddSplit() {
             <div className="w-1/2">
               <Input className="w-1/2" placeholder="15,99" type="number" onChange={updateUserName} />
             </div>
+            <div>
+              <h3>Выберите категорию</h3>
+            </div>
           </div>
         </div>
       </ModalWrapper>

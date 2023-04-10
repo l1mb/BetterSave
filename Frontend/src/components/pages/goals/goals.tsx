@@ -1,9 +1,9 @@
 import useJwtToken from "@/hooks/useJwtToken";
 import { Aim } from "@/types/User/goals/goals";
 import React, { useEffect, useState } from "react";
+import { getUserAims } from "@/api/aimApi";
 import AddGoal from "../../goals/addGoal";
 import GoalList from "../../goals/goalList";
-import { getUserAims } from "../api/aimApi";
 import styles from "./loans.module.scss";
 
 enum SelectedSubPage {

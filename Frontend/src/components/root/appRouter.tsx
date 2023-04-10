@@ -11,6 +11,7 @@ import Operations from "../pages/operations/operations";
 import Register from "../pages/register";
 import Stats from "../pages/stats";
 import Split from "../pages/split/split";
+import Categories from "../pages/categories/categories";
 
 function AppRouter() {
   return (
@@ -26,6 +27,7 @@ function AppRouter() {
           <Route path="/stats" element={<Stats />} />
           <Route path="/budget" element={<Stats />} />
           <Route path="/operations" element={<Operations />} />
+          <Route path="/categories" element={<Categories />} />
           <Route path="/split" element={<Split />} />
           <Route path="/settings" element={<Stats />} />
           <Route path="*" element={<NotFound />} />

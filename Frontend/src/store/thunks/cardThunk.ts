@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getCards, createCard, deleteCard, updateCard } from "@/components/pages/api/cardsApi";
-import { StatusCodes } from "@/components/pages/api/codes";
+import { getCards, createCard, deleteCard, updateCard } from "@/api/cardsApi";
+import { StatusCodes } from "@/api/codes";
 import { Card } from "../../types/User/Cards/card";
 import useJwtToken from "../../hooks/useJwtToken";
 

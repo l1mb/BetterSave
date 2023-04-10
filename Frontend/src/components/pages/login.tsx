@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import BetterSaveLogo from "images/logos/BetterSaveLogo.svg";
 import { Link, useNavigate } from "react-router-dom";
 import mountain from "images/backgrounds/mountain-04.jpg";
+import authApi from "@/api/auth/authApi";
 import styles from "../../styles/login.module.scss";
 import CoolLine from "../../elements/coolLine/coolLine";
 import FormikInput from "../../elements/formikInput/formikInput";
@@ -14,7 +15,6 @@ import colors from "../../styles/colors";
 import loginThunk from "../../store/thunks/auth/authThunks";
 import { AppDispatch, RootState } from "../../store/store";
 import { AuthState } from "../../store/slices/authSlice";
-import authApi from "./api/auth/authApi";
 
 function Login() {
   const navigate = useNavigate();

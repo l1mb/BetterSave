@@ -9,10 +9,10 @@ import CoolLine from "@/elements/coolLine/coolLine";
 import FormikInput from "@/elements/formikInput/formikInput";
 import ErrorDto from "@/types/auth/errorDto";
 import signUpDto from "@/types/auth/signUpDto";
-import { StatusCodes } from "./api/codes";
+import authApi from "@/api/auth/authApi";
+import { StatusCodes } from "@/api/codes";
 import colors from "../../styles/colors";
 import styles from "../../styles/login.module.scss";
-import authApi from "./api/auth/authApi";
 
 function Register() {
   const [loading, setLoading] = useState(false);

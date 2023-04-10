@@ -3,10 +3,10 @@ import React, { useState } from "react";
 import { HashLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import { Radio, Calendar } from "rsuite";
+import loans from "@/api/loans/loans";
 import useJwtToken from "../../hooks/useJwtToken";
 import { Currency } from "../../types/User/Cards/card";
 import { Loan } from "../../types/User/loans/loans";
-import loanApi from "../pages/api/loans/loans";
 
 function AddLoans() {
   const [resMessage, setResMessage] = useState("");
@@ -42,7 +42,7 @@ function AddLoans() {
       };
 
       setLoading(true);
-      const res = await loanApi.createLoan(dto);
+      const res = await loans.createLoan(dto);
 
       const message = await res.json();
       toast.success("Выполнено успешно");

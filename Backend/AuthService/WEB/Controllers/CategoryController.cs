@@ -6,11 +6,11 @@ namespace AuthServiceApp.WEB.Controllers;
 
 [ApiController]
 [Route("api/[controller]/[action]")]
-public class CategoriesController : GenericController
+public class CategoryController : GenericController
 {
     private readonly ICategoryService _categoryService;
 
-    public CategoriesController(ICategoryService categoryService)
+    public CategoryController(ICategoryService categoryService)
     {
         _categoryService = categoryService;
     }

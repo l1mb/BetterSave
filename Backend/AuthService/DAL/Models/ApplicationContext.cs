@@ -31,7 +31,7 @@ namespace AuthServiceApp.DAL.Models
         public DbSet<AimTypeEntity> AimTypeEntities { get; set; }
         public DbSet<res> CategoryInfo { get; set; }
         public DbSet<CategoryEntity> Categories { get; set; }
-        public DbSet<SubCategoryEntity> SubCategories { get; set; }
+        public DbSet<SubCategoryEntity> Subcategories { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {

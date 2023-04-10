@@ -632,7 +632,7 @@ namespace AuthServiceApp.Migrations
             modelBuilder.Entity("AuthServiceApp.DAL.Entities.Categories.SubCategoryEntity", b =>
                 {
                     b.HasOne("AuthServiceApp.DAL.Entities.Categories.CategoryEntity", "Category")
-                        .WithMany("SubCategories")
+                        .WithMany("Subcategories")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -782,7 +782,7 @@ namespace AuthServiceApp.Migrations
 
             modelBuilder.Entity("AuthServiceApp.DAL.Entities.Categories.CategoryEntity", b =>
                 {
-                    b.Navigation("SubCategories");
+                    b.Navigation("Subcategories");
                 });
 
             modelBuilder.Entity("AuthServiceApp.DAL.Entities.Categories.SpendingCategory", b =>
