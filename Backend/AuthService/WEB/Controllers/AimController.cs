@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AuthServiceApp.WEB.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    public class AimController : GenericController<AimEntity>
+    [Route("api/aim")]
+    public class AimController : GenericController
     {
         private readonly IAimService aimService;
         public AimController(IAimService aimService)
@@ -18,28 +18,28 @@ namespace AuthServiceApp.WEB.Controllers
         }
 
 
-        [HttpPost("/api/aim")]
+        [HttpPost]
         public async Task<ActionResult<AimDto>> CreateAim(AimDto aimDto)
         {
             var result = await aimService.CreateAim(aimDto);
             return result;
         }
 
-        [HttpGet("/api/aim/{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<AimDto>> GetAim(Guid id)
         {
             var result = await aimService.GetAimById(id);
             return result;
         }
 
-        [HttpGet("/api/aim/user/{userId}")]
+        [HttpGet("user/{userId}")]
         public async Task<ActionResult<GetAimDto>> GetAimByUserId(Guid userId)
         {
             var result = await aimService.GetAimByUserId(userId);
             return result;
         }
 
-        [HttpDelete("/api/aim/{id}")]
+        [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteAim(Guid Id)
         {
             await aimService.Delete(Id);

@@ -1,9 +1,9 @@
 import useJwtToken from "@/hooks/useJwtToken";
 import { Aim } from "@/types/User/goals/goals";
 import React, { useEffect, useState } from "react";
+import { getUserAims } from "@/api/aimApi";
 import AddGoal from "../../goals/addGoal";
 import GoalList from "../../goals/goalList";
-import { getUserAims } from "../api/aimApi";
 import styles from "./loans.module.scss";
 
 enum SelectedSubPage {
@@ -58,14 +58,14 @@ function Goals() {
                 <button
                   type="button"
                   onClick={goToAdd}
-                  className="rounded-md bg-violet-700 py-2 px-4 text-violet-50 transition hover:bg-violet-800"
+                  className="rounded-md bg-indigo-700 py-2 px-4 text-indigo-50 transition hover:bg-indigo-800"
                 >
                   Add loan
                 </button>
                 <button
                   type="button"
                   onClick={goToGive}
-                  className="rounded-md bg-transparent py-2 px-4  text-violet-900 transition hover:bg-violet-700 hover:text-violet-50"
+                  className="rounded-md bg-transparent py-2 px-4  text-indigo-900 transition hover:bg-indigo-700 hover:text-indigo-50"
                 >
                   Watch all loans
                 </button>

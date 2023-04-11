@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { deleteAim } from "@/api/aimApi";
 import { AppDispatch, RootState } from "../../store/store";
 import getCardsThunk from "../../store/thunks/cardThunk";
 import getSpendingThunk from "../../store/thunks/spendingThunks";
 import MyResponsiveLine from "../../elements/nivoLine/responsiveLine";
 import { SpendingReportDto } from "../../types/User/Spending/spending";
 import { Aim, AimType } from "../../types/User/goals/goals";
-import { deleteAim } from "../pages/api/aimApi";
 
 interface GoalListProps {
   goal: Aim;
@@ -175,7 +175,7 @@ function GoalList({ goal, setRefresh }: GoalListProps) {
                     type="button"
                     onClick={() => handleCardClick(index)}
                     key={card.id}
-                    className="flex w-full  flex-col rounded border-b-2 bg-white p-2 pb-2 transition hover:cursor-pointer hover:bg-slate-50 
+                    className="flex w-full  flex-col rounded border-b-2 bg-white p-2 pb-2 transition hover:cursor-pointer hover:bg-slate-50
                 "
                   >
                     <span className="text-lg font-bold">{card.name}</span>

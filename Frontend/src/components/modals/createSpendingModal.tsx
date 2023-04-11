@@ -136,8 +136,8 @@ function CreateSpendingModal({ setIsOpen, cardId }: CreateSpendingModalProps) {
       <div className="flex min-h-screen items-center px-4 py-8">
         <div className="relative mx-auto w-full max-w-2xl rounded-md bg-white p-4 shadow-lg">
           <div className="mt-3 flex h-[600px] flex-col">
-            <div className="border-b border-b-violet-400">
-              <h3 className="mb-1 text-2xl font-bold text-violet-700">Add new transaction</h3>
+            <div className="border-b border-b-indigo-400">
+              <h3 className="mb-1 text-2xl font-bold text-indigo-700">Add new transaction</h3>
             </div>
             <div className="my-2">
               <Stepper steps={allSteps} currentStep={step} />
@@ -156,25 +156,25 @@ function CreateSpendingModal({ setIsOpen, cardId }: CreateSpendingModalProps) {
                 <div className="mx-4 flex w-full flex-grow">
                   <div className="mt-4 flex w-full  flex-col gap-4">
                     <div className="flex w-full flex-col">
-                      <span className="text-violet-600">Transaction name</span>
+                      <span className="text-indigo-600">Transaction name</span>
                       <input
                         type="text"
-                        className="flex flex-grow rounded border border-violet-500 px-3 py-2 outline-none focus:outline-none"
+                        className="flex flex-grow rounded border border-indigo-500 px-3 py-2 outline-none focus:outline-none"
                         value={spending.spendingName}
                         onChange={updateSpendingName}
                       />
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-violet-600">Shop name</span>
+                      <span className="text-indigo-600">Shop name</span>
                       <input
                         type="text"
-                        className="flex flex-grow rounded border border-violet-500 px-3 py-2 outline-none focus:outline-none"
+                        className="flex flex-grow rounded border border-indigo-500 px-3 py-2 outline-none focus:outline-none"
                         value={spending.shopName}
                         onChange={updateShopName}
                       />
                     </div>
                     <div className="flex h-full items-center justify-center text-center">
-                      <p className="flex w-3/4 text-violet-900 opacity-50">
+                      <p className="flex w-3/4 text-indigo-900 opacity-50">
                         We will add this transaction to currently selected card
                       </p>
                     </div>
@@ -185,7 +185,7 @@ function CreateSpendingModal({ setIsOpen, cardId }: CreateSpendingModalProps) {
 
             {step === 1 && (
               <div className="h-full w-full">
-                <h4 className="border-b border-violet-400 px-2 text-violet-700 ">
+                <h4 className="border-b border-indigo-400 px-2 text-indigo-700 ">
                   {moment(date).format("dddd-mm-yyyy")}
                 </h4>
                 <div className="flex   w-full ">
@@ -199,7 +199,7 @@ function CreateSpendingModal({ setIsOpen, cardId }: CreateSpendingModalProps) {
 
                         <input
                           type="text"
-                          className="flex w-full flex-grow rounded border border-violet-500 px-3 py-2 outline-none focus:outline-none"
+                          className="flex w-full flex-grow rounded border border-indigo-500 px-3 py-2 outline-none focus:outline-none"
                           placeholder="Shop position"
                           onChange={updateName}
                         />
@@ -209,13 +209,13 @@ function CreateSpendingModal({ setIsOpen, cardId }: CreateSpendingModalProps) {
                           type="number"
                           name=""
                           id=""
-                          className="py flex w-36 flex-grow rounded border-violet-700 px-3 py-1 "
+                          className="py flex w-36 flex-grow rounded border-indigo-700 px-3 py-1 "
                           placeholder="Cost"
                           onChange={updatePrice}
                         />
                         <select
                           // value={cardModel?.currency}
-                          className="flex w-32 appearance-none  rounded  border bg-violet-200 py-3 px-4 pr-8 leading-tight text-violet-700 focus:border-violet-500 focus:bg-white focus:outline-none"
+                          className="flex w-32 appearance-none  rounded  border bg-indigo-200 py-3 px-4 pr-8 leading-tight text-indigo-700 focus:border-indigo-500 focus:bg-white focus:outline-none"
                           // onChange={(val) =>
                           //   updateModel(val.currentTarget.value, "currency")
                           // }
@@ -233,7 +233,7 @@ function CreateSpendingModal({ setIsOpen, cardId }: CreateSpendingModalProps) {
                       <div className="flex justify-end">
                         <button
                           type="button"
-                          className="rounded bg-violet-700 px-6 py-3 text-violet-50 transition-all  hover:bg-violet-800"
+                          className="rounded bg-indigo-700 px-6 py-3 text-indigo-50 transition-all  hover:bg-indigo-800"
                           onClick={addNewShopPosition}
                         >
                           Add
@@ -242,7 +242,7 @@ function CreateSpendingModal({ setIsOpen, cardId }: CreateSpendingModalProps) {
                     </div>
                   </div>
                   {shopPositions.length !== 0 && (
-                    <div className="m-4 flex h-full max-h-80 w-2/5 flex-col items-center gap-2 overflow-y-auto border-l border-violet-500 pl-4">
+                    <div className="m-4 flex h-full max-h-80 w-2/5 flex-col items-center gap-2 overflow-y-auto border-l border-indigo-500 pl-4">
                       <span>Shop positions</span>
                       {shopPositions.map((position, index) => (
                         <div className="flex w-full justify-between rounded border px-4 py-3">
@@ -257,7 +257,7 @@ function CreateSpendingModal({ setIsOpen, cardId }: CreateSpendingModalProps) {
                             </div>
                             <button
                               type="button"
-                              className="flex h-[28px] w-[28px] items-center justify-center rounded-full bg-transparent transition-all hover:bg-violet-100"
+                              className="flex h-[28px] w-[28px] items-center justify-center rounded-full bg-transparent transition-all hover:bg-indigo-100"
                               onClick={() => deleteShopItem(index)}
                             >
                               <img src={Close} width={14} height={14} alt="close" />
@@ -277,10 +277,10 @@ function CreateSpendingModal({ setIsOpen, cardId }: CreateSpendingModalProps) {
             )}
 
             {/* <div>{children}</div> */}
-            <div className="mt-2 flex w-full justify-between gap-3 border-t border-t-violet-200 pt-3">
+            <div className="mt-2 flex w-full justify-between gap-3 border-t border-t-indigo-200 pt-3">
               <button
                 type="button"
-                className="rounded border border-violet-700 px-4 py-2 transition-all hover:bg-violet-100"
+                className="rounded border border-indigo-700 px-4 py-2 transition-all hover:bg-indigo-100"
                 onClick={() => {
                   setIsOpen(false);
                 }}
@@ -291,7 +291,7 @@ function CreateSpendingModal({ setIsOpen, cardId }: CreateSpendingModalProps) {
               <div className="flex gap-2">
                 <button
                   type="button"
-                  className="rounded border border-violet-700 bg-violet-700 px-6 py-2 text-violet-50 transition-all hover:bg-violet-800 hover:text-violet-50"
+                  className="rounded border border-indigo-700 bg-indigo-700 px-6 py-2 text-indigo-50 transition-all hover:bg-indigo-800 hover:text-indigo-50"
                   onClick={() => {
                     onPrev();
                   }}
@@ -300,7 +300,7 @@ function CreateSpendingModal({ setIsOpen, cardId }: CreateSpendingModalProps) {
                 </button>
                 <button
                   type="button"
-                  className="rounded border border-violet-700 bg-violet-700 px-6 py-2 text-violet-50 transition-all hover:bg-violet-800 hover:text-violet-50"
+                  className="rounded border border-indigo-700 bg-indigo-700 px-6 py-2 text-indigo-50 transition-all hover:bg-indigo-800 hover:text-indigo-50"
                   onClick={() => {
                     onNext();
                   }}

@@ -3,10 +3,10 @@ import React, { useState } from "react";
 import { HashLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import { Radio, Calendar } from "rsuite";
+import loans from "@/api/loans/loans";
 import useJwtToken from "../../hooks/useJwtToken";
 import { Currency } from "../../types/User/Cards/card";
 import { Loan } from "../../types/User/loans/loans";
-import loanApi from "../pages/api/loans/loans";
 
 function AddLoans() {
   const [resMessage, setResMessage] = useState("");
@@ -42,7 +42,7 @@ function AddLoans() {
       };
 
       setLoading(true);
-      const res = await loanApi.createLoan(dto);
+      const res = await loans.createLoan(dto);
 
       const message = await res.json();
       toast.success("Выполнено успешно");
@@ -112,7 +112,7 @@ function AddLoans() {
                 />
                 <select
                   //   value={pageState?.currency}
-                  className="flex   appearance-none rounded border bg-violet-200  pr-8 leading-tight text-violet-700 focus:border-violet-500 focus:bg-white focus:outline-none"
+                  className="flex   appearance-none rounded border bg-indigo-200  pr-8 leading-tight text-indigo-700 focus:border-indigo-500 focus:bg-white focus:outline-none"
                   //   onChange={(val) => handleUpdateCurrency(val)}
                   id="grid-state"
                 >
@@ -133,7 +133,7 @@ function AddLoans() {
             />
             <button
               type="button"
-              className=" mx-3 w-[328px] rounded bg-violet-600 px-4 py-2 text-violet-50 transition hover:bg-violet-800"
+              className=" mx-3 w-[328px] rounded bg-indigo-600 px-4 py-2 text-indigo-50 transition hover:bg-indigo-800"
               onClick={() => handleAdd()}
             >
               Add loan

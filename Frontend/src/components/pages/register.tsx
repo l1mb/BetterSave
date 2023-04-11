@@ -9,10 +9,10 @@ import CoolLine from "@/elements/coolLine/coolLine";
 import FormikInput from "@/elements/formikInput/formikInput";
 import ErrorDto from "@/types/auth/errorDto";
 import signUpDto from "@/types/auth/signUpDto";
-import { StatusCodes } from "./api/codes";
+import authApi from "@/api/auth/authApi";
+import { StatusCodes } from "@/api/codes";
 import colors from "../../styles/colors";
 import styles from "../../styles/login.module.scss";
-import authApi from "./api/auth/authApi";
 
 function Register() {
   const [loading, setLoading] = useState(false);
@@ -53,7 +53,7 @@ function Register() {
         <div className={`${styles.login_wrapper} flex w-full `}>
           <div className="h-vh  flex w-4/12 items-center justify-center">
             <div className="w-full min-w-[325px] ">
-              <div className="m-auto flex w-8/12 flex-col gap-1  text-2xl font-bold text-violet-600">
+              <div className="m-auto flex w-8/12 flex-col gap-1  text-2xl font-bold text-indigo-600">
                 <img src={BetterSaveLogo} alt="Logo" />
                 <CoolLine />
               </div>
@@ -86,7 +86,7 @@ function Register() {
                     <HashLoader
                       loading={loading}
                       size={26}
-                      color={colors["violet-600"]}
+                      color={colors["indigo-600"]}
                       aria-label="Loading Spinner"
                       data-testid="loader"
                     />
@@ -94,17 +94,17 @@ function Register() {
                 ) : (
                   <button
                     type="submit"
-                    className={` mt-6 rounded-md border border-purple-200 py-2 font-semibold transition duration-150 ease-in-out hover:border-violet-700  hover:border-violet-800 hover:bg-violet-800 hover:text-violet-100
+                    className={` mt-6 rounded-md border border-purple-200 py-2 font-semibold transition duration-150 ease-in-out hover:border-indigo-700  hover:border-indigo-800 hover:bg-indigo-800 hover:text-indigo-100
                   `}
                   >
                     Register
                   </button>
                 )}
 
-                <span className=" text-right text-xs text-violet-800">
+                <span className=" text-right text-xs text-indigo-800">
                   Or you may want to{" "}
                   <Link to="/login">
-                    <span className="cursor-pointer text-violet-600">login</span>
+                    <span className="cursor-pointer text-indigo-600">login</span>
                   </Link>{" "}
                   instead
                 </span>

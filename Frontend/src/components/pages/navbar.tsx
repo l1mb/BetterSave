@@ -17,7 +17,7 @@ function Navbar() {
   };
 
   return (
-    <div className=" flex items-center justify-between gap-3 border-b border-violet-600 py-3 px-7">
+    <div className=" flex items-center justify-between gap-3 border-b border-indigo-600 py-3 px-7">
       <div>
         <Link to="/" className="">
           <div className="relative flex h-8 w-52 cursor-pointer items-center text-sm">
@@ -35,7 +35,7 @@ function Navbar() {
           <>
             <LinkElement link="/profile" label="Profile" />
             <button
-              className="rounded border border-violet-800 pr-3 pl-3 transition hover:bg-violet-800 hover:text-violet-100"
+              className="rounded border border-indigo-800 pr-3 pl-3 transition hover:bg-indigo-800 hover:text-indigo-100"
               type="button"
               onClick={() => handleLogout()}
             >

@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { HashLoader } from "react-spinners";
 import { Calendar, Radio } from "rsuite";
 import moment from "moment";
+import { createAim } from "@/api/aimApi";
 import useJwtToken from "../../hooks/useJwtToken";
 import { Aim, AimType } from "../../types/User/goals/goals";
-import { createAim } from "../pages/api/aimApi";
 
 interface AddGoalProps {
   goal?: Aim;
@@ -107,7 +107,7 @@ function AddGoal({ goal, setRefresh }: AddGoalProps) {
           </div>
           <button
             type="button"
-            className=" w-[328px] rounded bg-violet-600 px-4 py-3 text-violet-50 transition hover:bg-violet-800"
+            className=" w-[328px] rounded bg-indigo-600 px-4 py-3 text-indigo-50 transition hover:bg-indigo-800"
             onClick={() => handleAdd()}
           >
             Start goal tracking

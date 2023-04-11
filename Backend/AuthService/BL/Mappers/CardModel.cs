@@ -2,13 +2,12 @@
 using AuthServiceApp.WEB.DTOs.Card;
 using AutoMapper;
 
-namespace AuthServiceApp.BL.Mappers
+namespace AuthServiceApp.BL.Mappers;
+
+public class CardModel : Profile
 {
-    public class CardModel : Profile
+    public CardModel()
     {
-        public CardModel()
-        {
-            CreateMap<CardEntity, CardDto>().ReverseMap();
-        }
+        CreateMap<CardEntity, CardDto>().ReverseMap();
     }
 }

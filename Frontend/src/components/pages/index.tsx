@@ -5,9 +5,7 @@ function Home() {
     <div className={styles.container}>
       <main className={styles.main}>
         <h1 className={styles.title}>Добро пожаловать в приложение BetterSave</h1>
-        <p className={`${styles.description} text-3xl  font-bold underline`}>
-          Get started by editing <code className={styles.code}>pages/index.tsx</code>
-        </p>
+        <p className={`${styles.description} text-3xl  font-bold underline`}>Мы очень рады вас видеть. Снова</p>
 
         <div className={styles.grid}>
           <a href="https://nextjs.org/docs" className={styles.card}>

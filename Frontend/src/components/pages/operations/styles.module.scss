@@ -1,0 +1,19 @@
+.operationDropdown {
+  position: relative;
+
+  span {
+  }
+
+  div {
+    position: absolute;
+    display: none;
+  }
+
+  &:hover {
+    div {
+      bottom: -26px;
+      right: -8px;
+      display: block;
+    }
+  }
+}

@@ -19,6 +19,10 @@ const userLoans = `${apiPreffix}/loan/user`;
 const aims = `${apiPreffix}/aim`;
 const userAim = `${apiPreffix}/aim/user`;
 
+//
+const category = `${apiPreffix}/category`;
+const userCategories = `${apiPreffix}/category/getCategories`;
+
 export default {
   signInRoute,
   signUpRoute,
@@ -30,4 +34,6 @@ export default {
   userLoans,
   aims,
   userAim,
+  category,
+  userCategories,
 };

@@ -2,7 +2,6 @@
 using AuthServiceApp.BL.Exceptions;
 using AuthServiceApp.DAL.Entities;
 using AuthServiceApp.DAL.Models;
-using AuthServiceApp.Migrations;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Linq.Expressions;

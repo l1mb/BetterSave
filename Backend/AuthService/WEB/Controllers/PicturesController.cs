@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AuthServiceApp.WEB.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/pictures")]
     public class PicturesController : ControllerBase
     {
         private IPictureService _picturesService;

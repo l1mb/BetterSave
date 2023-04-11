@@ -73,11 +73,11 @@ function Cards() {
   console.log(spendings);
 
   const colors = [
-    "bg-violet-800 text-violet-100",
-    "bg-violet-600 text-violet-200",
-    "bg-violet-500 text-violet-100",
-    "bg-violet-200 text-violet-600",
-    "bg-violet-100 text-violet-800",
+    "bg-indigo-800 text-indigo-100",
+    "bg-indigo-600 text-indigo-200",
+    "bg-indigo-500 text-indigo-100",
+    "bg-indigo-200 text-indigo-600",
+    "bg-indigo-100 text-indigo-800",
   ];
 
   const errorHandle = (err: string) => {
@@ -173,10 +173,10 @@ function Cards() {
                     {cards.map((el, index) => (
                       <div
                         className={`relative h-48 rounded-xl border border-opacity-95 px-4 ${colors[index]}  bg-gradient-to-r
-                      from-violet-800 to-violet-500`}
+                      from-indigo-800 to-indigo-500`}
                       >
                         <div
-                          className="absolute top-1 right-1 flex h-7 w-7 items-center justify-center rounded-full transition-all hover:bg-violet-400"
+                          className="absolute top-1 right-1 flex h-7 w-7 items-center justify-center rounded-full transition-all hover:bg-indigo-400"
                           onClick={() => handleDelete()}
                         >
                           <div className="relative flex items-center">
@@ -203,7 +203,7 @@ function Cards() {
                                   <>
                                     <input
                                       type="number"
-                                      className="w-28 rounded-lg border border-violet-50 bg-violet-600 px-2 py-1 outline-none"
+                                      className="w-28 rounded-lg border border-indigo-50 bg-indigo-600 px-2 py-1 outline-none"
                                       value={newBalance}
                                       onInput={(val) => {
                                         const v = val.currentTarget.value;
@@ -246,12 +246,12 @@ function Cards() {
                   </SliderWrapper>
                 </div>
               ) : (
-                <span className="text-lg font-bold text-violet-600">You haven&apos;t added any cards yet</span>
+                <span className="text-lg font-bold text-indigo-600">You haven&apos;t added any cards yet</span>
               )}
               <div className="mt-2 flex w-full justify-between gap-3">
                 <button
                   type="button"
-                  className="pн-2 rounded-md border border-violet-700 bg-violet-50 px-2 py-2 transition-all hover:bg-violet-800 hover:text-violet-50"
+                  className="pн-2 rounded-md border border-indigo-700 bg-indigo-50 px-2 py-2 transition-all hover:bg-indigo-800 hover:text-indigo-50"
                   onClick={() => setIsOpened("card")}
                 >
                   Add new card
@@ -259,7 +259,7 @@ function Cards() {
                 {cards.length > 0 && (
                   <button
                     type="button"
-                    className="pн-2 flex-grow rounded-md border border-violet-700 bg-violet-700 px-2 py-2 text-violet-50 transition-all hover:bg-violet-800 hover:text-violet-50"
+                    className="pн-2 flex-grow rounded-md border border-indigo-700 bg-indigo-700 px-2 py-2 text-indigo-50 transition-all hover:bg-indigo-800 hover:text-indigo-50"
                     onClick={handleCreateTransaction}
                   >
                     I want to add my transactions
@@ -272,7 +272,7 @@ function Cards() {
                 {!spendings || spendings.length === 0 || cards.length === 0 ? (
                   <h3 className="text-xl font-bold">There is no spendings there</h3>
                 ) : (
-                  <section className="w-full bg-violet-50 py-1 xl:mx-auto xl:w-8/12">
+                  <section className="w-full bg-indigo-50 py-1 xl:mx-auto xl:w-8/12">
                     <div className="mx-auto mb-12 mt-24 w-full px-4 xl:mb-0 ">
                       <div className="relative mb-6 flex w-full min-w-0 flex-col break-words rounded bg-white shadow-lg ">
                         <div className="mb-0 rounded-t border-0 px-4 py-3">
@@ -332,7 +332,7 @@ function Cards() {
                                     <div className="flex gap-2">
                                       <button
                                         type="button"
-                                        className="rounded bg-red-400 px-3 py-2 text-violet-50 transition-all hover:bg-red-500  "
+                                        className="rounded bg-red-400 px-3 py-2 text-indigo-50 transition-all hover:bg-red-500  "
                                         onClick={() => {
                                           handleSpendingDelete(spending.id as string);
                                         }}

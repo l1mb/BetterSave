@@ -8,7 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace AuthServiceApp.WEB.Controllers
 {
     [ApiController]
-    public class SpendingController : GenericController<Spending>
+    [Route("api/spending")]
+    public class SpendingController : GenericController
     {
         private readonly ISpendingService spendingService;
         public SpendingController(ISpendingService spendingService)
@@ -16,7 +17,7 @@ namespace AuthServiceApp.WEB.Controllers
             this.spendingService = spendingService;
         }
 
-        [HttpPost("api/spending")]
+        [HttpPost]
         public async Task<ActionResult> CreateSpending(SpendingDto spendingDto)
         {
             var result = await spendingService.CreateSpending(spendingDto);
@@ -24,7 +25,7 @@ namespace AuthServiceApp.WEB.Controllers
             return Ok(result);
         }
 
-        [HttpGet("api/spending/byCategories/{cardId}")]
+        [HttpGet("byCategories/{cardId}")]
         public async Task<ActionResult> GetSpendingData(Guid cardId)
         {
             var userId = GetUserId();
@@ -32,7 +33,7 @@ namespace AuthServiceApp.WEB.Controllers
             return Ok(result);
         }
 
-        [HttpGet("api/spending/{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult> GetSpending(Guid id)
         {
             var result = await spendingService.GetSpendingAsync(id);
@@ -40,7 +41,7 @@ namespace AuthServiceApp.WEB.Controllers
             return Ok(result);
         }
 
-        [HttpGet("api/spending")]
+        [HttpGet]
         public async Task<ActionResult<List<SpendingReportDto>>> GetSpendings(DateTime beginDate, int offset, string orderBy, Guid? cardId, int limit = 10)
         {
             var result = await spendingService.GetSpendingsAsync(beginDate, limit, offset, orderBy, cardId);
@@ -48,7 +49,7 @@ namespace AuthServiceApp.WEB.Controllers
             return result;
         }
 
-        [HttpDelete("api/spending/{id}")]
+        [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteSpending(Guid id)
         {
             var result = await spendingService.DeleteSpendingAsync(id);

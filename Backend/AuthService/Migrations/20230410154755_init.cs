@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AuthServiceApp.Migrations
 {
-    public partial class shoppositionsmany : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -120,20 +120,21 @@ namespace AuthServiceApp.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AimTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FinishDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Amount = table.Column<float>(type: "real", nullable: false),
+                    AimType = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AimTypeEntityId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Aim", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Aim_AimType_AimTypeId",
-                        column: x => x.AimTypeId,
+                        name: "FK_Aim_AimType_AimTypeEntityId",
+                        column: x => x.AimTypeEntityId,
                         principalTable: "AimType",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Aim_AspNetUsers_UserId",
                         column: x => x.UserId,
@@ -270,6 +271,27 @@ namespace AuthServiceApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Category",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Icon = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Category", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Category_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Loans",
                 columns: table => new
                 {
@@ -299,11 +321,11 @@ namespace AuthServiceApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Price = table.Column<float>(type: "real", nullable: false),
                     Currency = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SpendingCategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    SpendingCategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -350,6 +372,27 @@ namespace AuthServiceApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SubCategory",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Icon = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SubCategory", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SubCategory_Category_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Category",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ShopPositionSpending",
                 columns: table => new
                 {
@@ -374,9 +417,9 @@ namespace AuthServiceApp.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Aim_AimTypeId",
+                name: "IX_Aim_AimTypeEntityId",
                 table: "Aim",
-                column: "AimTypeId");
+                column: "AimTypeEntityId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Aim_UserId",
@@ -454,6 +497,11 @@ namespace AuthServiceApp.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Category_UserId",
+                table: "Category",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Loans_UserId",
                 table: "Loans",
                 column: "UserId");
@@ -487,6 +535,11 @@ namespace AuthServiceApp.Migrations
                 name: "IX_Spendings_UserId",
                 table: "Spendings",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SubCategory_CategoryId",
+                table: "SubCategory",
+                column: "CategoryId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -516,6 +569,9 @@ namespace AuthServiceApp.Migrations
                 name: "ShopPositionSpending");
 
             migrationBuilder.DropTable(
+                name: "SubCategory");
+
+            migrationBuilder.DropTable(
                 name: "AimType");
 
             migrationBuilder.DropTable(
@@ -526,6 +582,9 @@ namespace AuthServiceApp.Migrations
 
             migrationBuilder.DropTable(
                 name: "Spendings");
+
+            migrationBuilder.DropTable(
+                name: "Category");
 
             migrationBuilder.DropTable(
                 name: "SpendingCategories");

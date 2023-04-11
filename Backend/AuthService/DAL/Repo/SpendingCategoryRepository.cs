@@ -1,4 +1,4 @@
-﻿using AuthServiceApp.DAL.Entities;
+﻿using AuthServiceApp.DAL.Entities.Categories;
 using AuthServiceApp.DAL.Models;
 
 namespace AuthServiceApp.DAL.Repo

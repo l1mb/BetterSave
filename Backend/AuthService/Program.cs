@@ -18,9 +18,6 @@ using AuthServiceApp.WEB.StartUp.Configuration;
 using Microsoft.AspNetCore.Identity;
 using AuthServiceApp.DAL.Entities;
 
-Console.WriteLine("fuck");
-Console.WriteLine(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")??"Pasasi");
-
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog();
 
@@ -61,7 +58,9 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwaggerUI(c =>
+    c.InjectStylesheet("/assets/css/swagger-theme.css")
+);
 
 var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
 using (var scope = scopeFactory.CreateScope())

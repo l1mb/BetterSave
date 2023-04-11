@@ -4,6 +4,7 @@ using AuthServiceApp.BL.Exceptions;
 using AuthServiceApp.BL.Helpers;
 using AuthServiceApp.BL.Services.GenericService;
 using AuthServiceApp.DAL.Entities;
+using AuthServiceApp.DAL.Entities.Categories;
 using AuthServiceApp.DAL.Interfaces;
 using AuthServiceApp.DAL.Repo.Card;
 using AuthServiceApp.WEB.DTOs.Input.Shop;

@@ -1,6 +1,6 @@
-import { getSpendings, createSpending, deleteSpending } from "@/components/pages/api/spendings";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
+import { getSpendings } from "@/api/spendings";
 import useJwtToken from "../../hooks/useJwtToken";
 import { createSpendingRequest } from "../../types/User/Spending/createSpendingRequest";
 import { SpendingReportDto } from "../../types/User/Spending/spending";

@@ -1,9 +1,9 @@
 /* eslint-disable react/jsx-no-bind */
 import React, { useEffect, useState } from "react";
 import { Badge, Calendar, Popover, Whisper } from "rsuite";
+import loans from "@/api/loans/loans";
 import useJwtToken from "../../hooks/useJwtToken";
 import { Loan } from "../../types/User/loans/loans";
-import loanApi from "../pages/api/loans/loans";
 
 function LoansList() {
   const [loanList, setLoanList] = useState<Loan[]>([]);
@@ -30,7 +30,7 @@ function LoansList() {
   async function getLoan() {
     const uid = decodeToken()?.UserId;
     if (uid) {
-      const result = await loanApi.getUserLoans(uid);
+      const result = await loans.getUserLoans(uid);
       const json = await result.json();
       setLoanList(json);
     }
@@ -42,7 +42,7 @@ function LoansList() {
 
   async function handleDelete(id: string) {
     if (id) {
-      const result = await loanApi.deleteLoan(id);
+      const result = await loans.deleteLoan(id);
       getLoan();
     }
   }
@@ -70,7 +70,7 @@ function LoansList() {
                         <button
                           onClick={() => handleDelete(item.id)}
                           type="button"
-                          className="mx-2 rounded p-1 transition hover:bg-violet-100 "
+                          className="mx-2 rounded p-1 transition hover:bg-indigo-100 "
                         >
                           Delete
                         </button>

@@ -12,14 +12,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AuthServiceApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221218184247_new3")]
-    partial class new3
+    [Migration("20230411174741_AddColorField")]
+    partial class AddColorField
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.10")
+                .HasAnnotation("ProductVersion", "6.0.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -226,6 +226,90 @@ namespace AuthServiceApp.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
+            modelBuilder.Entity("AuthServiceApp.DAL.Entities.Categories.CategoryEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Icon")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Category");
+                });
+
+            modelBuilder.Entity("AuthServiceApp.DAL.Entities.Categories.SpendingCategory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Keywords")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SpendingCategories");
+                });
+
+            modelBuilder.Entity("AuthServiceApp.DAL.Entities.Categories.SubCategoryEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Icon")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("SubCategory");
+                });
+
             modelBuilder.Entity("AuthServiceApp.DAL.Entities.LoanEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -357,28 +441,6 @@ namespace AuthServiceApp.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Spendings");
-                });
-
-            modelBuilder.Entity("AuthServiceApp.DAL.Entities.SpendingCategory", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Keywords")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SpendingCategories");
                 });
 
             modelBuilder.Entity("AuthServiceApp.DAL.Interfaces.res", b =>
@@ -566,6 +628,28 @@ namespace AuthServiceApp.Migrations
                         .HasForeignKey("ApplicationUserRoleUserId", "ApplicationUserRoleRoleId");
                 });
 
+            modelBuilder.Entity("AuthServiceApp.DAL.Entities.Categories.CategoryEntity", b =>
+                {
+                    b.HasOne("AuthServiceApp.DAL.Entities.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("AuthServiceApp.DAL.Entities.Categories.SubCategoryEntity", b =>
+                {
+                    b.HasOne("AuthServiceApp.DAL.Entities.Categories.CategoryEntity", "Category")
+                        .WithMany("Subcategories")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
             modelBuilder.Entity("AuthServiceApp.DAL.Entities.LoanEntity", b =>
                 {
                     b.HasOne("AuthServiceApp.DAL.Entities.ApplicationUser", "User")
@@ -579,7 +663,7 @@ namespace AuthServiceApp.Migrations
 
             modelBuilder.Entity("AuthServiceApp.DAL.Entities.ShopPosition", b =>
                 {
-                    b.HasOne("AuthServiceApp.DAL.Entities.SpendingCategory", "SpendingCategory")
+                    b.HasOne("AuthServiceApp.DAL.Entities.Categories.SpendingCategory", "SpendingCategory")
                         .WithMany("ShopPositions")
                         .HasForeignKey("SpendingCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -706,14 +790,19 @@ namespace AuthServiceApp.Migrations
                     b.Navigation("UserRoles");
                 });
 
+            modelBuilder.Entity("AuthServiceApp.DAL.Entities.Categories.CategoryEntity", b =>
+                {
+                    b.Navigation("Subcategories");
+                });
+
+            modelBuilder.Entity("AuthServiceApp.DAL.Entities.Categories.SpendingCategory", b =>
+                {
+                    b.Navigation("ShopPositions");
+                });
+
             modelBuilder.Entity("AuthServiceApp.DAL.Entities.Shop", b =>
                 {
                     b.Navigation("Spendings");
-                });
-
-            modelBuilder.Entity("AuthServiceApp.DAL.Entities.SpendingCategory", b =>
-                {
-                    b.Navigation("ShopPositions");
                 });
 
             modelBuilder.Entity("AuthServiceApp.DAL.Repo.Card.CardEntity", b =>
