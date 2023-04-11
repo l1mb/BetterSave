@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Divider, IconButton, Tooltip, Whisper } from "rsuite";
 
 import * as Icons from "react-icons/fa";
@@ -33,6 +33,9 @@ function CategoryPicker({ onChange }: CategoryPickerProps) {
     name: string;
     onClick: (prop: unknown) => void;
   }
+  useEffect(() => {
+    onChange(activeColor || "blue", activeIcon);
+  }, []);
 
   const iconList: string[] = [
     "local_dining",

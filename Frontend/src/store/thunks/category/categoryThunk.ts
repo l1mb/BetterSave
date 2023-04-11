@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { ApiResponse, Category, ErrorResponse } from "@/types/models";
+import { AddSubcategoryRequest, ApiResponse, Category, ErrorResponse, SubCategory } from "@/types/models";
 import categoryApi from "@/api/category/categoryApi";
 import { toast } from "react-toastify";
 import useJwtToken from "../../../hooks/useJwtToken";
@@ -43,4 +43,20 @@ const addCategory = createAsyncThunk(
   }
 );
 
-export { getCategories, addCategory };
+const addSubcategory = createAsyncThunk(
+  "category/createSubcategory",
+  async (param: AddSubcategoryRequest): Promise<SubCategory | null> => {
+    debugger;
+    const response = await categoryApi.createSubcategory(param);
+    const result: ApiResponse<SubCategory> = await response.json();
+
+    if (response.status !== 201) {
+      toast.error((result as ErrorResponse)?.errorMessage);
+      return null;
+    }
+    toast.success(`Подкатегория "${param.name}" была добавлена успешно`);
+    return result as SubCategory;
+  }
+);
+
+export { getCategories, addCategory, addSubcategory };

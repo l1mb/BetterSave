@@ -28,8 +28,11 @@ export interface AddCategoryRequest {
   color: string;
 }
 
-export interface AddSubcategoryRequest extends AddCategoryRequest {
+export interface AddSubcategoryRequest {
   categoryId: string;
+  name: string;
+  icon: string;
+  color: string;
 }
 
 export type ApiResponse<T> = T | ErrorResponse;

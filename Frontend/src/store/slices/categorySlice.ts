@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from "@reduxjs/toolkit";
 import { Category } from "@/types/models";
-import { addCategory, getCategories } from "../thunks/category/categoryThunk";
+import { addCategory, addSubcategory, getCategories } from "../thunks/category/categoryThunk";
 
 const initState: Category[] = [];
 
@@ -21,6 +21,16 @@ const categorySlice = createSlice({
       } else {
         state.push(action.payload);
       }
+      return state;
+    });
+    builder.addCase(addSubcategory.fulfilled, (state, action) => {
+      if (!action.payload) {
+        return state;
+      }
+
+      const index = state.findIndex((x) => x.id === action.payload?.categoryId);
+      state[index].subcategories.push(action.payload);
+
       return state;
     });
   },

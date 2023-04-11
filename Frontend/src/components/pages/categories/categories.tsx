@@ -1,5 +1,5 @@
 import { AppDispatch, RootState } from "@/store/store";
-import { addCategory, getCategories } from "@/store/thunks/category/categoryThunk";
+import { addCategory, addSubcategory, getCategories } from "@/store/thunks/category/categoryThunk";
 import { Category } from "@/types/models";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,6 +11,7 @@ function Categories() {
   const dispatch = useDispatch<AppDispatch>();
   const categories = useSelector<RootState, Category[]>((x) => x.category);
   const [show, setShow] = useState(false);
+  const [parentId, setParentId] = useState<string>();
 
   useEffect(() => {
     dispatch(getCategories());
@@ -19,14 +20,27 @@ function Categories() {
   const onClickAddCategory = () => {
     setShow(true);
   };
+  const onClickAddSubcategory = (x: string) => {
+    setShow(true);
+    setParentId(x);
+
+    console.log(x);
+  };
 
   const handleCancel = () => {
     setShow(false);
+    setParentId(undefined);
   };
 
   const handleProceed = (value: { name: string; icon: string; color: string }) => {
-    dispatch(addCategory(value));
+    if (parentId) {
+      console.log(parentId);
+      dispatch(addSubcategory({ ...value, categoryId: parentId }));
+    } else {
+      dispatch(addCategory(value));
+    }
     setShow(false);
+    setParentId(undefined);
   };
 
   return (
@@ -37,31 +51,46 @@ function Categories() {
             <h2>Категории</h2>
             <PlusButton onClick={onClickAddCategory} />
           </div>
-          <Divider />
           <div>
             {categories.map((category) => (
               <div className="flex flex-col">
-                <div className="flex flex-col">
-                  <span className="flex items-center">
-                    <IconButton
-                      icon={<span className={` material-symbols-outlined`}>{category.icon}</span>}
-                      circle
-                      ripple={false}
-                      appearance="primary"
-                      color={category.color}
-                      onClick={(e) => {
-                        e.preventDefault();
-                      }}
-                      size="xs"
-                    />
-                    <Divider vertical />
-                    <h5>{category.name}</h5>
-                  </span>
+                <Divider />
+                <div className="mt-2 flex flex-col">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center">
+                      <IconButton
+                        icon={<span className={` material-symbols-outlined`}>{category.icon}</span>}
+                        circle
+                        ripple={false}
+                        appearance="primary"
+                        color={category.color}
+                        onClick={(e) => {
+                          e.preventDefault();
+                        }}
+                        size="xs"
+                      />
+                      <Divider vertical />
+                      <h5 className="">{category.name}</h5>
+                    </div>
+                    <div>
+                      <PlusButton onClick={() => onClickAddSubcategory(category.id)} />
+                    </div>
+                  </div>
                   <Divider />
-                  <div>
+                  <div className="flex gap-3 ">
                     {category.subcategories.map((subcategory) => (
-                      <div className="flex flex-col" key={subcategory.id}>
-                        <span>{subcategory.icon}</span>
+                      <div className="flex flex-col items-center justify-center" key={subcategory.id}>
+                        <IconButton
+                          icon={<span className=" material-symbols-outlined flex max-w-min">{subcategory.icon}</span>}
+                          circle
+                          ripple={false}
+                          appearance="primary"
+                          color={subcategory.color}
+                          onClick={(e) => {
+                            e.preventDefault();
+                          }}
+                          size="xs"
+                        />
                         <span>{subcategory.name}</span>
                       </div>
                     ))}

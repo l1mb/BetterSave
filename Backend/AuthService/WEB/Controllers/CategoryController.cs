@@ -28,7 +28,7 @@ public class CategoryController : GenericController
     {
         var result = await _categoryService.CreateSubCategoryAsync(request);
 
-       return Ok(result);
+       return CreatedAtAction(nameof(AddSubCategory), result);
     }
 
     /// <remarks>

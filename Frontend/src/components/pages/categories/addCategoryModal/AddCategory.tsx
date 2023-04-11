@@ -26,6 +26,9 @@ function AddCategory({ isOpen, handleClose, handleProceed }: AddCategoryProps) {
       name,
       color: activeColor,
     });
+    setName("");
+    setActiveColor("blue");
+    setActiveIcon("");
   };
 
   const onChangeName = (value: string) => {
