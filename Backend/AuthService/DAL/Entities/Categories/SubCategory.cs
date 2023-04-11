@@ -6,7 +6,8 @@ namespace AuthServiceApp.DAL.Entities.Categories
     public class SubCategoryEntity: BaseEntity
     {
         public string Name { get; set; }
-        public string Icon { get; set; }
+        public string Icon { get; set; }        
+        public string Color { get; set; }
         public Guid CategoryId{ get; set; }
         public CategoryEntity Category{ get; set; }
     }
