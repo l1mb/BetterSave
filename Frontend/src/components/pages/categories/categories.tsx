@@ -1,9 +1,9 @@
 import { AppDispatch, RootState } from "@/store/store";
-import getCategories from "@/store/thunks/category/categoryThunk";
+import { addCategory, getCategories } from "@/store/thunks/category/categoryThunk";
 import { Category } from "@/types/models";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Divider } from "rsuite";
+import { Divider, IconButton } from "rsuite";
 import PlusButton from "@/elements/plusButton/plusButton";
 import AddCategory from "./addCategoryModal/AddCategory";
 
@@ -24,8 +24,9 @@ function Categories() {
     setShow(false);
   };
 
-  const handleProceed = (value: { name: string; icon: string }) => {
-    console.log(value);
+  const handleProceed = (value: { name: string; icon: string; color: string }) => {
+    dispatch(addCategory(value));
+    setShow(false);
   };
 
   return (
@@ -42,7 +43,17 @@ function Categories() {
               <div className="flex flex-col">
                 <div className="flex flex-col">
                   <span className="flex items-center">
-                    <span>{category.icon}</span>
+                    <IconButton
+                      icon={<span className={` material-symbols-outlined`}>{category.icon}</span>}
+                      circle
+                      ripple={false}
+                      appearance="primary"
+                      color={category.color}
+                      onClick={(e) => {
+                        e.preventDefault();
+                      }}
+                      size="xs"
+                    />
                     <Divider vertical />
                     <h5>{category.name}</h5>
                   </span>
@@ -61,7 +72,9 @@ function Categories() {
           </div>
         </div>
       ) : (
-        <h2>Пока не были добавлены никакие категории</h2>
+        <>
+          <h2>Пока не были добавлены никакие категории</h2> <PlusButton onClick={onClickAddCategory} />
+        </>
       )}
       <AddCategory isOpen={show} handleClose={handleCancel} handleProceed={handleProceed} />
     </div>

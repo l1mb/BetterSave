@@ -21,7 +21,11 @@ function DynamicFaIcon({ name }: DynamicFaIconProps) {
   return <IconComponent />;
 }
 
-function CategoryPicker() {
+interface CategoryPickerProps {
+  onChange: (color: TypeAttributes.Color, name: string) => void;
+}
+
+function CategoryPicker({ onChange }: CategoryPickerProps) {
   const [activeIcon, setActiveIcon] = useState("local_dining");
   const [activeColor, setActiveColor] = useState<TypeAttributes.Color>();
 
@@ -54,7 +58,7 @@ function CategoryPicker() {
     "local_taxi",
     "child_care",
     "theater_comedy",
-    "live_tv",
+    "`  `",
     "movie",
     "local_cafe",
     "dentistry",
@@ -77,10 +81,20 @@ function CategoryPicker() {
     "directions_railway",
   ];
 
-  const items = iconList.map((iconName) => <CategoryIcon name={iconName} onClick={setActiveIcon} />);
+  function onChangeActiveColor(x: TypeAttributes.Color) {
+    onChange(x, activeIcon);
+    setActiveColor(x);
+  }
+
+  const onChangeActiveIcon = (x: string) => {
+    onChange(activeColor || "blue", x);
+    setActiveIcon(x);
+  };
+
+  const items = iconList.map((iconName) => <CategoryIcon name={iconName} onClick={onChangeActiveIcon} />);
   const colors: TypeAttributes.Color[] = ["red", "orange", "yellow", "green", "cyan", "blue", "violet"];
   const colorButtons = colors.map((x) => (
-    <IconButton color={x} appearance="primary" circle onClick={() => setActiveColor(x)} />
+    <IconButton color={x} appearance="primary" circle onClick={() => onChangeActiveColor(x)} />
   ));
 
   return (

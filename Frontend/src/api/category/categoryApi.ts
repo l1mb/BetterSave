@@ -1,6 +1,7 @@
 // const signIn = (body: ) => apiPost<signInDto>(routes.signInRoute, body);
 
-import { apiGet } from "../api";
+import { AddCategoryRequest } from "@/types/models";
+import { apiGet, apiPost } from "../api";
 import routes from "../routes";
 
 // const signUp = (body: signInDto) => apiPost<signInDto>(routes.signUpRoute, body);
@@ -12,4 +13,8 @@ function getCategories(userId: string): Promise<Response> {
   return result;
 }
 
-export default { getCategories };
+function createCategory(param: AddCategoryRequest): Promise<Response> {
+  return apiPost(`${routes.category}/AddCategory`, param);
+}
+
+export default { getCategories, createCategory };

@@ -20,7 +20,7 @@ public class CategoryController : GenericController
     {
         var result = await _categoryService.CreateCategoryAsync(request);
 
-        return Ok(result);
+        return CreatedAtAction(nameof(AddCategory), result);
     }
 
     [HttpPost]
