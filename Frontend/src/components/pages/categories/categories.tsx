@@ -1,18 +1,32 @@
 import { AppDispatch, RootState } from "@/store/store";
 import getCategories from "@/store/thunks/category/categoryThunk";
 import { Category } from "@/types/models";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Divider, IconButton } from "rsuite";
-import PlusIcon from "@rsuite/icons/Plus";
+import { Divider } from "rsuite";
+import PlusButton from "@/elements/plusButton/plusButton";
+import AddCategory from "./addCategoryModal/AddCategory";
 
 function Categories() {
   const dispatch = useDispatch<AppDispatch>();
   const categories = useSelector<RootState, Category[]>((x) => x.category);
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     dispatch(getCategories());
   }, []);
+
+  const onClickAddCategory = () => {
+    setShow(true);
+  };
+
+  const handleCancel = () => {
+    setShow(false);
+  };
+
+  const handleProceed = (value: { name: string; icon: string }) => {
+    console.log(value);
+  };
 
   return (
     <div className="mx-auto h-screen w-[700px] py-24">
@@ -20,7 +34,7 @@ function Categories() {
         <div className="flex flex-col">
           <div className="flex items-center justify-between">
             <h2>Категории</h2>
-            <IconButton icon={<PlusIcon />} circle />
+            <PlusButton onClick={onClickAddCategory} />
           </div>
           <Divider />
           <div>
@@ -49,6 +63,7 @@ function Categories() {
       ) : (
         <h2>Пока не были добавлены никакие категории</h2>
       )}
+      <AddCategory isOpen={show} handleClose={handleCancel} handleProceed={handleProceed} />
     </div>
   );
 }
