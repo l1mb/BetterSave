@@ -2,7 +2,17 @@ name : Demo Workflow
 run-name: Deploy to ${{ inputs.deploy_target }} by @${{ github.actor }}
 on: push
 jobs:
-  print:
+  backend-ubuntu:
+    runs-on: ubuntu-latest
+    steps: 
+      - uses: actions/checkout@v3
+      - name: Build
+        working-directory: ./Backend/AuthService
+        run:  dotnet build
+      - name: Publish
+        working-directory: ./Backend/AuthService
+        run: dotnet publish
+  backend-windows:
     runs-on: windows-latest
     steps: 
       - uses: actions/checkout@v3
