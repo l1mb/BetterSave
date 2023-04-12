@@ -1,5 +1,5 @@
 name : Demo Workflow
-run-name: Deploy to ${{ inputs.deploy_target }} by @${{ github.actor }}
+run-name: Deploy to ${{ github.action_repository }} by ${{ github.actor }}
 on: push
 jobs:
   backend-ubuntu:
