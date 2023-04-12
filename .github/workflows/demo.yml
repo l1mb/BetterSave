@@ -6,6 +6,6 @@ jobs:
     runs-on: windows-latest
     steps: 
       - name: Build
-        run: dir&& cd .. && dir && cd ..&& dir
+        run: dir
       - name: Publish
         run: dotnet publish
