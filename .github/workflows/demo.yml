@@ -1,0 +1,14 @@
+name : Demo Workflow
+run-name: Deploy to ${{ inputs.deploy_target }} by @${{ github.actor }}
+on: 
+  push:
+    branches:
+      - 'development'
+jobs:
+  print:
+    runs-on: windows-latest
+    steps: 
+      - name: Print 1
+        run: echo "1"
+      - name: Print 2
+        run: echo "2"
