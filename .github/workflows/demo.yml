@@ -1,9 +1,6 @@
 name : Demo Workflow
 run-name: Deploy to ${{ inputs.deploy_target }} by @${{ github.actor }}
-on: 
-  push:
-    branches:
-      - 'development'
+on: push
 jobs:
   print:
     runs-on: windows-latest
