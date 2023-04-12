@@ -6,6 +6,8 @@ jobs:
     runs-on: windows-latest
     steps: 
       - name: Build
-        run: cd ./AuthService/ && dotnet build
+        working-directory: ./AuthService
+        run: cp .env.dev .env
+        run: dotnet build
       - name: Publish
         run: dotnet publish
