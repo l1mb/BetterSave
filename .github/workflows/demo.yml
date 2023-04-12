@@ -6,7 +6,7 @@ jobs:
     runs-on: windows-latest
     steps: 
       - name: Build
-        working-directory: ./Backend/AuthService
-        run: dir
+        working-directory: Backend/AuthService
+        run: dotnet build
       - name: Publish
         run: dotnet publish
