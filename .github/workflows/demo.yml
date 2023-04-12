@@ -7,6 +7,6 @@ jobs:
     steps: 
       - name: Build
         working-directory: ./Backend/AuthService
-        run: dotnet build
+        run: dir
       - name: Publish
         run: dotnet publish
