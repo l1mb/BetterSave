@@ -7,7 +7,6 @@ jobs:
     steps: 
       - name: Build
         working-directory: ./AuthService
-        run: cp .env.dev .env
         run: dotnet build
       - name: Publish
         run: dotnet publish
