@@ -39,7 +39,7 @@ namespace AuthServiceApp.DAL.Repo
             var updateResult = await _userManager.UpdateAsync(existingUser);
             if (!updateResult.Succeeded)
             {
-                throw new ApplicationHelperException(ServiceResultType.ServerError, ExceptionMessageConstants.SaveIsImposiible);
+                throw new ApplicationHelperException(ServiceResultType.ServerError, ExceptionMessageConstants.SaveIsImpossible);
             }
             var fullUser = await _userManager.FindByIdAsync(userId);
 

@@ -8,7 +8,7 @@ namespace AuthServiceApp.BL.Exceptions
         {
             if (value is null)
             {
-                throw new ApplicationHelperException(Enums.ServiceResultType.InvalidData, ExceptionMessageConstants.SaveIsImposiible);
+                throw new ApplicationHelperException(Enums.ServiceResultType.InvalidData, ExceptionMessageConstants.SaveIsImpossible);
             }
         }
 
