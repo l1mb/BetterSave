@@ -5,6 +5,7 @@ using AuthServiceApp.BL.Helpers;
 using AuthServiceApp.BL.Services.Interfaces;
 using AuthServiceApp.DAL.Entities;
 using AuthServiceApp.WEB.DTOs.Output.User;
+using AuthServiceApp.WEB.DTOs.User;
 using AuthServiceApp.WEB.Settings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
@@ -13,7 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AuthServiceApp.WEB.Controllers
 {
     [ApiController]
-    [Route("api/user")]
+    [Route("api/[controller]/[action]")]
     public class UserController : ControllerBase
     {
         private readonly AppSettings _appSettings;
@@ -34,15 +35,6 @@ namespace AuthServiceApp.WEB.Controllers
             return res;
         }
 
-        [HttpPut("api/user")]
-        [Authorize]
-        public async Task<ActionResult> UpdateUser([FromBody] UserDto updateUserDto)
-        {
-            await _userService.UpdateUser(updateUserDto);
-
-            return NoContent();
-        }
-
         [HttpPatch]
         [Authorize]
         public async Task<ActionResult> PatchUser([FromBody] JsonPatchDocument<ApplicationUser> patchDoc)
@@ -55,12 +47,32 @@ namespace AuthServiceApp.WEB.Controllers
 
         [HttpDelete]
         [Authorize]
-        public async Task<ActionResult> PatchUser()
+        public async Task<ActionResult> DeleteUser()
         {
             var userId = ClaimHelper.GetUserId(User);
             await _userService.DeleteAccount(userId);
 
             return NoContent();
+        }
+
+        [HttpPut]
+        [Authorize]
+        public async Task<ActionResult> UpdateUser([FromBody] UserDto request)
+        {
+            var userId = ClaimHelper.GetUserId(User);
+            var result = await _userService.UpdateUserAsync(request, Guid.Parse(userId));
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> ChangePassword(ChangePasswordModel request)
+        {
+            var userId = ClaimHelper.GetUserId(User);
+            await _userService.ChangePassword(userId, request.Password);
+
+            return Ok();
         }
     }
 }

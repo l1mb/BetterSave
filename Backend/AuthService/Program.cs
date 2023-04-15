@@ -89,7 +89,11 @@ app.MapControllers();
 
 app.UseHttpsRedirection();
 
-RecurringJob.AddOrUpdate<IServiceManagement>(x => x.CheckUserLoans(), Cron.Minutely);
+if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
+{
+    RecurringJob.AddOrUpdate<IServiceManagement>(x => x.CheckUserLoans(), Cron.Minutely);
+}
+
 
 app.Run();
 
