@@ -32,6 +32,8 @@ builder.Services.RegistryDatabase(appSettings);
 builder.Services.RegisterIdentity();
 builder.Services.RegisterAutoMapper();
 
+builder.Services.RegisterBackgroundWorkers();
+
 builder.Services.RegisterAuthSettings(appSettings);
 builder.Services.RegisterHttpContextExtensions();
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
