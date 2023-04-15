@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Reflection.Emit;
+using AuthServiceApp.WEB.DTOs.Driver;
 
 namespace AuthServiceApp.DAL.Models
 {
@@ -32,6 +33,7 @@ namespace AuthServiceApp.DAL.Models
         public DbSet<res> CategoryInfo { get; set; }
         public DbSet<CategoryEntity> Categories { get; set; }
         public DbSet<SubCategoryEntity> Subcategories { get; set; }
+        public DbSet<Driver> Drivers { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {

@@ -8,6 +8,9 @@ using AuthServiceApp.DAL.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using System.Reflection.Metadata.Ecma335;
+using System.Xml.Linq;
+using AuthServiceApp.BL.Mappers;
 
 namespace AuthServiceApp.DAL.Repo
 {
@@ -69,5 +72,23 @@ namespace AuthServiceApp.DAL.Repo
         }
 
         private async Task<ApplicationUser> GetUserWithChildrenAsync(Expression<Func<ApplicationUser, bool>> expression) => await Entity.AsNoTracking().Include(o => o.UserRoles).FirstOrDefaultAsync(expression);
+
+
+        public async Task<List<(ApplicationUser, LoanEntity)>> GetUsersWithLoansBeforeTomorrow()
+        {
+            var users = Entity.Include(user => user.Loans);
+            var neededUsers = await users
+                .Where(user => user.Loans.Any(loan => loan.ReturnDate.Date == DateTime.Today.AddDays(1).Date))
+                .ToListAsync();
+
+            var arr = neededUsers.SelectMany(user =>
+                user.Loans.Where(loan => loan.ReturnDate.Date == DateTime.Today.AddDays(1).Date).Select(loan => new
+                {
+                    Loan = loan,
+                    User = user
+                }));
+            return arr.Select(x => (x.User, x.Loan)).ToList();
+
+        }
     }
 }

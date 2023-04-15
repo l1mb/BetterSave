@@ -71,12 +71,28 @@ namespace AuthServiceApp.BL.Services.Classes
             return userDto;
         }
 
+        
+
         public async Task<ServiceResult> PatchUser(JsonPatchDocument<ApplicationUser> patchDoc, string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
             patchDoc.ApplyTo(user);
             await _userManager.UpdateAsync(user);
             return new(ServiceResultType.Ok);
+        }
+
+        public async Task<List<string>> GetUserEmails(Expression<Func<ApplicationUser, bool>> expression)
+        {
+            var result = await _userRepository.SearchForMultipleItemsAsync(expression, order => order.Email);
+
+            return result.Select(x => x.Email).ToList();
+        }
+
+        public async Task<List<(ApplicationUser, LoanEntity)>> GetUsersWithLoansBeforeTomorrow()
+        {
+            var result = await _userRepository.GetUsersWithLoansBeforeTomorrow();
+
+            return result;
         }
 
         public async Task<ServiceResult> UpdateUser(UserDto userDto)

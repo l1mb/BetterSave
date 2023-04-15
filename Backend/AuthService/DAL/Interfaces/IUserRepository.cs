@@ -10,5 +10,6 @@ namespace AuthServiceApp.DAL.Interfaces
         Task<ServiceResult> UpdateUserPasswordAsync(Guid id, string password);
         Task<ServiceResult<ApplicationUser>> UpdateUserAsync(ApplicationUser appUser, string userId);
         Task<ApplicationUser> UpdateItemAsyncWithModified(ApplicationUser item, params Expression<Func<ApplicationUser, object>>[] modifiedProps);
+        Task<List<(ApplicationUser, LoanEntity)>> GetUsersWithLoansBeforeTomorrow();
     }
 }
