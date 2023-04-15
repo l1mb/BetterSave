@@ -6,6 +6,7 @@ using AuthServiceApp.BL.Services.Classes;
 using AuthServiceApp.BL.Services.GenericService;
 using AuthServiceApp.BL.Services.Interfaces;
 using AuthServiceApp.BL.Services.Loan;
+using AuthServiceApp.BL.Services.Operation;
 using AuthServiceApp.BL.Services.Pictures;
 using AuthServiceApp.BL.Services.Pictures.Interfaces;
 using AuthServiceApp.DAL.Interfaces;
@@ -30,6 +31,7 @@ namespace AuthServiceApp.WEB.Extensions
             //Services
             services.AddScoped(typeof(IGenericService<>), typeof(GenericService<>));
             services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<IOperationService, OperationService>();
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IAimService, AimService>();
             services.AddTransient<IPictureService, PicturesService>();
