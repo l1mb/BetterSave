@@ -11,7 +11,7 @@ namespace AuthServiceApp.DAL.Repo.Account
         }
     }
 
-    public interface IAccountRepository
+    public interface IAccountRepository: IBaseRepository<AccountEntity>
     {
         
     }

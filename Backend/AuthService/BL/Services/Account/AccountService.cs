@@ -1,36 +1,57 @@
-﻿using AuthServiceApp.DAL.Repo.Account;
+﻿using AuthServiceApp.BL.Exceptions;
+using AuthServiceApp.BL.Mappers;
+using AuthServiceApp.DAL.Entities.Account;
+using AuthServiceApp.DAL.Repo.Account;
 using AuthServiceApp.WEB.DTOs.Account;
+using AutoMapper;
 
 namespace AuthServiceApp.BL.Services.Account
 {
     public class AccountService: IAccountService
     {
-        private IAccountRepository accountRepository;
+        private readonly IAccountRepository _accountRepository;
+        private readonly IMapper _mapper;
 
-        public AccountService(IAccountRepository accountRepository)
+        public AccountService(IAccountRepository accountRepository, IMapper mapper)
         {
-            this.accountRepository = accountRepository;
+            this._accountRepository = accountRepository;
+            this._mapper = mapper;
         }
 
 
-        public Task<AccountModel> CreateAccountAsync(CreateAccountModel model)
+        public async Task<AccountModel> CreateAccountAsync(CreateAccountModel model)
         {
-            throw new NotImplementedException();
+            var entity = _mapper.Map<AccountEntity>(model);
+            var result  = await _accountRepository.CreateItemAsync(entity);
+
+            return _mapper.Map<AccountModel>(result);
         }
 
-        public Task<AccountModel> UpdateAccountAsync(UpdateAccountModel model)
+        public async Task<AccountModel> UpdateAccountAsync(UpdateAccountModel model)
         {
-            throw new NotImplementedException();
+            var item = await _accountRepository.SearchForSingleItemAsync(acc => acc.Id == model.Id);
+
+            if (item is null)
+            {
+                throw new ApplicationHelperException("Item with this id not found");
+            }
+
+            var entity = _mapper.Map(model, item);
+            var result = await _accountRepository.UpdateItemAsync(entity);
+
+            return _mapper.Map<AccountModel>(result);
         }
 
-        public Task<AccountModel> DeleteAccountAsync(Guid accountId)
+        public async Task DeleteAccountAsync(Guid accountId)
         {
-            throw new NotImplementedException();
+            await _accountRepository.RemoveItemAsync(item => item.Id == accountId);
         }
 
-        public Task<List<AccountModel>> GetAllAccountsAsync(Guid userId)
+        public async Task<List<AccountModel>> GetAllAccountsAsync(Guid userId)
         {
-            throw new NotImplementedException();
+            var result = await _accountRepository.SearchForMultipleItemsAsync(x => x.UserId == userId, y => y.Balance);
+
+            return _mapper.Map<List<AccountModel>>(result);
         }
     }
 
@@ -38,7 +59,7 @@ namespace AuthServiceApp.BL.Services.Account
     {
         public Task<AccountModel> CreateAccountAsync(CreateAccountModel model);
         public Task<AccountModel> UpdateAccountAsync(UpdateAccountModel model);
-        public Task<AccountModel> DeleteAccountAsync(Guid  accountId);
+        public Task DeleteAccountAsync(Guid  accountId);
         public Task<List<AccountModel>> GetAllAccountsAsync(Guid userId);
     }
 }
