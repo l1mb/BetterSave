@@ -49,7 +49,7 @@ namespace AuthServiceApp.BL.Services.Account
 
         public async Task<List<AccountModel>> GetAllAccountsAsync(Guid userId)
         {
-            var result = await _accountRepository.SearchForMultipleItemsAsync(x => x.UserId == userId, y => y.Balance);
+            var result = await _accountRepository.GetAllUserAccounts(userId);
 
             return _mapper.Map<List<AccountModel>>(result);
         }
