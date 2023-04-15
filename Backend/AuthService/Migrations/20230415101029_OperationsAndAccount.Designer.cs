@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AuthServiceApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230410154755_init")]
-    partial class init
+    [Migration("20230415101029_OperationsAndAccount")]
+    partial class OperationsAndAccount
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,40 @@ namespace AuthServiceApp.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("AuthServiceApp.DAL.Entities.Account.AccountEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<float>("Balance")
+                        .HasColumnType("real");
+
+                    b.Property<string>("IconColor")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IconName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Account");
+                });
 
             modelBuilder.Entity("AuthServiceApp.DAL.Entities.AimEntity", b =>
                 {
@@ -232,6 +266,10 @@ namespace AuthServiceApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Icon")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -283,6 +321,10 @@ namespace AuthServiceApp.Migrations
 
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Icon")
                         .IsRequired()
@@ -340,6 +382,43 @@ namespace AuthServiceApp.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Loans");
+                });
+
+            modelBuilder.Entity("AuthServiceApp.DAL.Entities.Operations.OperationEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("SubCategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<float>("Value")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
+
+                    b.HasIndex("SubCategoryId");
+
+                    b.ToTable("Operation");
                 });
 
             modelBuilder.Entity("AuthServiceApp.DAL.Entities.Shop", b =>
@@ -578,6 +657,17 @@ namespace AuthServiceApp.Migrations
                     b.ToTable("ShopPositionSpending");
                 });
 
+            modelBuilder.Entity("AuthServiceApp.DAL.Entities.Account.AccountEntity", b =>
+                {
+                    b.HasOne("AuthServiceApp.DAL.Entities.ApplicationUser", "User")
+                        .WithMany("UserAccounts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("AuthServiceApp.DAL.Entities.AimEntity", b =>
                 {
                     b.HasOne("AuthServiceApp.DAL.Entities.AimTypeEntity", null)
@@ -651,6 +741,23 @@ namespace AuthServiceApp.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("AuthServiceApp.DAL.Entities.Operations.OperationEntity", b =>
+                {
+                    b.HasOne("AuthServiceApp.DAL.Entities.Account.AccountEntity", "Account")
+                        .WithMany("Operations")
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AuthServiceApp.DAL.Entities.Categories.SubCategoryEntity", "SubCategory")
+                        .WithMany("Operations")
+                        .HasForeignKey("SubCategoryId");
+
+                    b.Navigation("Account");
+
+                    b.Navigation("SubCategory");
                 });
 
             modelBuilder.Entity("AuthServiceApp.DAL.Entities.ShopPosition", b =>
@@ -753,6 +860,11 @@ namespace AuthServiceApp.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("AuthServiceApp.DAL.Entities.Account.AccountEntity", b =>
+                {
+                    b.Navigation("Operations");
+                });
+
             modelBuilder.Entity("AuthServiceApp.DAL.Entities.AimTypeEntity", b =>
                 {
                     b.Navigation("AimEntities");
@@ -774,6 +886,8 @@ namespace AuthServiceApp.Migrations
 
                     b.Navigation("Spendings");
 
+                    b.Navigation("UserAccounts");
+
                     b.Navigation("UserRoles");
                 });
 
@@ -790,6 +904,11 @@ namespace AuthServiceApp.Migrations
             modelBuilder.Entity("AuthServiceApp.DAL.Entities.Categories.SpendingCategory", b =>
                 {
                     b.Navigation("ShopPositions");
+                });
+
+            modelBuilder.Entity("AuthServiceApp.DAL.Entities.Categories.SubCategoryEntity", b =>
+                {
+                    b.Navigation("Operations");
                 });
 
             modelBuilder.Entity("AuthServiceApp.DAL.Entities.Shop", b =>
