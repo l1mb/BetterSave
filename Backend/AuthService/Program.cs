@@ -26,7 +26,7 @@ Log.Logger = LoggerExtensions.RegisterLogger();
 
 builder.Services.RegisterServices(appSettings);
 
-builder.Services.AddSwaggerGen();
+builder.Services.RegisterSwagger();
 
 builder.Services.RegistryDatabase(appSettings);
 builder.Services.RegisterIdentity();
@@ -57,10 +57,7 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 
-app.UseSwagger();
-app.UseSwaggerUI(c =>
-    c.InjectStylesheet("/assets/css/swagger-theme.css")
-);
+app.RegisterSwaggerUi();
 
 var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
 using (var scope = scopeFactory.CreateScope())
