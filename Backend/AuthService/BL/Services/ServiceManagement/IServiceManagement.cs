@@ -6,5 +6,6 @@
         void UpdateDatabase();
         void SyncData();
         Task CheckUserLoans();
+        Task SendSuccessMessage(string email);
     }
 }

@@ -47,5 +47,10 @@ namespace AuthServiceApp.BL.Services.ServiceManagement
 
         }
 
+        public async Task SendSuccessMessage(string email)
+        {
+            await _emailSender.SendEmailAsync(email, "Регистрация", "Благодарим вас за регистрацию в нашем приложении.");
+            Console.WriteLine($"Message was send to address {email} \n time: {DateTimeOffset.Now}");
+        }
     }
 }

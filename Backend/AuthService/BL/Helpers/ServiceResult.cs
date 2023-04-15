@@ -25,6 +25,7 @@ namespace AuthServiceApp.BL.Helpers
     public class ServiceResult<T> : ServiceResult
     {
         public T Data { get; set; }
+        public string Message { get; set; }
 
         public ServiceResult()
         {
