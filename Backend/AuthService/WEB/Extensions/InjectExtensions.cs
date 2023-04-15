@@ -1,14 +1,17 @@
-﻿using AuthServiceApp.BL.Services.Aim;
+﻿using AuthServiceApp.BL.Services.Account;
+using AuthServiceApp.BL.Services.Aim;
 using AuthServiceApp.BL.Services.Card;
 using AuthServiceApp.BL.Services.Category;
 using AuthServiceApp.BL.Services.Classes;
 using AuthServiceApp.BL.Services.GenericService;
 using AuthServiceApp.BL.Services.Interfaces;
 using AuthServiceApp.BL.Services.Loan;
+using AuthServiceApp.BL.Services.Operation;
 using AuthServiceApp.BL.Services.Pictures;
 using AuthServiceApp.BL.Services.Pictures.Interfaces;
 using AuthServiceApp.DAL.Interfaces;
 using AuthServiceApp.DAL.Repo;
+using AuthServiceApp.DAL.Repo.Account;
 using AuthServiceApp.DAL.Repo.Card;
 using AuthServiceApp.DAL.Repo.CategoryRepository;
 using AuthServiceApp.Services.Classes;
@@ -27,6 +30,8 @@ namespace AuthServiceApp.WEB.Extensions
 
             //Services
             services.AddScoped(typeof(IGenericService<>), typeof(GenericService<>));
+            services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<IOperationService, OperationService>();
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IAimService, AimService>();
             services.AddTransient<IPictureService, PicturesService>();
@@ -40,6 +45,7 @@ namespace AuthServiceApp.WEB.Extensions
 
             //Repositories
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+            services.AddTransient<IAccountRepository, AccountRepository>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();
             services.AddTransient<ICardRepository, CardRepository>();
             services.AddTransient<ISpendingRepository, SpendingRepository>();

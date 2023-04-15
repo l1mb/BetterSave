@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
+using AuthServiceApp.DAL.Entities.Account;
 
 namespace AuthServiceApp.DAL.Entities
 {
@@ -18,5 +19,6 @@ namespace AuthServiceApp.DAL.Entities
         public virtual AimEntity Aim { get; set; }
 
         public virtual ICollection<LoanEntity> Loans { get; set; }
+        public virtual ICollection<AccountEntity> UserAccounts { get; set; }
     }
 }

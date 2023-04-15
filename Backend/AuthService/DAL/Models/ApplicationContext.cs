@@ -45,6 +45,7 @@ namespace AuthServiceApp.DAL.Models
             builder.Entity<res>().HasNoKey().ToView(null); ;
             builder.Entity<CardEntity>().HasQueryFilter(p => !p.IsDeleted);
 
+            builder.ApplyConfiguration(new OperationConfiguration());
             builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new ShopPositionConfiguration());
             builder.ApplyConfiguration(new SpendingConfiguration());

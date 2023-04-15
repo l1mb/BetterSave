@@ -66,7 +66,7 @@ namespace AuthServiceApp.Services.Classes
             var result = await _signInManager.CheckPasswordSignInAsync(user, basicUserModel.Password, false);
             if (!result.Succeeded)
             {
-                throw new ApplicationHelperException(ServiceResultType.InvalidData, ExceptionMessageConstants.PasswordMissmatch);
+                throw new ApplicationHelperException(ServiceResultType.InvalidData, ExceptionMessageConstants.PasswordMismatch);
             }
 
             var tokenGenerator = new TokenGenerator(appSettings);

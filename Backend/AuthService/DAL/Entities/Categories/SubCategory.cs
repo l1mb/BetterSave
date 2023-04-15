@@ -1,4 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using AuthServiceApp.DAL.Entities.Account;
+using AuthServiceApp.DAL.Entities.Operations;
+using Microsoft.AspNetCore.JsonPatch.Operations;
 
 namespace AuthServiceApp.DAL.Entities.Categories
 {
@@ -10,5 +13,6 @@ namespace AuthServiceApp.DAL.Entities.Categories
         public string Color { get; set; }
         public Guid CategoryId{ get; set; }
         public CategoryEntity Category{ get; set; }
+        public  virtual ICollection<OperationEntity> Operations { get; set; }
     }
 }
