@@ -191,6 +191,21 @@ namespace AuthServiceApp.DAL.Repo
             return item;
         }
 
+        public async Task<T> UpdateItemAsync(T item)
+        {
+            try
+            {
+                Entity.Update(item);
+                await DbContext.SaveChangesAsync();
+            }
+            catch
+            {
+                throw new ApplicationHelperException(ServiceResultType.InvalidData, "Unable to update this entity");
+            }
+
+            return item;
+        }
+
         public async Task<T> UpdateItemAsyncWithModified(T item, params Expression<Func<T, object>>[] modifiedProperties)
         {
             try

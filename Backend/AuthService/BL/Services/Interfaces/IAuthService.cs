@@ -8,7 +8,7 @@ namespace AuthServiceApp.Services.Interfaces
 {
     public interface IAuthService
     {
-        Task<ServiceResult> ConfirmAsync(string id, string token);
+        Task<string> ConfirmAsync(string id, string token);
         Task SendConfirmationMessageAsync(string actionName, string controllerName, (SignUpOutputDto user, string confirmToken) data, string scheme);
         Task<ServiceResult<LoginOutDto>> SignInAsync(SignInDto userModel, AppSettings appSettings);
         Task<ServiceResult<(SignUpOutputDto user, string confirmToken)>> SignUpAsync(SignUpDto userModel);

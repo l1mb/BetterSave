@@ -80,21 +80,23 @@ namespace AuthServiceApp.Services.Classes
             (SignUpOutputDto user, string confirmToken) data, string scheme)
         {
             var confirmationLink = _urlHelper.Action(actionName, controllerName, new { data.user.Id, token = data.confirmToken }, scheme);
-
-            var t = confirmationLink.Substring(0, 11);
-            confirmationLink = confirmationLink.Replace(t, "http://localhost:8080/");
+                // todo FIX!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            //var t = confirmationLink.Substring(0, 11);
+            //confirmationLink = confirmationLink.Replace(t, "http://localhost:8080/");
             await _emailSender.SendEmailAsync(data.user.Email, "Account confirmation", confirmationLink);
         }
 
-        public async Task<ServiceResult> ConfirmAsync(string id, string token)
+        public async Task<string> ConfirmAsync(string id, string token)
         {
             var user = await _userManager.FindByIdAsync(id);
 
             var isEmailConfirmed = await _userManager.ConfirmEmailAsync(user, HttpUtility.UrlDecode(token));
+            if (!isEmailConfirmed.Succeeded)
+            {
+                throw new ApplicationHelperException(ServiceResultType.InvalidData, "Account was not confirmed");
+            }
 
-            return !isEmailConfirmed.Succeeded
-                ? new(ServiceResultType.ServerError)
-                : new ServiceResult(ServiceResultType.Ok);
+            return user.Email;
         }
 
         public async Task<ServiceResult> UpdateUserPasswordAsync(ApplicationUser user, SignUpDto updateUserModel)

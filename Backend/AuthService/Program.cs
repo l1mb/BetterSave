@@ -1,3 +1,4 @@
+using AuthServiceApp.BL.Services.ServiceManagement;
 using AuthServiceApp.DAL.Models;
 using AuthServiceApp.Settings.Extensions;
 using AuthServiceApp.WEB.Extensions;
@@ -17,6 +18,7 @@ using LoggerExtensions = AuthServiceApp.WEB.Extensions.LoggerExtensions;
 using AuthServiceApp.WEB.StartUp.Configuration;
 using Microsoft.AspNetCore.Identity;
 using AuthServiceApp.DAL.Entities;
+using Hangfire;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog();
@@ -24,6 +26,8 @@ builder.Host.UseSerilog();
 var appSettings = RegisterSettings(builder.Configuration);
 Log.Logger = LoggerExtensions.RegisterLogger();
 
+
+builder.Services.RegisterHangfire(appSettings.Database.ConnectionString);
 builder.Services.RegisterServices(appSettings);
 
 builder.Services.RegisterSwagger();
@@ -31,6 +35,8 @@ builder.Services.RegisterSwagger();
 builder.Services.RegistryDatabase(appSettings);
 builder.Services.RegisterIdentity();
 builder.Services.RegisterAutoMapper();
+
+//builder.Services.RegisterBackgroundWorkers();
 
 builder.Services.RegisterAuthSettings(appSettings);
 builder.Services.RegisterHttpContextExtensions();
@@ -58,6 +64,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 
 app.RegisterSwaggerUi();
+app.UseHangfire();
 
 var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
 using (var scope = scopeFactory.CreateScope())
@@ -81,6 +88,13 @@ app.UseStaticFiles();
 app.MapControllers();
 
 app.UseHttpsRedirection();
+
+if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
+{
+    RecurringJob.AddOrUpdate<IServiceManagement>(x => x.CheckUserLoans(), Cron.Minutely);
+}
+
+
 app.Run();
 
 static AppSettings RegisterSettings(IConfiguration configuration)
