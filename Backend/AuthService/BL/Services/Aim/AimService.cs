@@ -1,11 +1,17 @@
 ﻿using AuthServiceApp.BL.Constants;
 using AuthServiceApp.BL.Enums;
 using AuthServiceApp.BL.Exceptions;
+using AuthServiceApp.BL.Mappers;
+using AuthServiceApp.BL.Services.AimRecording;
 using AuthServiceApp.BL.Services.GenericService;
+using AuthServiceApp.BL.Services.Operation;
 using AuthServiceApp.DAL.Entities;
 using AuthServiceApp.DAL.Interfaces;
+using AuthServiceApp.DAL.Repo.Aim;
 using AuthServiceApp.WEB.DTOs.Aim;
+using AuthServiceApp.WEB.DTOs.Operations;
 using AutoMapper;
+using MailKit;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthServiceApp.BL.Services.Aim
@@ -14,10 +20,16 @@ namespace AuthServiceApp.BL.Services.Aim
     {
         private readonly IBaseRepository<AimEntity> _repository;
         private readonly IMapper _mapper; 
-        public AimService(IBaseRepository<AimEntity> repository, IMapper mapper) : base(repository)
+        private readonly IAimRepository _aimRepository;
+        private readonly IAimRecordingService _recordingService;
+        private readonly IOperationService _operationService;
+        public AimService(IBaseRepository<AimEntity> repository, IMapper mapper, IAimRepository aimRepository, IAimRecordingService recordingService, IOperationService operationService) : base(repository)
         {
             _repository = repository;
             _mapper = mapper;
+            _aimRepository = aimRepository;
+            _recordingService = recordingService;
+            _operationService = operationService;
         }
 
         public async Task<AimDto> CreateAim(AimDto dto)
@@ -80,5 +92,121 @@ namespace AuthServiceApp.BL.Services.Aim
             var res  = await _repository.SearchWithIncludeItemAsync(x => x.IsMastered == false && x.IsDeleted == false, y => y.AimRecordings);
             return _mapper.Map<List<AimDto>>(res);
         }
+
+        public async Task<AimDto> MasterAim(Guid dtoId, bool value)
+        {
+            var prevEntity = await _aimRepository.FindOneById(dtoId);
+            if (prevEntity != null)
+            {
+                prevEntity.IsMastered = value;
+                await _repository.UpdateItemAsyncWithModified(prevEntity, x => x.IsMastered);
+            }
+
+            return _mapper.Map<AimDto>(prevEntity);
+        }
+
+        #region JOB
+
+        public async Task MainAimFunctionWrapper(AimDto x)
+        {
+            await MainAimFunction(x);
+        }
+
+        private async Task<float> GetSumOfOperations(AimDto dto, DateTime startDate, DateTime endDate)
+        {
+            var operations = (await _operationService.GetOperationsByUserIdAsync(dto.UserId)).ToList();
+            var res = new List<OperationModel>();
+            if (dto.Type == AimType.IncreaseIncome)
+                res = operations.Where(x => x.Type == OperationTypes.Income).ToList();
+            else if (dto.Type == AimType.ExpenseLess)
+                res = operations.Where(x => x.Type == OperationTypes.Expense).ToList();
+
+            var grouped = operations.Where(x => x.CreatedDate < endDate && x.CreatedDate > startDate).GroupBy(x => x.Type)
+                .Select(g => new
+                {
+                    g.Key,
+                    Value = g.Sum(s => s.Value)
+                }).ToList();
+            var neededOperationType = OperationTypes.Expense;
+            if (dto.Type == AimType.IncreaseIncome)
+                neededOperationType = OperationTypes.Income;
+            else if (dto.Type == AimType.ExpenseLess) neededOperationType = OperationTypes.Expense;
+
+            var keyValue = grouped.SingleOrDefault(x => x.Key == neededOperationType);
+            if (keyValue is null) return 0;
+
+            return keyValue.Value;
+        }
+
+        private async Task<bool?> GetIsMastered(AimDto dto)
+        {
+            var sum = 0f;
+            bool? result = false;
+
+            if (dto.DateType == AimDateType.DailyToDate)
+            {
+                sum = await GetSumOfOperations(dto, DateTime.Now.AddDays(-1).Date, DateTime.Now.Date);
+
+                //result = CheckAimCriteria(sum, dto.Type, dto.Amount);
+                result = CheckIfAimExpires(dto);
+            }
+
+            else if (dto.DateType == AimDateType.ToDate)
+            {
+                sum = await GetSumOfOperations(dto, dto.CreationDate, DateTime.Now.Date);
+                if (CheckIfAimExpires(dto))
+                    result = CheckAimCriteria(sum, dto.Type, dto.Amount);
+                else
+                {
+                result = null;
+                    
+                }
+            }
+
+            return result;
+        }
+
+        private bool CheckIfAimExpires(AimDto dto)
+        {
+            return DateTime.Now.Date == dto.FinishDate.Date;
+        }
+
+        private async Task CreateRecordings(AimDto dto)
+        {
+            if (dto.DateType == AimDateType.DailyCount || dto.DateType == AimDateType.DailyCount)
+            {
+                var sum = await GetSumOfOperations(dto, dto.CreationDate, DateTime.Now.Date);
+                var result = CheckAimCriteria(sum, dto.Type, dto.Amount);
+                if (result)
+                    await _recordingService.CreateAimRecording(new()
+                    {
+                        Date = DateTime.Now,
+                        AimId = Guid.Parse(dto.Id.ToString() ?? string.Empty)
+                    });
+            }
+        }
+
+        public async Task MainAimFunction(AimDto dto)
+        {
+            var isMastered = await GetIsMastered(dto);
+            await CreateRecordings(dto);
+            if (isMastered is not null)
+            {
+                await MasterAim(Guid.Parse(dto.Id.ToString() ?? string.Empty), (bool)isMastered);
+            }
+        }
+
+
+        private bool CheckAimCriteria(float sum, AimType type, float amount)
+        {
+            var result = false;
+            if (type == AimType.IncreaseIncome)
+                result = sum > amount;
+            else if (type == AimType.ExpenseLess) result = sum < amount;
+
+            return result;
+        }
+
+        #endregion
     }
 }

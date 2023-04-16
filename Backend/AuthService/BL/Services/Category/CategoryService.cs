@@ -13,12 +13,12 @@ namespace AuthServiceApp.BL.Services.Category
 {
     public class CategoryService : GenericService<CategoryEntity>, ICategoryService
     {
-        private IBaseRepository<SubCategoryEntity> _subCategoryRepository;
-        private ICategoryRepository _categoryRepository; 
-        private IMapper _mapper;
+        private readonly IBaseRepository<SubCategoryEntity> _subCategoryRepository;
+        private readonly ICategoryRepository _categoryRepository; 
+        private readonly IMapper _mapper;
         
 
-        public CategoryService(IBaseRepository<CategoryEntity?> repository, IMapper mapper, IBaseRepository<SubCategoryEntity> subCategoryRepository, ICategoryRepository categoryRepository) : base(repository)
+        public CategoryService(IBaseRepository<CategoryEntity> repository, IMapper mapper, IBaseRepository<SubCategoryEntity> subCategoryRepository, ICategoryRepository categoryRepository) : base(repository)
         {
             _mapper = mapper;
             _subCategoryRepository = subCategoryRepository;

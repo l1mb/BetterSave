@@ -20,7 +20,7 @@ namespace AuthServiceApp.DAL.Repo
         }
 
 
-        public async Task<T?> SearchForSingleItemAsync(Expression<Func<T, bool>> expression)
+        public async Task<T> SearchForSingleItemAsync(Expression<Func<T, bool>> expression)
         {
             var item = await Entity.AsNoTracking().SingleOrDefaultAsync(expression);
 

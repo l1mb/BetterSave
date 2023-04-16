@@ -14,6 +14,7 @@ using AuthServiceApp.BL.Services.ServiceManagement;
 using AuthServiceApp.DAL.Interfaces;
 using AuthServiceApp.DAL.Repo;
 using AuthServiceApp.DAL.Repo.Account;
+using AuthServiceApp.DAL.Repo.Aim;
 using AuthServiceApp.DAL.Repo.Card;
 using AuthServiceApp.DAL.Repo.CategoryRepository;
 using AuthServiceApp.Services.Classes;
@@ -49,6 +50,7 @@ namespace AuthServiceApp.WEB.Extensions
 
             //Repositories
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+            services.AddTransient<IAimRepository, AimRepository>();
             services.AddTransient<IAccountRepository, AccountRepository>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();
             services.AddTransient<ICardRepository, CardRepository>();

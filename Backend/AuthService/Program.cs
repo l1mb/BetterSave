@@ -94,6 +94,8 @@ if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development
     RecurringJob.AddOrUpdate<IServiceManagement>(x => x.CheckUserLoans(), Cron.Minutely);
 }
 
+RecurringJob.AddOrUpdate<IServiceManagement>(x => x.CheckUsersAims(), Cron.Monthly);
+
 
 app.Run();
 

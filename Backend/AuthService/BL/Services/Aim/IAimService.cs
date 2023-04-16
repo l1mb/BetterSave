@@ -12,5 +12,6 @@ namespace AuthServiceApp.BL.Services.Aim
         Task<AimDto> Delete(Guid id);
         Task<AimDto> UpdateAsync(UpdateAimDto id);
         Task<List<AimDto>> GetAllActiveAims();
+        Task MainAimFunction(AimDto dto);
     }
 }
