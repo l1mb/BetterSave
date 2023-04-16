@@ -44,7 +44,7 @@ namespace AuthServiceApp.BL.Services.Category
         public async Task<AddSubCategoryDTO> CreateSubCategoryAsync(AddSubCategoryDTO dto)
         {
             var entity = _mapper.Map<SubCategoryEntity>(dto);
-            var category = await _categoryRepository.SearchForSingleItemAsync(x => x.Id == entity.CategoryId && x.IsDeleted == false, x => x.Subcategories);
+            var category = await _categoryRepository.SearchWithIncludeItemAsync(x => x.Id == entity.CategoryId && x.IsDeleted == false, x => x.Subcategories);
             if (category is null)
             {
                 throw new ApplicationHelperException("Such category doesn't exist");

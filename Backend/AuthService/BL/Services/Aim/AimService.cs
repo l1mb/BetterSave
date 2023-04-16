@@ -12,9 +12,9 @@ namespace AuthServiceApp.BL.Services.Aim
 {
     public class AimService : GenericService<AimEntity>, IAimService
     {
-        private IBaseRepository<AimEntity?> _repository;
-        private IMapper _mapper;
-        public AimService(IBaseRepository<AimEntity?> repository, IMapper mapper) : base(repository)
+        private readonly IBaseRepository<AimEntity> _repository;
+        private readonly IMapper _mapper; 
+        public AimService(IBaseRepository<AimEntity> repository, IMapper mapper) : base(repository)
         {
             _repository = repository;
             _mapper = mapper;
@@ -22,7 +22,14 @@ namespace AuthServiceApp.BL.Services.Aim
 
         public async Task<AimDto> CreateAim(AimDto dto)
         {
+            var prevEntity = await GetAimByUserId(dto.UserId);
+            if (prevEntity is not null)
+            {
+                throw new ApplicationHelperException(ServiceResultType.InvalidData,
+                    ExceptionMessageConstants.ItemExistCannotSave);
+            }
             var entity = _mapper.Map<AimEntity>(dto);
+            entity.CreationDate = DateTime.Now;
             var saveResult = await _repository.CreateItemAsync(entity);
 
             ExceptionUtilities.CheckSaveStatus(saveResult);
@@ -66,6 +73,12 @@ namespace AuthServiceApp.BL.Services.Aim
             }
 
             return _mapper.Map<AimDto>(item);
+        }
+
+        public async Task<List<AimDto>> GetAllActiveAims()
+        {
+            var res  = await _repository.SearchWithIncludeItemAsync(x => x.IsMastered == false && x.IsDeleted == false, y => y.AimRecordings);
+            return _mapper.Map<List<AimDto>>(res);
         }
     }
 }

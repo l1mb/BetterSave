@@ -29,7 +29,7 @@ namespace AuthServiceApp.DAL.Models
         public DbSet<ShopPosition> ShopPositions { get; set; }
         public DbSet<SpendingCategory> SpendingCategories { get; set; }
         public DbSet<AimEntity> AimEntities { get; set; }
-        public DbSet<AimTypeEntity> AimTypeEntities { get; set; }
+        public DbSet<AimRecordingEntity> AimRecordings { get; set; }
         public DbSet<res> CategoryInfo { get; set; }
         public DbSet<CategoryEntity> Categories { get; set; }
         public DbSet<SubCategoryEntity> Subcategories { get; set; }

@@ -5,7 +5,7 @@
         /// <summary>
         /// Income to account
         /// </summary>
-        Increase, 
+        Income, 
         /// <summary>
         /// How balance decreased
         /// </summary>

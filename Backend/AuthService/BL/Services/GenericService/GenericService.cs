@@ -8,9 +8,9 @@ namespace AuthServiceApp.BL.Services.GenericService
 {
     public class GenericService<T> : IGenericService<T> where T : BaseEntity
     {
-        private readonly IBaseRepository<T?> _repository;
+        private readonly IBaseRepository<T> _repository;
 
-        public GenericService(IBaseRepository<T?> repository)
+        public GenericService(IBaseRepository<T> repository)
         {
             _repository = repository;
         }

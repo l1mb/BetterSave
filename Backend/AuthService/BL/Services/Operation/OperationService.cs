@@ -52,7 +52,7 @@ public class OperationService : IOperationService
             throw new ApplicationHelperException(ServiceResultType.NotFound, ExceptionMessageConstants.NotFound);
         }
 
-        if (entity.Type is OperationTypes.Increase)
+        if (entity.Type is OperationTypes.Income)
         {
             account.Balance += entity.Value;
         }
