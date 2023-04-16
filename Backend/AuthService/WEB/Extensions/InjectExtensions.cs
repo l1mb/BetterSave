@@ -1,5 +1,6 @@
 ﻿using AuthServiceApp.BL.Services.Account;
 using AuthServiceApp.BL.Services.Aim;
+using AuthServiceApp.BL.Services.AimRecording;
 using AuthServiceApp.BL.Services.Card;
 using AuthServiceApp.BL.Services.Category;
 using AuthServiceApp.BL.Services.Classes;
@@ -42,6 +43,7 @@ namespace AuthServiceApp.WEB.Extensions
             services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IAimRecordingService, AimRecordingService>();
             services.AddTransient<ISpendingService, SpendingService>();
             services.AddTransient<IShopService, ShopService>();
 

@@ -33,5 +33,6 @@ namespace AuthServiceApp.BL.BackgroundWorkers
             _logger.LogInformation("Service stopped");
             return CompletedTask;
         }
+
     }
 }
