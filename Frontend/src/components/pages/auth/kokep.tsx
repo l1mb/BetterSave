@@ -1,7 +1,7 @@
 import React from "react";
 
 function Kokep() {
-  return <div>Kokep</div>;
+  return <div>Сакер</div>;
 }
 
 export default Kokep;

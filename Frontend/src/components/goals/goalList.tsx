@@ -151,16 +151,17 @@ function GoalList({ goal, setRefresh }: GoalListProps) {
         <>
           <div className="flex justify-between">
             <h4>
-              Task is:{" "}
+              Цель:{" "}
               <span>
-                save {goal.amount} {goal.aimType === 0 ? "each day" : `untill ${moment(goal.finishDate).format("l")}`}
+                сохранять {goal.amount}{" "}
+                {goal.aimType === 0 ? "каждый день" : `до ${moment(goal.finishDate).format("l")}`}
               </span>
             </h4>
             <button type="button" onClick={() => handleDeleteGoal(goal.id as string)}>
-              Delete goal
+              Удалить цель
             </button>
           </div>
-          <h5>Your progress</h5>
+          <h5>Ваш прогресс</h5>
           <div className="flex">
             {data.length > 0 && (
               <div className="flex h-[500px] w-full">
@@ -190,8 +191,10 @@ function GoalList({ goal, setRefresh }: GoalListProps) {
         </>
       ) : (
         <div>
-          <h2>We support your will to achive something, but we need to start from tracking your cards</h2>
-          <Link to="/cards">You can start here</Link>
+          <h2>
+            Мы поддерживаем ваше стремление чего-то достичь, но для начала нужно начать с отслеживания ваших карточек
+          </h2>
+          <Link to="/cards">Это можно сделать здесь</Link>
         </div>
       )}
     </div>

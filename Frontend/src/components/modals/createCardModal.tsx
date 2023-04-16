@@ -63,9 +63,9 @@ function CreateCardModal({ setIsOpen }: CreateCardModal) {
 
   return (
     <div>
-      <Modal setOpenModal={setIsOpen} onSucc={handleSucc} title="Add new card">
+      <Modal setOpenModal={setIsOpen} onSucc={handleSucc} title="Добавить новую карту">
         <div className="w-full">
-          <span className="mt-4">Card number</span>
+          <span className="mt-4">Номер карты</span>
           <div className="mt-1 mb-[0.5] flex w-full items-center justify-between gap-8  ">
             <div className="flex-grow">
               <input
@@ -101,7 +101,7 @@ function CreateCardModal({ setIsOpen }: CreateCardModal) {
           <div className="mt-4 mb-4  flex w-full items-center justify-between gap-8  ">
             <div className="flex flex-grow gap-5">
               <div className="flex-grow">
-                <span>Card name</span>
+                <span>Название карты</span>
                 <input
                   type="text"
                   value={cardModel?.name}
@@ -113,7 +113,7 @@ function CreateCardModal({ setIsOpen }: CreateCardModal) {
                 />
               </div>
               <div>
-                <span>Balance</span>
+                <span>Баланс</span>
                 <input
                   type="number"
                   value={cardModel?.balance}

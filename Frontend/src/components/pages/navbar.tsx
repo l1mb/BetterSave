@@ -39,13 +39,13 @@ function Navbar() {
               type="button"
               onClick={() => handleLogout()}
             >
-              Sign out
+              Выход
             </button>
           </>
         ) : (
           <>
-            <LinkElement link="/login" label="Login" />
-            <LinkElement link="/register" label="Register" />
+            <LinkElement link="/login" label="Войти" />
+            <LinkElement link="/register" label="Зарегистрироваться" />
           </>
         )}
       </div>

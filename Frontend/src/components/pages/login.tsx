@@ -50,10 +50,10 @@ function Login() {
       initialValues={{ email: "", password: "" }}
       validationSchema={Yup.object({
         email: Yup.string()
-          .max(30, "Must be 30 characters or less")
-          .email("Invalid email address")
-          .required("Please enter your email"),
-        password: Yup.string().required("Please enter your password"),
+          .max(30, "Максимум 30 символов")
+          .email("Неверный email адрес")
+          .required("Пожалуйста, введите email"),
+        password: Yup.string().required("Пожалуйста, введите пароль"),
       })}
       onSubmit={async (values, { setSubmitting, validateForm }) => {
         setSubmitting(true);
@@ -82,15 +82,15 @@ function Login() {
                   <FormikInput
                     htmlFor="email"
                     label="Email"
-                    ariaLabel="Enter your email"
+                    ariaLabel="введите свой адрес электронной почты"
                     ariaRequired
                     type="email"
                     error={formik.errors.email}
                   />
                   <FormikInput
                     htmlFor="password"
-                    label="Password"
-                    ariaLabel="Enter your password"
+                    label="Пароль"
+                    ariaLabel="введите свой пароль"
                     ariaRequired
                     type="password"
                     error={formik.errors.password}
@@ -105,7 +105,7 @@ function Login() {
                   `}
                 >
                   {!loading ? (
-                    "Login"
+                    "Войти"
                   ) : (
                     <div className="flex justify-center">
                       <HashLoader
@@ -120,11 +120,11 @@ function Login() {
                 </button>
 
                 <span className=" text-right text-xs text-indigo-800">
-                  Or you may want to{" "}
+                  Или вы можете{" "}
                   <Link to="/register">
-                    <span className="cursor-pointer text-indigo-600">register</span>
+                    <span className="cursor-pointer text-indigo-600">зарегистрироваться</span>
                   </Link>{" "}
-                  instead
+                  вместо этого
                 </span>
               </form>
             </div>

@@ -6,7 +6,7 @@ import Goals from "../pages/goals/goals";
 import Layout from "../pages/layout";
 import Loans from "../pages/loans";
 import Login from "../pages/login";
-import NotFound from "../pages/notFound";
+import NotFound from "../pages/notFound/notFound";
 import Operations from "../pages/operations/operations";
 import Register from "../pages/register";
 import Stats from "../pages/stats";

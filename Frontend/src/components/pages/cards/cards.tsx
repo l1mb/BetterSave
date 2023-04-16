@@ -196,7 +196,7 @@ function Cards() {
                                       onClick={() => handleStartEdit()}
                                       className={`bg-transparent px-2 opacity-40 transition-all hover:opacity-80 ${styles.edit_button}`}
                                     >
-                                      Edit
+                                      Изменить
                                     </button>
                                   </>
                                 ) : (
@@ -217,14 +217,14 @@ function Cards() {
                                       className={`bg-transparent px-2 opacity-40 transition-all hover:opacity-80 ${styles.edit_button}`}
                                       onClick={() => handleFinishEdit()}
                                     >
-                                      Save
+                                      Сохранить
                                     </button>
                                     <button
                                       type="button"
                                       className={`bg-transparent px-2 opacity-40 transition-all hover:opacity-80 ${styles.edit_button}`}
                                       onClick={() => cancelEdit()}
                                     >
-                                      Cancel
+                                      Отменить
                                     </button>
                                   </>
                                 )}
@@ -246,7 +246,7 @@ function Cards() {
                   </SliderWrapper>
                 </div>
               ) : (
-                <span className="text-lg font-bold text-indigo-600">You haven&apos;t added any cards yet</span>
+                <span className="text-lg font-bold text-indigo-600">Вы пока не добавили никаких карт</span>
               )}
               <div className="mt-2 flex w-full justify-between gap-3">
                 <button
@@ -254,7 +254,7 @@ function Cards() {
                   className="pн-2 rounded-md border border-indigo-700 bg-indigo-50 px-2 py-2 transition-all hover:bg-indigo-800 hover:text-indigo-50"
                   onClick={() => setIsOpened("card")}
                 >
-                  Add new card
+                  Добавить новую карту
                 </button>
                 {cards.length > 0 && (
                   <button
@@ -262,7 +262,7 @@ function Cards() {
                     className="pн-2 flex-grow rounded-md border border-indigo-700 bg-indigo-700 px-2 py-2 text-indigo-50 transition-all hover:bg-indigo-800 hover:text-indigo-50"
                     onClick={handleCreateTransaction}
                   >
-                    I want to add my transactions
+                    Я хочу добавить транзакции
                   </button>
                 )}
               </div>
@@ -270,7 +270,7 @@ function Cards() {
             <div className="w-full">
               <div className="mt-6 flex w-full justify-center">
                 {!spendings || spendings.length === 0 || cards.length === 0 ? (
-                  <h3 className="text-xl font-bold">There is no spendings there</h3>
+                  <h3 className="text-xl font-bold">Трат пока нет</h3>
                 ) : (
                   <section className="w-full bg-indigo-50 py-1 xl:mx-auto xl:w-8/12">
                     <div className="mx-auto mb-12 mt-24 w-full px-4 xl:mb-0 ">
@@ -278,14 +278,14 @@ function Cards() {
                         <div className="mb-0 rounded-t border-0 px-4 py-3">
                           <div className="flex flex-wrap items-center">
                             <div className="relative w-full max-w-full flex-1 flex-grow px-4">
-                              <h3 className="text-blueGray-700 text-base font-semibold">Your spendings</h3>
+                              <h3 className="text-blueGray-700 text-base font-semibold">Ваши траты</h3>
                             </div>
                             <div className="relative w-full max-w-full flex-1 flex-grow px-4 text-right">
                               <button
                                 className="mr-1 mb-1 rounded bg-indigo-500 px-3 py-1 text-xs font-bold uppercase text-white outline-none transition-all duration-150 ease-linear focus:outline-none active:bg-indigo-600"
                                 type="button"
                               >
-                                See all
+                                Посмотреть все
                               </button>
                             </div>
                           </div>
@@ -296,19 +296,19 @@ function Cards() {
                             <thead>
                               <tr>
                                 <th className="bg-blueGray-50 text-blueGray-500 border-blueGray-100 whitespace-nowrap border border-l-0 border-r-0 border-solid px-6 py-3 text-left align-middle text-xs font-semibold uppercase">
-                                  Spending name
+                                  Название траты
                                 </th>
                                 <th className="bg-blueGray-50 text-blueGray-500 border-blueGray-100 whitespace-nowrap border border-l-0 border-r-0 border-solid px-6 py-3 text-left align-middle text-xs font-semibold uppercase">
-                                  Cost
+                                  Стоимость
                                 </th>
                                 <th className="bg-blueGray-50 text-blueGray-500 border-blueGray-100 whitespace-nowrap border border-l-0 border-r-0 border-solid px-6 py-3 text-left align-middle text-xs font-semibold uppercase">
-                                  Shop
+                                  Магазин
                                 </th>
                                 <th className="bg-blueGray-50 text-blueGray-500 border-blueGray-100 whitespace-nowrap border border-l-0 border-r-0 border-solid px-6 py-3 text-left align-middle text-xs font-semibold uppercase">
-                                  Spending date
+                                  Дата транзакции
                                 </th>
                                 <th className="bg-blueGray-50 text-blueGray-500 border-blueGray-100 whitespace-nowrap border border-l-0 border-r-0 border-solid px-6 py-3 text-left align-middle text-xs font-semibold uppercase">
-                                  Actions
+                                  Действия
                                 </th>
                               </tr>
                             </thead>
@@ -337,7 +337,7 @@ function Cards() {
                                           handleSpendingDelete(spending.id as string);
                                         }}
                                       >
-                                        Delete
+                                        Удалить
                                       </button>
                                     </div>
                                   </td>

@@ -103,8 +103,8 @@ function Stats() {
             <span>
               {spendings.length === 0 ? (
                 <div className="mt-16">
-                  <h2>You haven&apos;t add any data about your spendings</h2>
-                  <Link to="/cards">You can add it here</Link>
+                  <h2>Вы пока не добавили никаких данных о своих тратах</h2>
+                  <Link to="/cards">Вы можете добавить их здесь</Link>
                 </div>
               ) : (
                 <div className="flex h-[600px] w-[600px]">
@@ -118,7 +118,7 @@ function Stats() {
                   type="button"
                   onClick={() => handleCardClick(index)}
                   key={card.id}
-                  className="flex w-full  flex-col rounded border-b-2 bg-white p-2 pb-2 transition hover:cursor-pointer hover:bg-slate-50 
+                  className="flex w-full  flex-col rounded border-b-2 bg-white p-2 pb-2 transition hover:cursor-pointer hover:bg-slate-50
                 "
                 >
                   <span className="text-lg font-bold">{card.name}</span>

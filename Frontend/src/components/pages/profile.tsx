@@ -7,8 +7,8 @@ function Profile() {
   const user = {
     profilePic:
       "https://img2.joyreactor.cc/pics/post/Disco-Elysium-%D0%98%D0%B3%D1%80%D1%8B-%D0%93%D0%B0%D1%80%D1%80%D1%8C%D0%B5-%D0%94%D1%8E%D0%B1%D1%83%D0%B0-%D1%85%D0%B0%D1%81%D0%B1%D0%B8%D0%BA-7654859.jpeg",
-    firstName: "Yan",
-    lastname: "Korzun",
+    firstName: "Ян",
+    lastname: "Корзун",
     birthday: "11.12.2005",
   };
   return (
@@ -25,12 +25,12 @@ function Profile() {
               </div>
               <div>
                 <div className="flex gap-2 text-lg text-indigo-800">
-                  <span>Birthday date:</span>
+                  <span>Дата рождения:</span>
                   <span className="font-bold">{user.birthday}</span>
                 </div>
                 <div className="flex w-64 flex-col gap-2">
-                  <Button label="Change profile info" onClick={console.log} />
-                  <Button label="Change password" onClick={console.log} />
+                  <Button label="Изменить информацию профиля" onClick={console.log} />
+                  <Button label="Сменить пароль" onClick={console.log} />
                 </div>
               </div>
             </div>

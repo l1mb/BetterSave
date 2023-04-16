@@ -35,10 +35,10 @@ function Register() {
       initialValues={{ email: "", password: "" }}
       validationSchema={Yup.object({
         email: Yup.string()
-          .max(30, "Must be 30 characters or less")
-          .email("Invalid email address")
-          .required("Please enter your email"),
-        password: Yup.string().required("Please enter your password"),
+          .max(30, "Максимум 30 символов")
+          .email("Неверный email адрес")
+          .required("Пожалуйста, введите email"),
+        password: Yup.string().required("Пожалуйста, введите пароль"),
       })}
       onSubmit={async (values, { setSubmitting, validateForm }) => {
         setSubmitting(true);
@@ -67,15 +67,15 @@ function Register() {
                   <FormikInput
                     htmlFor="email"
                     label="Email"
-                    ariaLabel="Enter your email"
+                    ariaLabel="введите свой адрес электронной почты"
                     ariaRequired
                     type="email"
                     error={formik.errors.email}
                   />
                   <FormikInput
                     htmlFor="password"
-                    label="Password"
-                    ariaLabel="Enter your password"
+                    label="Пароль"
+                    ariaLabel="введите свой пароль"
                     ariaRequired
                     type="password"
                     error={formik.errors.password}
@@ -97,16 +97,16 @@ function Register() {
                     className={` mt-6 rounded-md border border-purple-200 py-2 font-semibold transition duration-150 ease-in-out hover:border-indigo-700  hover:border-indigo-800 hover:bg-indigo-800 hover:text-indigo-100
                   `}
                   >
-                    Register
+                    Зарегистрироваться
                   </button>
                 )}
 
                 <span className=" text-right text-xs text-indigo-800">
-                  Or you may want to{" "}
+                  Или вы можете{" "}
                   <Link to="/login">
-                    <span className="cursor-pointer text-indigo-600">login</span>
+                    <span className="cursor-pointer text-indigo-600">войти в аккаунт</span>
                   </Link>{" "}
-                  instead
+                  вместо этого
                 </span>
 
                 <span

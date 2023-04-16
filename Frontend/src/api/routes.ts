@@ -2,7 +2,7 @@ const apiPreffix = "api";
 
 const signInRoute = `${apiPreffix}/auth/sign-in`;
 const signUpRoute = `${apiPreffix}/auth/sign-up`;
-const getInfo = `${apiPreffix}/user`;
+const getInfo = `${apiPreffix}/user/GetInfoAboutUser`;
 
 // cards
 const cardsPostfix = `${apiPreffix}/card`;

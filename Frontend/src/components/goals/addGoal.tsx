@@ -72,11 +72,11 @@ function AddGoal({ goal, setRefresh }: AddGoalProps) {
       <div className="flex justify-between">
         <div className="flex flex-col gap-4">
           <div className="mt-5 flex flex-col">
-            <span className="font-bold">Name your goal</span>
+            <span className="font-bold">Назовите вашу цель</span>
             <input type="text" className="w-40 rounded-md" onChange={(e) => handleUpdateName(e.target.value)} />
           </div>
           <div>
-            <span className=" font-bold">What is your purpose</span>
+            <span className=" font-bold">Чего вы хотите достичь?</span>
             <div className=" flex flex-col gap-1 text-base">
               <Radio
                 id="html"
@@ -84,7 +84,7 @@ function AddGoal({ goal, setRefresh }: AddGoalProps) {
                 checked={userChoices.aimType === AimType.daily}
                 onChange={() => setAimType(AimType.daily)}
               >
-                <span>I want to spend no more than a certain amount per day</span>
+                <span>Тратить не больше заданной суммы в день</span>
               </Radio>
               <Radio
                 id="react"
@@ -98,7 +98,7 @@ function AddGoal({ goal, setRefresh }: AddGoalProps) {
             </div>
           </div>
           <div className="mb-4 flex flex-col">
-            <span className=" font-bold">Amount</span>
+            <span className=" font-bold">Сумма</span>
             <input
               type="number"
               className="w-40 rounded-md"
@@ -110,7 +110,7 @@ function AddGoal({ goal, setRefresh }: AddGoalProps) {
             className=" w-[328px] rounded bg-indigo-600 px-4 py-3 text-indigo-50 transition hover:bg-indigo-800"
             onClick={() => handleAdd()}
           >
-            Start goal tracking
+            Начать отслеживание цели
           </button>
         </div>
         {userChoices.aimType === AimType.saveToDate ? (

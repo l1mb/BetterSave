@@ -50,7 +50,7 @@ function Goals() {
   return (
     <div className={` w-full ${styles.page} h-screen`}>
       <div className={`${styles.content}  my-12 h-full p-14 shadow-xl`}>
-        <h3>Your goals</h3>
+        <h3>Ваши цели</h3>
         {!goal && (
           <div className="flex gap-3">
             {goal && (
@@ -60,14 +60,14 @@ function Goals() {
                   onClick={goToAdd}
                   className="rounded-md bg-indigo-700 py-2 px-4 text-indigo-50 transition hover:bg-indigo-800"
                 >
-                  Add loan
+                  Добавить цель
                 </button>
                 <button
                   type="button"
                   onClick={goToGive}
                   className="rounded-md bg-transparent py-2 px-4  text-indigo-900 transition hover:bg-indigo-700 hover:text-indigo-50"
                 >
-                  Watch all loans
+                  Просмотреть все цели
                 </button>
               </>
             )}

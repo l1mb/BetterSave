@@ -22,7 +22,7 @@ function Loans() {
   return (
     <div className={` w-full ${styles.page}`}>
       <div className={`${styles.pageContent}  my-12 h-full p-14 shadow-xl`}>
-        <h1>Loans</h1>
+        <h1>Долги и Займы</h1>
         <div className="w-full">
           <div className="flex gap-3">
             <button
@@ -30,14 +30,14 @@ function Loans() {
               onClick={goToAdd}
               className="rounded-md bg-indigo-700 py-2 px-4 text-indigo-50 transition hover:bg-indigo-800"
             >
-              Add loan
+              Добавить долг (займ)
             </button>
             <button
               type="button"
               onClick={goToGive}
               className="rounded-md bg-transparent py-2 px-4  text-indigo-900 transition hover:bg-indigo-700 hover:text-indigo-50"
             >
-              Watch all loans
+              Просмотреть все долги (займы)
             </button>
           </div>
           <div className="w-full">{activePage === ActivePage.add ? <AddLoans /> : <LoansList />}</div>
