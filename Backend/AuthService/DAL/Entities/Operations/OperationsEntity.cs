@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using AuthServiceApp.BL.Enums;
 using AuthServiceApp.DAL.Entities.Account;
 using AuthServiceApp.DAL.Entities.Categories;
-using Microsoft.AspNetCore.JsonPatch.Operations;
 
 namespace AuthServiceApp.DAL.Entities.Operations
 {
@@ -13,7 +13,7 @@ namespace AuthServiceApp.DAL.Entities.Operations
             CreatedDate = default(DateTime?);
         }
          
-        public OperationType Type { get; set; }
+        public OperationTypes Type { get; set; }
         public float Value { get; set; }
         public string Description { get; set; }
         public DateTime ? CreatedDate { get; set; }

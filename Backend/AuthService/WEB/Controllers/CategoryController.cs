@@ -31,12 +31,12 @@ public class CategoryController : GenericController
        return CreatedAtAction(nameof(AddSubCategory), result);
     }
 
-    /// <remarks>
-    /// 
-    ///
-    /// C515C5AF-2ECA-4615-A942-08DB321F861D
-    ///
-    /// </remarks>
+    
+    /// <summary>
+    /// Get list of categories by user id
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns>List</returns>
     [HttpGet("{userId}")]
     public async Task<IActionResult> GetCategories(Guid userId)
     {

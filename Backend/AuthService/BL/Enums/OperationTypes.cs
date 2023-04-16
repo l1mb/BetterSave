@@ -9,7 +9,7 @@
         /// <summary>
         /// How balance decreased
         /// </summary>
-        Decrease,
+        Expense,
         /// <summary>
         /// If we transfer between cards
         /// </summary>

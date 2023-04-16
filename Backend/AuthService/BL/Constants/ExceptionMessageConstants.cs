@@ -10,5 +10,6 @@
         public const string TokenIsBroken = "Token isn't valid";
         public const string NotFound = "Entity not found";
         public const string SaveIsImpossible = "Unable to save changes to database";
+        public const string BalanceCannotBeNegative = "You balance could not be negative";
     }
 }

@@ -14,7 +14,7 @@ namespace AuthServiceApp.DAL.Repo.Card
         {
         }
 
-        public async Task<BaseEntity> SoftDeleteAsync(Expression<Func<CardEntity, bool>> expression)
+        public async Task<BaseEntity?> SoftDeleteAsync(Expression<Func<CardEntity, bool>> expression)
         {
             try
             {

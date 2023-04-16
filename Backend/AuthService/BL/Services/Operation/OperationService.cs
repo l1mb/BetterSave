@@ -1,4 +1,8 @@
-﻿using AuthServiceApp.BL.Services.Account;
+﻿using System.Runtime.InteropServices.ObjectiveC;
+using AuthServiceApp.BL.Constants;
+using AuthServiceApp.BL.Enums;
+using AuthServiceApp.BL.Exceptions;
+using AuthServiceApp.BL.Services.Account;
 using AuthServiceApp.DAL.Entities.Account;
 using AuthServiceApp.DAL.Entities.Operations;
 using AuthServiceApp.DAL.Interfaces;
@@ -34,7 +38,7 @@ public class OperationService : IOperationService
     public async Task<IEnumerable<OperationModel>> GetOperationsByUserIdAsync(Guid userId)
     {
         var accounts = await _accountService.GetAllAccountsAsync(userId);
-        var result = accounts.SelectMany(account=> account.Operations);
+        var result = accounts.SelectMany(account => account.Operations);
 
         return result;
     }
@@ -42,6 +46,29 @@ public class OperationService : IOperationService
     public async Task<OperationModel> CreateOperationAsync(CreateOperationModel model)
     {
         var entity = _mapper.Map<OperationEntity>(model);
+        var account = await _accountRepository.SearchForSingleItemAsync(x => x.Id == model.AccountId);
+        if (account is null)
+        {
+            throw new ApplicationHelperException(ServiceResultType.NotFound, ExceptionMessageConstants.NotFound);
+        }
+
+        if (entity.Type is OperationTypes.Increase)
+        {
+            account.Balance += entity.Value;
+        }
+        else if(entity.Type is OperationTypes.Expense)
+        {
+            var newBalance = account.Balance - entity.Value;
+            if (newBalance < 0)
+            {
+                throw new ApplicationHelperException(ServiceResultType.InvalidData,
+                    ExceptionMessageConstants.BalanceCannotBeNegative);
+            }
+            account.Balance = newBalance;
+        }
+
+        await _accountRepository.UpdateItemAsync(account);
+
         var result = await _operationRepository.CreateItemAsync(entity);
 
         return _mapper.Map<OperationModel>(result);

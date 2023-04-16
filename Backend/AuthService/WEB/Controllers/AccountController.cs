@@ -16,6 +16,11 @@ public class AccountController : GenericController
         this._accountService = accountService;
     }
 
+    /// <summary>
+    /// Get user accounts
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
     [HttpGet("{userId:guid}")]
     public async Task<IActionResult> GetAccountsList(Guid userId)
     {
