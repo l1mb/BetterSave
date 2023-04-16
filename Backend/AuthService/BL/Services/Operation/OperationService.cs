@@ -52,6 +52,8 @@ public class OperationService : IOperationService
             throw new ApplicationHelperException(ServiceResultType.NotFound, ExceptionMessageConstants.NotFound);
         }
 
+        entity.CreatedDate = DateTime.Now;
+
         if (entity.Type is OperationTypes.Income)
         {
             account.Balance += entity.Value;

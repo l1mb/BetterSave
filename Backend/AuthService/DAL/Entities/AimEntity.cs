@@ -11,7 +11,7 @@ namespace AuthServiceApp.DAL.Entities
         public float Amount { get; set; }
         public AimType Type { get; set; }
         public AimDateType DateType { get; set; }
-        public bool IsMastered { get; set; }
+        public bool? IsMastered { get; set; }
         public DateTime CreationDate { get; set; }
         public Guid UserId { get; set; }
         public virtual ApplicationUser User { get; set; }
