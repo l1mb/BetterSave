@@ -1,5 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import authApi from "@/api/auth/authApi";
+import { updateUser } from "@/api/userApi";
+import { StatusCodes } from "@/api/codes";
 import useJwtToken from "../../../hooks/useJwtToken";
 import User from "../../../types/User/user";
 
@@ -24,5 +26,37 @@ const getUserInfoThunk = createAsyncThunk("user/info", async (params: ThunkParam
 
   return result as User;
 });
+
+export const updateUserProfileThunk = createAsyncThunk(
+  "user/updateUser",
+  async (params: ThunkParam): Promise<User | null> => {
+    const { getToken } = useJwtToken();
+    const token = getToken();
+    if (token == null) {
+      params.setError("Unable to authorize");
+    }
+    let response = new Response();
+    if (token !== null && params.value) {
+      debugger;
+      response = await updateUser(token, {
+        email: params?.value?.email,
+        firstName: params?.value?.firstName,
+        lastName: params?.value?.lastName,
+        birthday: params?.value?.birthday,
+      });
+    }
+    debugger;
+
+    const result = await response.json();
+
+    if (response.status !== StatusCodes.Ok) {
+      params.setError(result.errorMessage);
+
+      return null;
+    }
+
+    return result;
+  }
+);
 
 export default getUserInfoThunk;

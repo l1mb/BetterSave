@@ -1,5 +1,11 @@
 const apiPreffix = "api";
 
+const account = `${apiPreffix}/Account/`;
+const getAccounts = `${account}getAccountsList`;
+const createAccount = `${account}createAccount`;
+const deleteAccount = `${account}DeleteAccount`;
+const updateAccount = `${account}updateAccount`;
+
 const signInRoute = `${apiPreffix}/auth/sign-in`;
 const signUpRoute = `${apiPreffix}/auth/sign-up`;
 const getInfo = `${apiPreffix}/user/GetInfoAboutUser`;
@@ -19,9 +25,12 @@ const userLoans = `${apiPreffix}/loan/user`;
 const aims = `${apiPreffix}/aim`;
 const userAim = `${apiPreffix}/aim/user`;
 
-//
+// categories
 const category = `${apiPreffix}/category`;
 const userCategories = `${apiPreffix}/category/getCategories`;
+
+// users
+const user = `${apiPreffix}/User`;
 
 export default {
   signInRoute,
@@ -36,4 +45,9 @@ export default {
   userAim,
   category,
   userCategories,
+  user,
+  getAccounts,
+  createAccount,
+  updateAccount,
+  deleteAccount,
 };

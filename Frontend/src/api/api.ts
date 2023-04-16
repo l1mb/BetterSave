@@ -31,6 +31,16 @@ export const apiPut = <T>(url: string, body: T): Promise<Response> =>
     },
   });
 
+export const apiPutProtected = <T>(url: string, token: string, body: T): Promise<Response> =>
+  fetch(url, {
+    method: "PUT",
+    body: JSON.stringify(body),
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "content-type": "application/json",
+    },
+  });
+
 export const apiDelete = (url: string): Promise<Response> =>
   fetch(url, {
     method: "DELETE",

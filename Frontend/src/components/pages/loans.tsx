@@ -22,7 +22,7 @@ function Loans() {
   return (
     <div className={` w-full ${styles.page}`}>
       <div className={`${styles.pageContent}  my-12 h-full p-14 shadow-xl`}>
-        <h1>Долги и Займы</h1>
+        <h1 className="mb-3">Долги и Займы</h1>
         <div className="w-full">
           <div className="flex gap-3">
             <button

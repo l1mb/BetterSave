@@ -66,7 +66,7 @@ export const deleteSpendingThunk = createAsyncThunk("spendings/delete", async (i
   const response = await deleteSpending(id);
 
   if (response.status !== 204) {
-    console.log("pasasi");
+    console.log("pasasi"); // TODO rename
   }
   return id;
 });
