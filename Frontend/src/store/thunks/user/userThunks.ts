@@ -37,7 +37,6 @@ export const updateUserProfileThunk = createAsyncThunk(
     }
     let response = new Response();
     if (token !== null && params.value) {
-      debugger;
       response = await updateUser(token, {
         email: params?.value?.email,
         firstName: params?.value?.firstName,
@@ -45,7 +44,6 @@ export const updateUserProfileThunk = createAsyncThunk(
         birthday: params?.value?.birthday,
       });
     }
-    debugger;
 
     const result = await response.json();
 

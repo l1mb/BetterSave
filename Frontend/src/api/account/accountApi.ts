@@ -1,5 +1,4 @@
-import { CreateAccountModel } from "@/types/models";
-import { Card } from "../../types/User/Cards/card";
+import { CreateAccountModel, UpdateAccountModel } from "@/types/models";
 import { apiDelete, apiGet, apiPost, apiPut } from "../api";
 import routes from "../routes";
 
@@ -7,6 +6,6 @@ export const getAccountsByUserId = (uid: string) => apiGet(`${routes.getAccounts
 
 export const createAccount = (body: CreateAccountModel) => apiPost(`${routes.createAccount}`, body);
 
-export const deleteAccount = (body: Partial<Card>) => apiPut(`${routes.deleteAccount}`, body);
+export const updateAccount = (body: UpdateAccountModel) => apiPut(`${routes.updateAccount}`, body);
 
-export const updateAccount = (id: string) => apiDelete(`${routes.updateAccount}/${id}`);
+export const deleteAccount = (uid: string) => apiDelete(`${routes.deleteAccount}/${uid}`);

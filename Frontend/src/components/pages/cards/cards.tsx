@@ -4,37 +4,45 @@ import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Close from "images/icons/close.png";
-import getCardsThunk, { updateCardThunk, deleteCardThunk } from "@/store/thunks/cardThunk";
-import getSpendingThunk, { deleteSpendingThunk } from "@/store/thunks/spendingThunks";
+import getCardsThunk from "@/store/thunks/cardThunk";
 import SliderWrapper from "@/elements/slider/slider";
 import { Settings } from "react-slick";
-import CreateCardModal from "../../modals/createCardModal";
+import { AccountModel } from "@/types/models";
+import getAccountsThunk, { deleteAccountThunk } from "@/store/thunks/account/accountThunk";
+import { useNavigate } from "react-router-dom";
 import Content from "../../../elements/content/Content";
-import { CardState } from "../../../store/slices/cardSlice";
 import { AppDispatch, RootState } from "../../../store/store";
 import styles from "./cards.module.scss";
 import "./overrides.scss";
 import { SpendingReportDto } from "../../../types/User/Spending/spending";
-import CreateSpendingModal from "../../modals/createSpendingModal";
+import { IconButton } from "rsuite";
+import CreateAccountModal from "../../modals/createAccountModal";
+import UpdateAccountModal from "@/components/modals/updateAccountModal";
 
-function Cards() {
+function Accounts() {
   const dispatch: AppDispatch = useDispatch();
   const [error, setError] = useState("");
-  const { cards } = useSelector<RootState, CardState>((state) => state.cards);
+  const accounts = useSelector<RootState, AccountModel[]>((state) => state.accounts);
 
-  const [isOpened, setIsOpened] = useState<"spending" | "card" | false>(false);
+  const [isOpened, setIsOpened] = useState<boolean>(false);
+  const navigate = useNavigate();
 
-  const spendings = useSelector<RootState, SpendingReportDto[]>((state) => state.spending);
   const [orderBy, setOrderBy] = useState("date");
   const [selectedCardIndex, setSelectedCardIndex] = useState(0);
   const [beginDate, setBeginDate] = useState<string>(moment().subtract("days", 7).format("MM-DD-YYYY"));
 
-  const [editableIndex, setEditable] = useState(-1);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+
+  const [editId, setEditable] = useState("");
   const [newBalance, setNewBalance] = useState(0);
 
-  const handleStartEdit = () => {
-    setNewBalance(cards[selectedCardIndex].balance);
-    setEditable(selectedCardIndex);
+  useEffect(() => {
+    dispatch(getAccountsThunk());
+  }, []);
+
+  const handleStartEdit = (e: string) => {
+    setIsEditOpen(true);
+    setEditable(e);
   };
 
   const cancelEdit = () => {
@@ -42,35 +50,28 @@ function Cards() {
     setEditable(-1);
   };
 
-  const handleFinishEdit = async () => {
-    await dispatch(
-      updateCardThunk({
-        setError,
-        value: { id: cards[selectedCardIndex].id, balance: newBalance },
-      })
-    );
+  // const handleFinishEdit = async () => {
+  //   await dispatch(
+  //     updateCardThunk({
+  //       setError,
+  //       value: { id: cards[selectedCardIndex].id, balance: newBalance },
+  //     })
+  //   );
 
-    dispatch(getCardsThunk({ setError }));
-    cancelEdit();
+  //   dispatch(getCardsThunk({ setError }));
+  //   cancelEdit();
+  // };
+
+  const handleDelete = async (el: AccountModel) => {
+    await dispatch(deleteAccountThunk(el.id));
   };
-
-  const handleDelete = async () => {
-    await dispatch(
-      deleteCardThunk({
-        setError,
-        value: { id: cards[selectedCardIndex].id },
-      })
-    );
-
-    dispatch(getCardsThunk({ setError }));
-    setSelectedCardIndex((prev) => prev - 1);
-  };
+  //   dispatch(getCardsThunk({ setError }));
+  //   setSelectedCardIndex((prev) => prev - 1);
+  // };
 
   const handleSpendingDelete = async (id: string) => {
-    await dispatch(deleteSpendingThunk(id));
+    // await dispatch(deleteSpendingThunk(id));
   };
-
-  console.log(spendings);
 
   const colors = [
     "bg-indigo-800 text-indigo-100",
@@ -95,19 +96,19 @@ function Cards() {
     setSelectedCardIndex(index);
   };
 
-  useEffect(() => {
-    const card = cards[selectedCardIndex];
-    if (card && card?.id) {
-      dispatch(
-        getSpendingThunk({
-          cardId: card.id,
-          setError,
-          orderBy,
-          beginDate,
-        })
-      );
-    }
-  }, [selectedCardIndex, orderBy, beginDate, cards]);
+  // useEffect(() => {
+  //   const card = cards[selectedCardIndex];
+  //   if (card && card?.id) {
+  //     dispatch(
+  //       getSpendingThunk({
+  //         cardId: card.id,
+  //         setError,
+  //         orderBy,
+  //         beginDate,
+  //       })
+  //     );
+  //   }
+  // }, [selectedCardIndex, orderBy, beginDate, cards]);
 
   const [spendingModalState, setSpendingModalState] = useState<{
     mode: "create" | "update";
@@ -124,8 +125,9 @@ function Cards() {
   };
 
   const handleCreateTransaction = () => {
-    setIsOpened("spending");
-    setSpendingModalState({ mode: "create", editableModel: {} });
+    // setIsOpened("spending");
+    // setSpendingModalState({ mode: "create", editableModel: {} });
+    navigate("/operations");
   };
 
   useEffect(() => {
@@ -148,7 +150,7 @@ function Cards() {
         <>
           <div className="mt-10 flex w-full flex-col items-center ">
             <div>
-              {cards.length > 0 ? (
+              {accounts.length > 0 ? (
                 <div className={`${styles.cards} w-96`}>
                   <SliderWrapper
                     settings={sliderSettings}
@@ -170,14 +172,14 @@ function Cards() {
                     //   },
                     // }}
                   >
-                    {cards.map((el, index) => (
+                    {accounts.map((el, index) => (
                       <div
                         className={`relative h-48 rounded-xl border border-opacity-95 px-4 ${colors[index]}  bg-gradient-to-r
                       from-indigo-800 to-indigo-500`}
                       >
                         <div
                           className="absolute top-1 right-1 flex h-7 w-7 items-center justify-center rounded-full transition-all hover:bg-indigo-400"
-                          onClick={() => handleDelete()}
+                          onClick={() => handleDelete(el)}
                         >
                           <div className="relative flex items-center">
                             <img src={Close} width={14} height={14} alt="close" />
@@ -187,13 +189,13 @@ function Cards() {
                           <div className="flex flex-col">
                             <div>
                               <span>
-                                {editableIndex !== index ? (
+                                {!isEditOpen ? (
                                   <>
                                     <span className="pr-2 text-xl font-bold">{el.balance}</span>
-                                    <span className="text-sm">{el.currency}</span>
+                                    <span className="text-sm">BYN</span>
                                     <button
                                       type="button"
-                                      onClick={() => handleStartEdit()}
+                                      onClick={() => handleStartEdit(el.id)}
                                       className={`bg-transparent px-2 opacity-40 transition-all hover:opacity-80 ${styles.edit_button}`}
                                     >
                                       Изменить
@@ -233,20 +235,31 @@ function Cards() {
                           </div>
                           <div className="flex w-full justify-between">
                             <span className="mx-auto text-center text-xl font-bold">
-                              <span className="px-1 tracking-wide">{el.cardNumber.substring(0, 4)}</span>
-                              <span className="px-1 tracking-wide">XXXX</span>
-                              <span className="px-1 tracking-wide">XXXX</span>
-                              <span className="px-1 tracking-wide">{el.cardNumber.substring(12, 16)}</span>
+                              <span className="px-1 tracking-wide">{el.name}</span>
                             </span>
                           </div>
-                          <span className="text-lg font-bold">{el.name}</span>
+                          <div className="flex justify-end">
+                            <span className="flex text-lg font-bold">
+                              <IconButton
+                                icon={<span className={` material-symbols-outlined`}>{el.iconName}</span>}
+                                circle
+                                ripple={false}
+                                appearance="primary"
+                                color={el.iconColor}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                }}
+                                size="xs"
+                              />
+                            </span>
+                          </div>{" "}
                         </div>
                       </div>
                     ))}
                   </SliderWrapper>
                 </div>
               ) : (
-                <span className="text-lg font-bold text-indigo-600">Вы пока не добавили никаких карт</span>
+                <span className="text-lg font-bold text-indigo-600">Вы пока не добавили никаких счетов</span>
               )}
               <div className="mt-2 flex w-full justify-between gap-3">
                 <button
@@ -254,9 +267,9 @@ function Cards() {
                   className="pн-2 rounded-md border border-indigo-700 bg-indigo-50 px-2 py-2 transition-all hover:bg-indigo-800 hover:text-indigo-50"
                   onClick={() => setIsOpened("card")}
                 >
-                  Добавить новую карту
+                  Добавить новый счет
                 </button>
-                {cards.length > 0 && (
+                {accounts.length > 0 && (
                   <button
                     type="button"
                     className="pн-2 flex-grow rounded-md border border-indigo-700 bg-indigo-700 px-2 py-2 text-indigo-50 transition-all hover:bg-indigo-800 hover:text-indigo-50"
@@ -269,7 +282,7 @@ function Cards() {
             </div>
             <div className="w-full">
               <div className="mt-6 flex w-full justify-center">
-                {!spendings || spendings.length === 0 || cards.length === 0 ? (
+                {accounts.length === 0 ? (
                   <h3 className="text-xl font-bold">Трат пока нет</h3>
                 ) : (
                   <section className="w-full bg-indigo-50 py-1 xl:mx-auto xl:w-8/12">
@@ -313,7 +326,7 @@ function Cards() {
                               </tr>
                             </thead>
 
-                            <tbody>
+                            {/* <tbody>
                               {spendings.map((spending) => (
                                 <tr>
                                   <th className="text-blueGray-700 whitespace-nowrap border-t-0 border-l-0 border-r-0 p-4 px-6 text-left align-middle text-xs ">
@@ -343,7 +356,7 @@ function Cards() {
                                   </td>
                                 </tr>
                               ))}
-                            </tbody>
+                            </tbody> */}
                           </table>
                         </div>
                       </div>
@@ -353,25 +366,26 @@ function Cards() {
               </div>
             </div>
           </div>
-          {isOpened === "card" && (
-            <CreateCardModal
-              setIsOpen={(e: boolean) => {
-                setIsOpened(false);
-              }}
-            />
-          )}
-          {isOpened === "spending" && (
+          <CreateAccountModal
+            setIsOpen={(e: boolean) => {
+              setIsOpened(false);
+            }}
+            isOpen={isOpened}
+          />
+
+          <UpdateAccountModal isOpen={isEditOpen} setIsOpen={(e) => setIsEditOpen(e)} id={editId} />
+          {/* {isOpened === "spending" && (
             <CreateSpendingModal
               setIsOpen={(e: boolean) => {
                 setIsOpened(false);
               }}
-              cardId={cards[selectedCardIndex].id}
+              cardId={accounts[selectedCardIndex].id}
             />
-          )}
+          )} */}
         </>
       </Content>
     </div>
   );
 }
 
-export default Cards;
+export default Accounts;

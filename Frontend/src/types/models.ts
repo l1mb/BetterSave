@@ -79,19 +79,24 @@ export interface AccountModel {
   id: string;
   userId: string;
   name: string;
-  iconColor: string;
+  iconColor: TypeAttributes.Color;
   iconName: string;
   balance: number;
   operations: OperationModel[];
 }
 
-export interface CreateAccountModel {
-  name: string;
-  iconColor: string;
-  iconName: string;
-  balance: number;
+export interface SideCreateEntityBase {
   userId: string;
 }
+
+export interface CreateAccountUIModel {
+  name: string;
+  iconColor: TypeAttributes.Color;
+  iconName: string;
+  balance: number;
+}
+
+export interface createAccountModel extends SideCreateEntityBase, CreateAccountUIModel {}
 
 export interface OperationModel {
   id: string;

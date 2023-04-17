@@ -21,7 +21,9 @@ const useJwtToken = () => {
     return null;
   };
 
-  return { getToken, setToken, decodeToken };
+  const getUserId = (): string => decodeToken()?.UserId || "";
+
+  return { getToken, setToken, decodeToken, getUserId };
 };
 
 export default useJwtToken;
