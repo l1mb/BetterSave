@@ -1,4 +1,5 @@
 import { TypeAttributes } from "rsuite/esm/@types/common";
+import { AimDateType, AimType } from "./User/goals/goals";
 
 export interface Category {
   id: string;
@@ -119,4 +120,35 @@ export interface NivoPieSegment {
   label: string;
   value: number;
   color: string;
+}
+
+export interface NivoCalendarSegment {
+  value: 0 | 1;
+  day: string;
+}
+
+export interface Aim extends CreateAim {
+  id: string;
+}
+
+export interface CreateAim {
+  name: string;
+  amount: number;
+  finishDate: Date;
+  creationDate: Date;
+  type: AimType;
+  isMastered?: boolean;
+  dateType: AimDateType;
+  userId: string;
+}
+
+export interface AimProgressModel {
+  percent: number;
+  aimRecords: AimRecording[];
+}
+
+export interface AimRecording {
+  id: string;
+  aimId: string;
+  date: Date;
 }

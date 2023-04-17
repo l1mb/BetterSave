@@ -23,7 +23,8 @@ const userLoans = `${apiPreffix}/loan/user`;
 
 // aims
 const aims = `${apiPreffix}/aim`;
-const userAim = `${apiPreffix}/aim/user`;
+const userAim = `${apiPreffix}/aim/GetAimByUserId`;
+const createAim = `${apiPreffix}/aim/CreateAim`;
 
 // categories
 const category = `${apiPreffix}/category`;
@@ -37,6 +38,9 @@ const operations = `${apiPreffix}/Operation/`;
 const createOperation = `${operations}/CreateOperation`;
 const getOperations = `${operations}/GetOperationsByUserId`;
 
+// get protected
+const getProgress = `${apiPreffix}/aim/GetProgress`;
+
 export default {
   signInRoute,
   signUpRoute,
@@ -48,6 +52,7 @@ export default {
   userLoans,
   aims,
   userAim,
+  createAim,
   category,
   userCategories,
   user,
@@ -58,4 +63,5 @@ export default {
   getOperations,
   deleteAccount,
   createOperation,
+  getProgress,
 };

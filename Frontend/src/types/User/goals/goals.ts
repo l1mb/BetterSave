@@ -1,13 +1,10 @@
-export interface Aim {
-  id?: string;
-  aimType: AimType;
-  name: string;
-  userId: string;
-  amount: number;
-  finishDate: Date;
+export enum AimType {
+  IncreaseIncome = "IncreaseIncome",
+  ExpenseLess = "ExpenseLess",
 }
 
-export enum AimType {
-  daily,
-  saveToDate,
+export enum AimDateType {
+  DailyCount = "DailyCount",
+  DailyToDate = "DailyToDate",
+  ToDate = "ToDate",
 }

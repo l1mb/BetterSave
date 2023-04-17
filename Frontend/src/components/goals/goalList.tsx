@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
-import moment from "moment";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { deleteAim } from "@/api/aimApi";
-import { AppDispatch, RootState } from "../../store/store";
-import getCardsThunk from "../../store/thunks/cardThunk";
-import getSpendingThunk from "../../store/thunks/spendingThunks";
-import MyResponsiveLine from "../../elements/nivoLine/responsiveLine";
-import { SpendingReportDto } from "../../types/User/Spending/spending";
-import { Aim, AimType } from "../../types/User/goals/goals";
+import { deleteAim, getProgress } from "@/api/aimApi";
+import useJwtToken from "@/hooks/useJwtToken";
+import { toast } from "react-toastify";
+import { Aim, AimProgressModel } from "@/types/models";
+import { AimDateType, AimType } from "@/types/User/goals/goals";
+import getFormatedString from "@/utils/getNivoFormatedString";
+import { useNavigate } from "react-router";
+import NivoCalendar from "../NivoCalendar/nivoCalendar";
 
 interface GoalListProps {
   goal: Aim;
@@ -16,187 +14,105 @@ interface GoalListProps {
 }
 
 function GoalList({ goal, setRefresh }: GoalListProps) {
-  const { cards, spending } = useSelector<RootState, RootState>((state) => state);
+  // const { cards, spending } = useSelector<RootState, RootState>((state) => state);
+  const [progress, setProgress] = useState<AimProgressModel>({ percent: 0, aimRecords: [] });
+  const { getToken } = useJwtToken();
+  const navigate = useNavigate();
 
-  const [data, setData] = useState<
-    {
-      id: string;
-      color: string;
-      data: { x: number; y: number }[];
-    }[]
-  >([]);
-  const [selectedCardIndex, setSelectedCardIndex] = useState(0);
-
-  const dispatch: AppDispatch = useDispatch();
-
-  const generateData = (spendings: SpendingReportDto[]) => {
-    const initData = spendings;
-    console.log(initData);
-    if (spendings.length === 0) {
-      return;
-    }
-    const result: Array<{ date: string; coast: number; id: string }> = [];
-    // сгруппировать по дате
-    const t = initData.reduce((groups: { [key: string]: SpendingReportDto[] }, item) => {
-      const date = item.date.split("T")[0];
-      if (!groups[date]) {
-        // eslint-disable-next-line no-param-reassign
-        groups[date] = [];
-      }
-      groups[date].push(item);
-      return groups;
-    }, {});
-    const groupArrays = Object.keys(t).map((date) => ({
-      date,
-      spenings: t[date],
-    }));
-
-    const prik = groupArrays.map((item) => ({
-      x: moment(item.date).date(),
-      y: item.spenings.reduce(
-        (accumulator: number, currentValue: SpendingReportDto) => accumulator + currentValue.coast,
-        0
-      ),
-    }));
-
-    let t1 = moment(new Date()).date() - 7;
-    const beginDate = t1 < 1 ? 1 : t1;
-    t1 = moment(new Date()).date() + 7;
-    const endDate = t1 > 31 ? 31 : t1;
-
-    const mergeArr = [];
-
-    for (let index = beginDate; index < endDate; index++) {
-      const ind = prik.findIndex((item) => item.x === index);
-      if (goal.aimType === AimType.saveToDate) {
-        const temp: number[] = mergeArr.length === 0 ? [0] : mergeArr.map((prop) => prop.y);
-
-        mergeArr.push({
-          x: index,
-          y: Math.max(...temp) + (prik[ind]?.y || 0),
-        });
-        console.log(mergeArr);
-      } else {
-        mergeArr.push({
-          x: index,
-          y: 0,
-        });
-      }
-    }
-    let merged = [];
-    if (goal.aimType === 0) {
-      merged = [...mergeArr, ...prik].sort((q, w) => {
-        const z = new Date(q.x).getTime() - new Date(w.x).getTime();
-        return z;
-      });
+  const loadProgress = async () => {
+    const token = getToken();
+    if (token) {
+      const result = await getProgress(token);
+      setProgress(result);
     } else {
-      merged = mergeArr;
+      toast.error("Токен не валиден");
     }
-    const baseline = merged.map((item) => ({ x: item.x, y: goal.amount }));
-
-    const dataObject = [
-      {
-        id: "Spendings",
-        color: "#6a51a3",
-        data: merged,
-      },
-      {
-        id: "Baseline",
-        color: "hsl(84, 100%, 70%)",
-        data: baseline,
-      },
-    ];
-    setData(dataObject);
   };
 
   useEffect(() => {
-    dispatch(
-      getCardsThunk({
-        setError: () => {
-          console.log();
-        },
-      })
-    );
+    loadProgress();
   }, []);
-
-  useEffect(() => {
-    const card = cards.cards[selectedCardIndex];
-    if (card && card?.id) {
-      dispatch(
-        getSpendingThunk({
-          cardId: card.id,
-          beginDate: "1990-01-01",
-        })
-      );
-    }
-  }, [selectedCardIndex, cards]);
-  useEffect(() => {
-    if (spending.length > 0) {
-      generateData(spending);
-    }
-  }, [spending]);
-
-  function handleCardClick(index: number): void {
-    setSelectedCardIndex(index);
-  }
 
   const handleDeleteGoal = async (id: string) => {
     await deleteAim(id);
+    navigate("/goals");
     setRefresh((Math.random() + 1).toString(36).substring(7));
+  };
+
+  const getAim = (type: AimType, dateType: AimDateType, amount: number, finishDate: Date) => {
+    let aim = "";
+
+    if (type === AimType.ExpenseLess) {
+      aim += "Тратить меньше";
+    } else {
+      aim += "Получать больше";
+    }
+    aim += ` ${amount} BYN `;
+    if (dateType === AimDateType.DailyCount) {
+      aim += "ежедневно";
+    } else if (dateType === AimDateType.DailyToDate) {
+      aim += `ежедневно до ${new Date(finishDate).toLocaleDateString()}`;
+    }
+    if (dateType === AimDateType.ToDate) {
+      aim += `суммарно до ${new Date(finishDate).toLocaleDateString()}`;
+    }
+    return aim;
+  };
+
+  const getAimResult = (isMastered?: boolean) => {
+    let aim = "";
+    if (isMastered === false) {
+      aim += "К сожалению, вы провалили цель";
+    } else {
+      aim += "Поздравляем, вы успешно выполнили цель!";
+    }
+    return aim;
   };
 
   return (
     <div>
-      {cards.cards.length > 0 ? (
-        <>
-          <div className="flex justify-between">
-            <h4>
-              Цель:{" "}
-              <span>
-                сохранять {goal.amount}{" "}
-                {goal.aimType === 0 ? "каждый день" : `до ${moment(goal.finishDate).format("l")}`}
-              </span>
-            </h4>
-            <button type="button" onClick={() => handleDeleteGoal(goal.id as string)}>
-              Удалить цель
-            </button>
+      <div className="flex justify-between">
+        <div className="flex flex-col">
+          <h4>Цель: </h4>
+          <span className="font-bold">{getAim(goal.type, goal.dateType, goal.amount, goal.finishDate)}</span>
+        </div>
+        <button type="button" onClick={() => handleDeleteGoal(goal.id as string)}>
+          Удалить цель
+        </button>
+      </div>
+      <h5>Ваш прогресс</h5>
+      <div className="flex w-full">
+        {goal.isMastered !== undefined ? (
+          <div>
+            <span>{getAimResult(goal.isMastered)}</span>
           </div>
-          <h5>Ваш прогресс</h5>
-          <div className="flex">
-            {data.length > 0 && (
+        ) : (
+          <>
+            {goal.dateType === AimDateType.DailyCount && (
+              <div className=" mx-auto h-[400px] w-[50000px]">
+                <NivoCalendar
+                  data={progress.aimRecords.map((x) => ({ value: 1, day: getFormatedString(new Date(x.date)) }))}
+                  createDate={goal.creationDate}
+                />
+              </div>
+            )}
+            {goal.dateType === AimDateType.DailyToDate && (
+              <div className=" mx-auto h-[400px] w-[50000px]">
+                <NivoCalendar
+                  data={progress.aimRecords.map((x) => ({ value: 1, day: getFormatedString(new Date(x.date)) }))}
+                  createDate={goal.creationDate}
+                />
+              </div>
+            )}
+            {goal.dateType === AimDateType.ToDate && "pasasi"}
+          </>
+        )}
+        {/* {data.length > 0 && (
               <div className="flex h-[500px] w-full">
                 <MyResponsiveLine data={data} />
               </div>
-            )}
-            <div className="flex">
-              {" "}
-              <div className="mt-20 max-h-80 w-52 overflow-x-auto rounded border-2 p-6">
-                {cards.cards.map((card, index) => (
-                  <button
-                    type="button"
-                    onClick={() => handleCardClick(index)}
-                    key={card.id}
-                    className="flex w-full  flex-col rounded border-b-2 bg-white p-2 pb-2 transition hover:cursor-pointer hover:bg-slate-50
-                "
-                  >
-                    <span className="text-lg font-bold">{card.name}</span>
-                    <span>
-                      {card.balance} {card.currency}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-        </>
-      ) : (
-        <div>
-          <h2>
-            Мы поддерживаем ваше стремление чего-то достичь, но для начала нужно начать с отслеживания ваших карточек
-          </h2>
-          <Link to="/cards">Это можно сделать здесь</Link>
-        </div>
-      )}
+            )} */}
+      </div>
     </div>
   );
 }

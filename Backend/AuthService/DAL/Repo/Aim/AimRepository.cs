@@ -20,6 +20,8 @@ namespace AuthServiceApp.DAL.Repo.Aim
 
             return singleOrDefault;
         }
+
+        
     }
 
     public interface IAimRepository: IBaseRepository<AimEntity>

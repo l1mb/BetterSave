@@ -1,4 +1,5 @@
-﻿using AuthServiceApp.BL.Services.GenericService;
+﻿using AuthServiceApp.BL.Enums;
+using AuthServiceApp.BL.Services.GenericService;
 using AuthServiceApp.DAL.Entities;
 using AuthServiceApp.WEB.DTOs.Aim;
 
@@ -13,5 +14,6 @@ namespace AuthServiceApp.BL.Services.Aim
         Task<AimDto> UpdateAsync(UpdateAimDto id);
         Task<List<AimDto>> GetAllActiveAims();
         Task MainAimFunction(AimDto dto);
+        Task<AimProgressDto> GetProgressAsync(string userId);
     }
 }

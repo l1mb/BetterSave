@@ -166,12 +166,12 @@ public class AimService : GenericService<AimEntity>, IAimService
 
     private async Task CreateRecordings(AimDto dto)
     {
-        if (dto.DateType == AimDateType.DailyCount || dto.DateType == AimDateType.DailyCount)
+        if (dto.DateType == AimDateType.DailyCount || dto.DateType == AimDateType.DailyToDate)
         {
             var sum = await GetSumOfOperations(dto, dto.CreationDate, DateTime.Now);
             var result = CheckAimCriteria(sum, dto.Type, dto.Amount);
             if (result)
-                await _recordingService.CreateAimRecording(new()
+                await _recordingService.CreateAimRecordingAsync(new()
                 {
                     Date = DateTime.Now,
                     AimId = Guid.Parse(dto.Id.ToString() ?? string.Empty)
@@ -184,6 +184,23 @@ public class AimService : GenericService<AimEntity>, IAimService
         var isMastered = await GetIsMastered(dto);
         await CreateRecordings(dto);
         if (isMastered is not null) await MasterAim(Guid.Parse(dto.Id.ToString() ?? string.Empty), (bool)isMastered);
+    }
+
+    public async Task<AimProgressDto> GetProgressAsync(string userId)
+    {
+        var aim =  await GetAimByUserId(Guid.Parse(userId));
+
+        var recordings = await _recordingService.GetAimRecordingAsync(aim.Id);
+
+        var sumOfOperations = await GetSumOfOperations(aim, aim.CreationDate, DateTime.Now);
+
+        var percent = sumOfOperations / aim.Amount;
+
+        return new()
+        {
+            AimRecords = recordings,
+            Percent = percent
+        };
     }
 
 

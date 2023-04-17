@@ -1,7 +1,9 @@
-﻿using AuthServiceApp.BL.Services.Aim;
+﻿using AuthServiceApp.BL.Enums;
+using AuthServiceApp.BL.Services.Aim;
 using AuthServiceApp.BL.Services.Card;
 using AuthServiceApp.DAL.Entities;
 using AuthServiceApp.WEB.DTOs.Aim;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,7 +38,7 @@ namespace AuthServiceApp.WEB.Controllers
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        [HttpGet("user/{userId:guid}")]
+        [HttpGet("{userId:guid}")]
         public async Task<ActionResult<GetAimDto>> GetAimByUserId(Guid userId)
         {
             var result = await _aimService.GetAimByUserId(userId);
@@ -48,6 +50,15 @@ namespace AuthServiceApp.WEB.Controllers
         {
             await _aimService.Delete(id);
             return NoContent();
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetProgress()
+        {
+            var userId = GetUserId();
+            var result = await _aimService.GetProgressAsync(userId);
+            return Ok(result);
         }
 
     }
