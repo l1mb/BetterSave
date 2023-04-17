@@ -3,23 +3,31 @@ import checkSwitchStatementDefaultCase from "@/utils/switchCheck";
 import React, { useEffect, useState } from "react";
 import PlusButton from "@/elements/plusButton/plusButton";
 import ModalWrapper from "@/components/modals/modalWrapper";
-import { Form, Radio, RadioGroup } from "rsuite";
-import { AccountModel, CreateOperationModel, OperationType } from "@/types/models";
+import { Form, IconButton, InputNumber, Radio, RadioGroup } from "rsuite";
+import { AccountModel, CreateOperationModel, OperationModel, OperationType } from "@/types/models";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
-import { getAccountsByUserId } from "@/api/account/accountApi";
+import getAccountsThunk from "@/store/thunks/account/accountThunk";
+import fetchAllUserOperations, { createOperation } from "@/api/operations/operationApi";
+import useJwtToken from "@/hooks/useJwtToken";
+import { getCategories } from "@/store/thunks/category/categoryThunk";
+import { toast } from "react-toastify";
+import ErrorDto from "@/types/auth/errorDto";
 import DatePicker from "./datePicker/datePicker";
 import OperationList from "./operationList/operationList";
 import OperationTypeLabel, { OperaionTypeProps } from "./operationType/operationType";
 import styles from "./styles.module.scss";
-import getAccountsThunk from "@/store/thunks/account/accountThunk";
+import AccountPicker from "./accountPicker/accountPicker";
+import CategoryList from "../split/categoryList/categoryList";
 
 type OperationProps = BaseProps;
 type OperationTypeHeader = "income" | "outcome" | "balance";
 
 function Operations({}: OperationProps) {
   const [operationType, setOperationType] = useState<OperationTypeHeader>("outcome");
+  const [allOperations, setAllOperations] = useState<OperationModel[]>([]);
   const [isAddOperationOpen, setIsAddOperationOpen] = useState(false);
+  const [operationValue, setOperationValue] = useState(0);
 
   const [addOperationModel, setAddOperationModel] = useState<Partial<CreateOperationModel>>({});
 
@@ -27,16 +35,25 @@ function Operations({}: OperationProps) {
     setAddOperationModel((prev) => ({ ...prev, [key]: value }));
   };
 
-  const accounts = useSelector<RootState, AccountModel[]>((x) => x.accounts);
+  const [activeAccount, setActiveAccount] = useState<AccountModel>();
+
+  const { accounts, category } = useSelector<RootState, RootState>((x) => x);
   const dispatch: AppDispatch = useDispatch();
 
   const onChangeType = (e: string) => {
     onChangeOperationModel(Number(e), "type");
   };
 
+  const { getUserId } = useJwtToken();
+  const fetchOperations = async () => {
+    const uid = getUserId();
+    const result = await fetchAllUserOperations(uid);
+    setAllOperations(result);
+  };
+
   useEffect(() => {
-    console.log(addOperationModel);
-  }, [addOperationModel]);
+    fetchOperations();
+  }, []);
 
   const onChangeValue = () => {};
 
@@ -49,6 +66,8 @@ function Operations({}: OperationProps) {
   const clearOperationModel = () => {
     setAddOperationModel({});
   };
+
+  const [selectedCategoryId, setSelectedCategoryId] = useState("");
 
   const [arr, setArr] = useState([]);
 
@@ -84,6 +103,7 @@ function Operations({}: OperationProps) {
 
   useEffect(() => {
     dispatch(getAccountsThunk());
+    dispatch(getCategories());
 
     console.log(operationType);
     getOpeartionArray();
@@ -124,10 +144,31 @@ function Operations({}: OperationProps) {
     openAddOperation();
   };
 
-  const hanldeAddOperation = () => {};
-
   const handleCloseOperation = () => {
     closeAddOperation();
+  };
+  const hanldeAddOperation = async () => {
+    debugger;
+    if (activeAccount?.id) {
+      const model: CreateOperationModel = {
+        type: addOperationModel.type || 0,
+        value: operationValue,
+        description: "",
+        subCategoryId: selectedCategoryId,
+        accountId: activeAccount?.id,
+      };
+
+      const result = await createOperation(model);
+      if ((result as unknown as ErrorDto).errorMessage) {
+        toast.error((result as unknown as ErrorDto).errorMessage);
+      } else {
+        toast.success("Добавлено успешно");
+        setAllOperations((prev) => [...prev, result]);
+      }
+    } else {
+      toast.warning("Пожалуйста, выберите счет");
+    }
+    handleCloseOperation();
   };
 
   const headerLine: OperaionTypeProps[] = [
@@ -144,6 +185,8 @@ function Operations({}: OperationProps) {
       onSelect: () => setOperationType("balance"),
     },
   ];
+
+  const getSubcategory = (id: string) => category.flatMap((x) => x.subcategories).find((x) => x.id === id);
   return (
     <div className="mx-auto flex h-screen w-[566px]  flex-col py-24">
       {/* Header line */}
@@ -155,6 +198,13 @@ function Operations({}: OperationProps) {
           </>
         ))}
       </div>
+      <div className="flex justify-center">
+        <AccountPicker
+          activeAccount={activeAccount}
+          allAccounts={accounts}
+          setActiveAccount={(e) => setActiveAccount(accounts.find((x) => x.id === e))}
+        />
+      </div>
       <div className="my-16 flex justify-center">
         <DatePicker
           start={date}
@@ -164,12 +214,12 @@ function Operations({}: OperationProps) {
         />
       </div>
       <div className="my-16 flex flex-col items-center justify-center">
-        <div className="flex">
-          <span className="flex grow">
+        <div className="flex gap-2">
+          <span className="flex grow items-center gap-2">
             Сейчас отображаются:{" "}
             <span className={`${styles.operationDropdown}`}>
               <span className="font-bold">{getOperationName(operationType)}</span>
-              <div className="rounded px-2 py-1 shadow">
+              <div className="gap-2 rounded px-2 py-1 shadow">
                 {operationType === "income" && (
                   <button type="button" onClick={selectActiveOutcome}>
                     Расходы
@@ -185,7 +235,15 @@ function Operations({}: OperationProps) {
           </span>
           <PlusButton onClick={onAddOperation} />
         </div>
-        <OperationList list={arr} />
+
+        <OperationList
+          list={
+            operationType === "income"
+              ? allOperations.filter((x) => OperationType[x.type.toString()] === OperationType.Income)
+              : allOperations.filter((x) => OperationType[x.type.toString()] === OperationType.Expense)
+          }
+          getSubcategory={category.flatMap((x) => x.subcategories).find((x) => x.id === selectedCategoryId)}
+        />
 
         <ModalWrapper
           title="Давайте добавим новую операцию"
@@ -197,7 +255,7 @@ function Operations({}: OperationProps) {
           okLabel="Добавить"
           size="xs"
         >
-          <div>
+          <div className="p-1">
             <Form>
               <Form.Group>
                 <RadioGroup
@@ -212,9 +270,40 @@ function Operations({}: OperationProps) {
                   <Radio value={OperationType.Expense}>Расходы</Radio>
                 </RadioGroup>
               </Form.Group>
-              <Form.Group controlId="description">
+              {/* <Form.Group controlId="description">
                 <Form.ControlLabel>Описание</Form.ControlLabel>
                 <Form.Control name="description" type="text" />
+              </Form.Group> */}
+              <Form.Group>
+                <Form.ControlLabel>Значение</Form.ControlLabel>
+                <Form.Control
+                  className="flex flex-grow"
+                  name="numder"
+                  value={operationValue}
+                  accepter={InputNumber}
+                  onChange={(e) => setOperationValue(e)}
+                />
+              </Form.Group>
+              <Form.Group>
+                <Form.ControlLabel>
+                  Выбранная категория:{" "}
+                  <IconButton
+                    icon={
+                      <span className={` material-symbols-outlined`}>
+                        {category.flatMap((x) => x.subcategories).find((x) => x.id === selectedCategoryId)?.icon}
+                      </span>
+                    }
+                    circle
+                    ripple={false}
+                    appearance="primary"
+                    color={category.flatMap((x) => x.subcategories).find((x) => x.id === selectedCategoryId)?.color}
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
+                    size="xs"
+                  />
+                </Form.ControlLabel>
+                <CategoryList list={category} onSelectActive={(e) => setSelectedCategoryId(e)} />
               </Form.Group>
             </Form>
           </div>

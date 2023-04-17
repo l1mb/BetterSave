@@ -32,6 +32,11 @@ const userCategories = `${apiPreffix}/category/getCategories`;
 // users
 const user = `${apiPreffix}/User`;
 
+// operations
+const operations = `${apiPreffix}/Operation/`;
+const createOperation = `${operations}/CreateOperation`;
+const getOperations = `${operations}/GetOperationsByUserId`;
+
 export default {
   signInRoute,
   signUpRoute,
@@ -49,5 +54,8 @@ export default {
   getAccounts,
   createAccount,
   updateAccount,
+  operations,
+  getOperations,
   deleteAccount,
+  createOperation,
 };

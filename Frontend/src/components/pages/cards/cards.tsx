@@ -1,13 +1,13 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Close from "images/icons/close.png";
 import getCardsThunk from "@/store/thunks/cardThunk";
 import SliderWrapper from "@/elements/slider/slider";
-import { Settings } from "react-slick";
-import { AccountModel } from "@/types/models";
+import Slider, { Settings } from "react-slick";
+import { AccountModel, OperationType } from "@/types/models";
 import getAccountsThunk, { deleteAccountThunk } from "@/store/thunks/account/accountThunk";
 import { useNavigate } from "react-router-dom";
 import Content from "../../../elements/content/Content";
@@ -22,7 +22,7 @@ import UpdateAccountModal from "@/components/modals/updateAccountModal";
 function Accounts() {
   const dispatch: AppDispatch = useDispatch();
   const [error, setError] = useState("");
-  const accounts = useSelector<RootState, AccountModel[]>((state) => state.accounts);
+  const { accounts, category } = useSelector<RootState, RootState>((state) => state);
 
   const [isOpened, setIsOpened] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -133,6 +133,16 @@ function Accounts() {
   useEffect(() => {
     console.log(selectedCardIndex);
   }, [selectedCardIndex]);
+  const [activeSlide, setActiveSlide] = useState(0);
+  const sliderRef = useRef<Slider>(null);
+
+  useEffect(() => {
+    console.log(activeSlide);
+  }, [activeSlide]);
+
+  const handleAfterChange = (currentSlide: number) => {
+    setActiveSlide(currentSlide);
+  };
 
   const sliderSettings: Settings = {
     dots: true,
@@ -142,6 +152,7 @@ function Accounts() {
     autoplay: true,
     autoplaySpeed: 2000,
     pauseOnHover: true,
+    afterChange: handleAfterChange,
   };
 
   return (
@@ -154,6 +165,7 @@ function Accounts() {
                 <div className={`${styles.cards} w-96`}>
                   <SliderWrapper
                     settings={sliderSettings}
+                    ref={sliderRef}
                     // sx={{ maxWidth: 440 }}
                     // mx="auto"
                     // withIndicators
@@ -282,7 +294,7 @@ function Accounts() {
             </div>
             <div className="w-full">
               <div className="mt-6 flex w-full justify-center">
-                {accounts.length === 0 ? (
+                {accounts[activeSlide] ? (
                   <h3 className="text-xl font-bold">Трат пока нет</h3>
                 ) : (
                   <section className="w-full bg-indigo-50 py-1 xl:mx-auto xl:w-8/12">
@@ -326,37 +338,49 @@ function Accounts() {
                               </tr>
                             </thead>
 
-                            {/* <tbody>
-                              {spendings.map((spending) => (
+                            <tbody>
+                              {accounts[activeSlide]?.operations?.map((operation) => (
                                 <tr>
                                   <th className="text-blueGray-700 whitespace-nowrap border-t-0 border-l-0 border-r-0 p-4 px-6 text-left align-middle text-xs ">
-                                    <span>{spending.name}</span>
+                                    <span>{operation.type === OperationType.Expense ? "Траты" : "Доходы"}</span>
                                   </th>
                                   <td className="whitespace-nowrap border-t-0 border-l-0 border-r-0 p-4 px-6 align-middle text-xs ">
-                                    {spending.coast}
+                                    {operation.value} BYN
                                   </td>
                                   <td className="align-center whitespace-nowrap border-t-0 border-l-0 border-r-0 p-4 px-6 text-xs">
-                                    {spending.shop.shopName}
+                                    {operation.description}
                                   </td>
                                   <td className="align-center whitespace-nowrap border-t-0 border-l-0 border-r-0 p-4 px-6 text-xs">
-                                    {moment(spending.date).format("L")}
+                                    {moment(operation.createdDate).format("L")}
                                   </td>
                                   <td className="whitespace-nowrap border-t-0 border-l-0 border-r-0 p-4 px-6 align-middle text-xs">
-                                    <div className="flex gap-2">
-                                      <button
-                                        type="button"
-                                        className="rounded bg-red-400 px-3 py-2 text-indigo-50 transition-all hover:bg-red-500  "
-                                        onClick={() => {
-                                          handleSpendingDelete(spending.id as string);
-                                        }}
-                                      >
-                                        Удалить
-                                      </button>
-                                    </div>
+                                    <IconButton
+                                      icon={
+                                        <span className={` material-symbols-outlined`}>
+                                          {
+                                            category
+                                              .flatMap((x) => x.subcategories)
+                                              .find((x) => x.categoryId === operation.subCategoryId)?.icon
+                                          }
+                                        </span>
+                                      }
+                                      circle
+                                      ripple={false}
+                                      appearance="primary"
+                                      color={
+                                        category
+                                          .flatMap((x) => x.subcategories)
+                                          .find((x) => x.categoryId === operation.subCategoryId)?.color
+                                      }
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                      }}
+                                      size="xs"
+                                    />
                                   </td>
                                 </tr>
                               ))}
-                            </tbody> */}
+                            </tbody>
                           </table>
                         </div>
                       </div>

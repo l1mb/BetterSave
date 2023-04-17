@@ -100,7 +100,7 @@ export interface createAccountModel extends SideCreateEntityBase, CreateAccountU
 
 export interface OperationModel {
   id: string;
-  type: string;
+  type: OperationType;
   value: number;
   description: string;
   createdDate: string;
