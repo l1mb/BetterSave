@@ -1,4 +1,5 @@
-﻿using AuthServiceApp.BL.Services.Operation;
+﻿using AuthServiceApp.BL.Enums;
+using AuthServiceApp.BL.Services.Operation;
 using AuthServiceApp.WEB.DTOs.Operations;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,6 +20,13 @@ namespace AuthServiceApp.WEB.Controllers
         public async Task<IActionResult> GetOperationsByUserId(Guid userId)
         {
             var result =await  _operationService.GetOperationsByUserIdAsync(userId);
+            return Ok(result);
+        }
+
+        [HttpGet("{userId:guid}")]
+        public async Task<IActionResult> GetOperationPieByUserId(Guid userId, OperationTypes type)
+        {
+            var result = await _operationService.GetOperationPieByUserId(userId, type);
             return Ok(result);
         }
 

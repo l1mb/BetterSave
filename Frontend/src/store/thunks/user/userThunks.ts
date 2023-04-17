@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import authApi from "@/api/auth/authApi";
 import { updateUser } from "@/api/userApi";
 import { StatusCodes } from "@/api/codes";
+import { toast } from "react-toastify";
 import useJwtToken from "../../../hooks/useJwtToken";
 import User from "../../../types/User/user";
 
@@ -52,6 +53,8 @@ export const updateUserProfileThunk = createAsyncThunk(
 
       return null;
     }
+
+    toast.success("Сохранено");
 
     return result;
   }

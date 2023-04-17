@@ -1,10 +1,10 @@
 import { links } from "./links";
 
 const sidebarLinks: links[] = [
-  {
-    label: "Статистика",
-    link: "/stats",
-  },
+  // {
+  //   label: "Статистика",
+  //   link: "/stats",
+  // },
   {
     label: "Долги",
     link: "/loans",
@@ -21,14 +21,14 @@ const sidebarLinks: links[] = [
     label: "Операции",
     link: "/operations",
   },
-  {
-    label: "Бюджет",
-    link: "/budget",
-  },
-  {
-    label: "Разбивка",
-    link: "/split",
-  },
+  // {
+  //   label: "Бюджет",
+  //   link: "/budget",
+  // },
+  // {
+  //   label: "Разбивка",
+  //   link: "/split",
+  // },
   {
     label: "Категории",
     link: "/categories",

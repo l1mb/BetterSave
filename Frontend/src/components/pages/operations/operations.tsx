@@ -4,11 +4,11 @@ import React, { useEffect, useState } from "react";
 import PlusButton from "@/elements/plusButton/plusButton";
 import ModalWrapper from "@/components/modals/modalWrapper";
 import { Form, IconButton, InputNumber, Radio, RadioGroup } from "rsuite";
-import { AccountModel, CreateOperationModel, OperationModel, OperationType } from "@/types/models";
+import { AccountModel, CreateOperationModel, NivoPieSegment, OperationModel, OperationType } from "@/types/models";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
 import getAccountsThunk from "@/store/thunks/account/accountThunk";
-import fetchAllUserOperations, { createOperation } from "@/api/operations/operationApi";
+import fetchAllUserOperations, { createOperation, fetchUserOperationPie } from "@/api/operations/operationApi";
 import useJwtToken from "@/hooks/useJwtToken";
 import { getCategories } from "@/store/thunks/category/categoryThunk";
 import { toast } from "react-toastify";
@@ -19,6 +19,7 @@ import OperationTypeLabel, { OperaionTypeProps } from "./operationType/operation
 import styles from "./styles.module.scss";
 import AccountPicker from "./accountPicker/accountPicker";
 import CategoryList from "../split/categoryList/categoryList";
+import OperationPie from "./operationsPie/operationPie";
 
 type OperationProps = BaseProps;
 type OperationTypeHeader = "income" | "outcome" | "balance";
@@ -28,6 +29,8 @@ function Operations({}: OperationProps) {
   const [allOperations, setAllOperations] = useState<OperationModel[]>([]);
   const [isAddOperationOpen, setIsAddOperationOpen] = useState(false);
   const [operationValue, setOperationValue] = useState(0);
+
+  const [pie, setPie] = useState<NivoPieSegment[]>([]);
 
   const [addOperationModel, setAddOperationModel] = useState<Partial<CreateOperationModel>>({});
 
@@ -48,12 +51,17 @@ function Operations({}: OperationProps) {
   const fetchOperations = async () => {
     const uid = getUserId();
     const result = await fetchAllUserOperations(uid);
+    const pies = await fetchUserOperationPie(
+      uid,
+      operationType === "income" ? OperationType.Income : OperationType.Expense
+    );
     setAllOperations(result);
+    setPie(pies);
   };
 
   useEffect(() => {
     fetchOperations();
-  }, []);
+  }, [operationType]);
 
   const onChangeValue = () => {};
 
@@ -134,6 +142,7 @@ function Operations({}: OperationProps) {
   const closeAddOperation = () => {
     setIsAddOperationOpen(false);
     clearOperationModel();
+    setOperationType(operationType);
   };
 
   const openAddOperation = () => {
@@ -213,6 +222,7 @@ function Operations({}: OperationProps) {
           handleDecrement={handleDecrement}
         />
       </div>
+      <OperationPie data={pie} />
       <div className="my-16 flex flex-col items-center justify-center">
         <div className="flex gap-2">
           <span className="flex grow items-center gap-2">

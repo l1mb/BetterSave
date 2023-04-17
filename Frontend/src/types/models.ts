@@ -113,3 +113,10 @@ export interface UpdateAccountModel {
   name: string;
   balance: number;
 }
+
+export interface NivoPieSegment {
+  id: string;
+  label: string;
+  value: number;
+  color: string;
+}

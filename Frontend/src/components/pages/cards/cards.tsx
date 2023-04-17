@@ -7,7 +7,7 @@ import Close from "images/icons/close.png";
 import getCardsThunk from "@/store/thunks/cardThunk";
 import SliderWrapper from "@/elements/slider/slider";
 import Slider, { Settings } from "react-slick";
-import { AccountModel, OperationType } from "@/types/models";
+import { AccountModel } from "@/types/models";
 import getAccountsThunk, { deleteAccountThunk } from "@/store/thunks/account/accountThunk";
 import { useNavigate } from "react-router-dom";
 import Content from "../../../elements/content/Content";
@@ -18,6 +18,7 @@ import { SpendingReportDto } from "../../../types/User/Spending/spending";
 import { IconButton } from "rsuite";
 import CreateAccountModal from "../../modals/createAccountModal";
 import UpdateAccountModal from "@/components/modals/updateAccountModal";
+import { getCategories } from "@/store/thunks/category/categoryThunk";
 
 function Accounts() {
   const dispatch: AppDispatch = useDispatch();
@@ -38,6 +39,7 @@ function Accounts() {
 
   useEffect(() => {
     dispatch(getAccountsThunk());
+    dispatch(getCategories());
   }, []);
 
   const handleStartEdit = (e: string) => {
@@ -137,7 +139,8 @@ function Accounts() {
   const sliderRef = useRef<Slider>(null);
 
   useEffect(() => {
-    console.log(activeSlide);
+    console.log(accounts[activeSlide]);
+    console.log(category.flatMap((x) => x.subcategories));
   }, [activeSlide]);
 
   const handleAfterChange = (currentSlide: number) => {
@@ -150,7 +153,7 @@ function Accounts() {
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 2000,
+    autoplaySpeed: 20000,
     pauseOnHover: true,
     afterChange: handleAfterChange,
   };
@@ -294,7 +297,7 @@ function Accounts() {
             </div>
             <div className="w-full">
               <div className="mt-6 flex w-full justify-center">
-                {accounts[activeSlide] ? (
+                {!accounts[activeSlide] ? (
                   <h3 className="text-xl font-bold">Трат пока нет</h3>
                 ) : (
                   <section className="w-full bg-indigo-50 py-1 xl:mx-auto xl:w-8/12">
@@ -321,19 +324,19 @@ function Accounts() {
                             <thead>
                               <tr>
                                 <th className="bg-blueGray-50 text-blueGray-500 border-blueGray-100 whitespace-nowrap border border-l-0 border-r-0 border-solid px-6 py-3 text-left align-middle text-xs font-semibold uppercase">
-                                  Название траты
+                                  Тип
                                 </th>
                                 <th className="bg-blueGray-50 text-blueGray-500 border-blueGray-100 whitespace-nowrap border border-l-0 border-r-0 border-solid px-6 py-3 text-left align-middle text-xs font-semibold uppercase">
                                   Стоимость
                                 </th>
                                 <th className="bg-blueGray-50 text-blueGray-500 border-blueGray-100 whitespace-nowrap border border-l-0 border-r-0 border-solid px-6 py-3 text-left align-middle text-xs font-semibold uppercase">
-                                  Магазин
+                                  Описание
                                 </th>
                                 <th className="bg-blueGray-50 text-blueGray-500 border-blueGray-100 whitespace-nowrap border border-l-0 border-r-0 border-solid px-6 py-3 text-left align-middle text-xs font-semibold uppercase">
                                   Дата транзакции
                                 </th>
                                 <th className="bg-blueGray-50 text-blueGray-500 border-blueGray-100 whitespace-nowrap border border-l-0 border-r-0 border-solid px-6 py-3 text-left align-middle text-xs font-semibold uppercase">
-                                  Действия
+                                  Категория
                                 </th>
                               </tr>
                             </thead>
@@ -342,7 +345,7 @@ function Accounts() {
                               {accounts[activeSlide]?.operations?.map((operation) => (
                                 <tr>
                                   <th className="text-blueGray-700 whitespace-nowrap border-t-0 border-l-0 border-r-0 p-4 px-6 text-left align-middle text-xs ">
-                                    <span>{operation.type === OperationType.Expense ? "Траты" : "Доходы"}</span>
+                                    <span>{operation.type === "Expense" ? "Траты" : "Доходы"}</span>
                                   </th>
                                   <td className="whitespace-nowrap border-t-0 border-l-0 border-r-0 p-4 px-6 align-middle text-xs ">
                                     {operation.value} BYN
@@ -353,14 +356,14 @@ function Accounts() {
                                   <td className="align-center whitespace-nowrap border-t-0 border-l-0 border-r-0 p-4 px-6 text-xs">
                                     {moment(operation.createdDate).format("L")}
                                   </td>
-                                  <td className="whitespace-nowrap border-t-0 border-l-0 border-r-0 p-4 px-6 align-middle text-xs">
+                                  <td className="gap-2 whitespace-nowrap border-t-0 border-l-0 border-r-0 p-4 px-6 align-middle text-xs">
                                     <IconButton
                                       icon={
                                         <span className={` material-symbols-outlined`}>
                                           {
                                             category
                                               .flatMap((x) => x.subcategories)
-                                              .find((x) => x.categoryId === operation.subCategoryId)?.icon
+                                              .find((x) => x.id === operation.subCategoryId)?.icon
                                           }
                                         </span>
                                       }
@@ -370,13 +373,20 @@ function Accounts() {
                                       color={
                                         category
                                           .flatMap((x) => x.subcategories)
-                                          .find((x) => x.categoryId === operation.subCategoryId)?.color
+                                          .find((x) => x.id === operation.subCategoryId)?.color
                                       }
                                       onClick={(e) => {
                                         e.preventDefault();
                                       }}
                                       size="xs"
                                     />
+                                    <span>
+                                      {
+                                        category
+                                          .flatMap((x) => x.subcategories)
+                                          .find((x) => x.id === operation.subCategoryId)?.name
+                                      }
+                                    </span>
                                   </td>
                                 </tr>
                               ))}
