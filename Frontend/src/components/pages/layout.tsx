@@ -9,7 +9,6 @@ import Sidebar from "../../elements/sidebar";
 import fullHeightLinks from "../../utils/links/fullHeightLinks";
 import useKeyDown from "../../hooks/useKeyDown";
 import Navbar from "./navbar";
-import Footer from "./footer";
 
 interface LayoutProps {
   children: JSX.Element;
@@ -70,7 +69,6 @@ function Layout({ children }: LayoutProps) {
           )}
         </div>
       </div>
-      {fullHeightLayout && authState.authStatus === "notauthenticated" && <Footer />}
     </>
   );
 }

@@ -7,14 +7,14 @@ import BetterSaveLogo from "images/logos/BetterSaveLogo.svg";
 import { Link, useNavigate } from "react-router-dom";
 import mountain from "images/backgrounds/mountain-04.jpg";
 import authApi from "@/api/auth/authApi";
-import styles from "../../styles/login.module.scss";
-import CoolLine from "../../elements/coolLine/coolLine";
-import FormikInput from "../../elements/formikInput/formikInput";
-import signInDto from "../../types/auth/signInDto";
-import colors from "../../styles/colors";
-import loginThunk from "../../store/thunks/auth/authThunks";
-import { AppDispatch, RootState } from "../../store/store";
-import { AuthState } from "../../store/slices/authSlice";
+import styles from "./login.module.scss";
+import CoolLine from "../../../elements/coolLine/coolLine";
+import FormikInput from "../../../elements/formikInput/formikInput";
+import signInDto from "../../../types/auth/signInDto";
+import colors from "../../../styles/colors";
+import loginThunk from "../../../store/thunks/auth/authThunks";
+import { AppDispatch, RootState } from "../../../store/store";
+import { AuthState } from "../../../store/slices/authSlice";
 
 function Login() {
   const navigate = useNavigate();
@@ -130,7 +130,7 @@ function Login() {
             </div>
           </div>
           <div className="h-vh relative w-8/12">
-            <img src={mountain} alt="Mountain background" />
+            <img src={mountain} alt="Mountain background" className="h-full w-full object-cover" />
           </div>
         </div>
       )}

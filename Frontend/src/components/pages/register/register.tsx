@@ -11,8 +11,8 @@ import ErrorDto from "@/types/auth/errorDto";
 import signUpDto from "@/types/auth/signUpDto";
 import authApi from "@/api/auth/authApi";
 import { StatusCodes } from "@/api/codes";
-import colors from "../../styles/colors";
-import styles from "../../styles/login.module.scss";
+import colors from "../../../styles/colors";
+import styles from "../login/login.module.scss";
 
 function Register() {
   const [loading, setLoading] = useState(false);
@@ -120,7 +120,7 @@ function Register() {
             </div>
           </div>
           <div className="h-vh relative w-8/12">
-            <img src={mountain} alt="Mountain background" />
+            <img src={mountain} alt="Mountain background" className="h-full w-full object-cover" />
           </div>
         </div>
       )}
