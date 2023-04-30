@@ -4,7 +4,7 @@ import Home from "../pages";
 import Cards from "../pages/cards/cards";
 import Goals from "../pages/goals/goals";
 import Layout from "../pages/layout";
-import Loans from "../pages/loans";
+import Loans from "../pages/loans/loans";
 import Login from "../pages/login/login";
 import NotFound from "../pages/notFound/notFound";
 import Operations from "../pages/operations/operations";

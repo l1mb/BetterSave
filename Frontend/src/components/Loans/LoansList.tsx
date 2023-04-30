@@ -81,7 +81,7 @@ function LoansList() {
               </Popover>
             }
           >
-            <span>и еще{moreCount}</span>
+            <span className=" animate-pulse md:text-sm">Еще</span>
           </Whisper>
         </li>
       );

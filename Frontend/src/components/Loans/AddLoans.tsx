@@ -57,7 +57,7 @@ function AddLoans() {
       <div>
         <h3>Вы хотите дать взаймы кому-то или отдолжить у кого-то?</h3>
 
-        <div className="mt-6 flex justify-evenly">
+        <div className="mt-6 flex flex-col md:flex-row md:justify-evenly">
           <div className="flex flex-col">
             <div className="flex flex-col ">
               <Radio
@@ -79,7 +79,7 @@ function AddLoans() {
               </Radio>
             </div>
             <div className="mt-2 flex flex-col gap-2">
-              <span className="px-2 text-gray-400">{loanTarget === "increase" ? "From" : "To"} who</span>
+              <span className="px-2 text-gray-400">{loanTarget === "increase" ? "У кого " : "Кому "} то</span>
               <input
                 type="text"
                 className="w-40 rounded-md"
