@@ -15,7 +15,6 @@ function AddSplit() {
   const [editableUser, setEditableUser] = useState<Person>();
 
   const addPerson = () => {
-    console.log(people, editableUser);
     setPeople((prev) => {
       if (editableUser) {
         prev.push(editableUser);
@@ -43,7 +42,6 @@ function AddSplit() {
   }
 
   const updateUserName = (value: string) => {
-    console.log(value);
     setEditableUser({ name: value });
   };
 

@@ -25,7 +25,6 @@ function Settings() {
       lastName: userInfo.lastName || "",
       birthday: userInfo.birthday || null,
     });
-    console.log(userChoices);
   }, [userInfo]);
 
   const handleUpdateFirstName = (e: string) => {
@@ -45,7 +44,6 @@ function Settings() {
   };
 
   const handleFinishEdit = async () => {
-    console.log(userChoices);
     await dispatch(
       updateUserProfileThunk({
         setError,

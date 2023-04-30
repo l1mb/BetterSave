@@ -7,7 +7,6 @@ interface OperationPieProps {
 }
 
 function OperationPie({ data }: OperationPieProps) {
-  console.log(data);
   return (
     <ResponsivePie
       data={data}

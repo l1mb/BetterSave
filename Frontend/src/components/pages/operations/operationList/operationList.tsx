@@ -11,7 +11,6 @@ interface OperationListProps extends BaseProps {
 
 function OperationList({ list }: OperationListProps) {
   const { category } = useSelector<RootState, RootState>((x) => x);
-  console.log(list);
 
   return (
     <div className="my-2 flex w-full flex-col items-center justify-center gap-1">

@@ -9,9 +9,7 @@ interface DatePickerProps {
 
 function DatePicker({ start, end, handleIncrement, handleDecrement }: DatePickerProps) {
   const days = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
-  useEffect(() => {
-    console.log();
-  }, [start, end]);
+  useEffect(() => {}, [start, end]);
 
   return (
     <div className="flex text-lg">

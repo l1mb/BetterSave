@@ -23,8 +23,6 @@ function Categories() {
   const onClickAddSubcategory = (x: string) => {
     setShow(true);
     setParentId(x);
-
-    console.log(x);
   };
 
   const handleCancel = () => {
@@ -34,7 +32,6 @@ function Categories() {
 
   const handleProceed = (value: { name: string; icon: string; color: string }) => {
     if (parentId) {
-      console.log(parentId);
       dispatch(addSubcategory({ ...value, categoryId: parentId }));
     } else {
       dispatch(addCategory(value));

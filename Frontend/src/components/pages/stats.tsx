@@ -30,9 +30,7 @@ function Stats() {
   useEffect(() => {
     dispatch(
       getCardsThunk({
-        setError: () => {
-          console.log();
-        },
+        setError: () => {},
       })
     );
   }, []);
@@ -63,7 +61,6 @@ function Stats() {
     const result: Array<{ categoryName: string; price: number }> = [];
     const t2 = t?.reduce(
       (res: { [key: string]: { categoryName: string; price: number } }, value: SpendingShopItemCategory) => {
-        // console.log(res, value);
         if (!res[value.categoryName]) {
           res[value.categoryName] = {
             categoryName: value.categoryName,

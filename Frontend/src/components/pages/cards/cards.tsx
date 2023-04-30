@@ -123,7 +123,6 @@ function Accounts() {
   const handleUpdateSpending = (spending: SpendingReportDto) => {
     setIsOpened("spending");
     setSpendingModalState({ mode: "update", editableModel: spending });
-    console.log(spending);
   };
 
   const handleCreateTransaction = () => {
@@ -132,16 +131,9 @@ function Accounts() {
     navigate("/operations");
   };
 
-  useEffect(() => {
-    console.log(selectedCardIndex);
-  }, [selectedCardIndex]);
+  useEffect(() => {}, [selectedCardIndex]);
   const [activeSlide, setActiveSlide] = useState(0);
   const sliderRef = useRef<Slider>(null);
-
-  useEffect(() => {
-    console.log(accounts[activeSlide]);
-    console.log(category.flatMap((x) => x.subcategories));
-  }, [activeSlide]);
 
   const handleAfterChange = (currentSlide: number) => {
     setActiveSlide(currentSlide);

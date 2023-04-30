@@ -113,9 +113,7 @@ function Operations({}: OperationProps) {
     dispatch(getAccountsThunk());
     dispatch(getCategories());
 
-    console.log(operationType);
     getOpeartionArray();
-    console.log(operationType);
   }, [operationType]);
 
   function getOperationName(type: OperationTypeHeader) {
