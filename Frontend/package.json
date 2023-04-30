@@ -6,7 +6,7 @@
     "test": "exit 0",
     "start": "npm run serve",
     "serve": ".\\node_modules\\.bin\\webpack serve --open --config webpack.devServer.js",
-    "serve-proxy": "npm run serve --env=proxy=https://localhost:7053/",
+    "serve-proxy": "npm run serve -- --env=proxy=http://localhost:5053/",
     "serve-proxy-docker": "cd .. && docker compose -f frontend-dev-compose.yml up -d && cd Frontend && npm run serve -- --env=proxy=http://localhost:7053/",
     "build-prod": ".\\node_modules\\.bin\\webpack --mode production --config webpack.prod.js",
     "build-prod-withMap": "npm run build-prod -- --sourceMap",

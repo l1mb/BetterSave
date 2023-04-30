@@ -14,14 +14,14 @@ import signInDto from "../../../types/auth/signInDto";
 import colors from "../../../styles/colors";
 import loginThunk from "../../../store/thunks/auth/authThunks";
 import { AppDispatch, RootState } from "../../../store/store";
-import { AuthState } from "../../../store/slices/authSlice";
+import { AppState } from "../../../store/slices/authSlice";
 
 function Login() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
   const dispatch: AppDispatch = useDispatch();
-  const authState = useSelector<RootState, AuthState>((state) => state.auth);
+  const AppState = useSelector<RootState, AppState>((state) => state.auth);
 
   const [error, setError] = useState<string | null>(null);
 
@@ -40,10 +40,10 @@ function Login() {
   };
 
   useEffect(() => {
-    if (authState.authStatus === "authenticated") {
+    if (AppState.authStatus === "authenticated") {
       navigate("/");
     }
-  }, [window.location.pathname, authState.authStatus]);
+  }, [window.location.pathname, AppState.authStatus]);
 
   return (
     <Formik
@@ -65,8 +65,8 @@ function Login() {
       }}
     >
       {(formik) => (
-        <div className={`${styles.login_wrapper} flex w-full `}>
-          <div className="h-vh flex w-4/12  items-center justify-center">
+        <div className={`${styles.login_wrapper} md:h-vh flex  h-max w-full`}>
+          <div className=" flex  w-4/12  items-center justify-center">
             <div className="w-full">
               <div className="m-auto flex w-8/12 flex-col gap-1  text-2xl font-bold text-indigo-600">
                 <img src={BetterSaveLogo} alt="Logo" />

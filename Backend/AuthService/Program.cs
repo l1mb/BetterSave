@@ -87,7 +87,6 @@ app.UseEndpoints((endpoints) =>
 app.UseStaticFiles();
 app.MapControllers();
 
-app.UseHttpsRedirection();
 
 if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
 {

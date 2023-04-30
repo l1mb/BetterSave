@@ -4,18 +4,20 @@ import User from "../../types/User/user";
 import loginThunk from "../thunks/auth/authThunks";
 import getUserInfoThunk from "../thunks/user/userThunks";
 
-export type AuthState = {
+export type AppState = {
   user: User;
   authStatus: "notauthenticated" | "authenticated";
+  isHamburgerMenuOpen: boolean;
 };
 
-const initState: AuthState = {
+const initState: AppState = {
   user: {
     email: "",
     firstName: "",
     lastName: "",
   },
   authStatus: "notauthenticated",
+  isHamburgerMenuOpen: false,
 };
 
 const authSlice = createSlice({
@@ -25,6 +27,9 @@ const authSlice = createSlice({
     logout(state) {
       state.user = initState.user;
       state.authStatus = "notauthenticated";
+    },
+    setHamburgerState(state) {
+      state.isHamburgerMenuOpen = !state.isHamburgerMenuOpen;
     },
   },
   extraReducers: (builder) => {
@@ -43,6 +48,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { logout, setHamburgerState } = authSlice.actions;
 
 export default authSlice.reducer;
