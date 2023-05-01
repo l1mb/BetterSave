@@ -41,6 +41,7 @@ function Layout({ children }: LayoutProps) {
   useKeyDown(
     (e) => {
       if (
+        !isMobile &&
         e.key &&
         e.key.toLowerCase() === "s" &&
         !fullHeightLayout &&
@@ -63,7 +64,7 @@ function Layout({ children }: LayoutProps) {
     <>
       {(appState.authStatus === "notauthenticated" || isMobile) && <Navbar />}
       <div
-        className={` bg-indigo-200 ${
+        className={` bg-indigo-50 ${
           // eslint-disable-next-line no-nested-ternary
           appState.isHamburgerMenuOpen
             ? appState.authStatus === "notauthenticated"
@@ -74,16 +75,16 @@ function Layout({ children }: LayoutProps) {
       >
         {appState.authStatus === "notauthenticated" ? (
           <div className="flex flex-col gap-2 p-1">
-            <LinkElement link="/login" label="Войти" />
-            <LinkElement link="/register" label="Зарегистрироваться" />
+            <LinkElement link="/login" label="Войти" className="text-indigo-600" />
+            <LinkElement link="/register" label="Зарегистрироваться" className="text-indigo-600" />
           </div>
         ) : (
           <div className="flex flex-col gap-2 p-1">
             {sidebarLinks.map((x) => (
-              <LinkElement link={x.link} label={x.label} />
+              <LinkElement link={x.link} label={x.label} className=" text-indigo-600" />
             ))}
-            <LinkElement link="/" label="Домой" />
-            <LinkElement link="/settings" label="Настройки" />
+            <LinkElement link="/" label="Домой" className="text-indigo-600" />
+            <LinkElement link="/settings" label="Настройки" className="text-indigo-600" />
           </div>
         )}
       </div>
@@ -93,7 +94,7 @@ function Layout({ children }: LayoutProps) {
 
         <div className="relative w-full flex-auto">
           {children}
-          {isOpened === false && appState.authStatus === "authenticated" && !fullHeightLayout && (
+          {!isMobile && isOpened === false && appState.authStatus === "authenticated" && !fullHeightLayout && (
             <button
               className="fixed  bottom-4 left-4 flex h-9 w-9 items-center justify-center rounded-full bg-transparent transition-all hover:rotate-90  hover:bg-indigo-500 "
               type="button"
