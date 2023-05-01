@@ -195,9 +195,9 @@ function Operations({}: OperationProps) {
 
   const getSubcategory = (id: string) => category.flatMap((x) => x.subcategories).find((x) => x.id === id);
   return (
-    <div className="mx-auto flex h-screen w-[566px]  flex-col py-24">
+    <div className="mx-auto flex h-screen flex-col  py-24 md:w-[566px]">
       {/* Header line */}
-      <div className=" flex justify-evenly gap-4">
+      <div className=" flex justify-evenly md:gap-4">
         {headerLine.map((x, index) => (
           <>
             <OperationTypeLabel label={x.label} onSelect={x.onSelect} />
