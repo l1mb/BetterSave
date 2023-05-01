@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import sidebarIcon from "images/icons/sidebarIcon.svg";
 import { useNavigate } from "react-router-dom";
-import { AppState, setHamburgerState } from "@/store/slices/authSlice";
+import { AppState, logout, setHamburgerState } from "@/store/slices/authSlice";
 import { RootState, AppDispatch } from "@/store/store";
 import getUserInfoThunk from "@/store/thunks/user/userThunks";
 import LinkElement from "@/elements/linkElements/linkElement";
 import sidebarLinks from "@/utils/links/sidebar";
 import useWindowSize from "@/hooks/useWindowSizeHook";
+import { Button } from "rsuite";
 import Sidebar from "../../elements/sidebar";
 import fullHeightLinks from "../../utils/links/fullHeightLinks";
 import useKeyDown from "../../hooks/useKeyDown";
@@ -60,6 +61,10 @@ function Layout({ children }: LayoutProps) {
     }
   }, [appState.authStatus]);
 
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
   return (
     <>
       {(appState.authStatus === "notauthenticated" || isMobile) && <Navbar />}
@@ -69,22 +74,25 @@ function Layout({ children }: LayoutProps) {
           appState.isHamburgerMenuOpen
             ? appState.authStatus === "notauthenticated"
               ? "h-[60px]"
-              : "h-[200px]"
+              : "h-[250px]"
             : "h-0 "
         } left-0 z-10 max-h-max w-full overflow-hidden bg-blend-saturation transition-all`}
       >
         {appState.authStatus === "notauthenticated" ? (
-          <div className="flex flex-col gap-2 p-1">
+          <div className="flex flex-col items-end gap-2 p-1 pr-5 ">
             <LinkElement link="/login" label="Войти" className="text-indigo-600" />
             <LinkElement link="/register" label="Зарегистрироваться" className="text-indigo-600" />
           </div>
         ) : (
-          <div className="flex flex-col gap-2 p-1">
+          <div className="flex flex-col items-end gap-2 p-1 pr-5 ">
             {sidebarLinks.map((x) => (
               <LinkElement link={x.link} label={x.label} className=" text-indigo-600" />
             ))}
             <LinkElement link="/" label="Домой" className="text-indigo-600" />
             <LinkElement link="/settings" label="Настройки" className="text-indigo-600" />
+            <Button style={{ padding: " 4px 16px" }} appearance="subtle" onClick={handleLogout}>
+              Выход
+            </Button>
           </div>
         )}
       </div>

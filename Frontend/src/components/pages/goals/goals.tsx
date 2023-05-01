@@ -48,8 +48,8 @@ function Goals() {
   };
 
   return (
-    <div className={` w-full ${styles.page} h-screen`}>
-      <div className={`${styles.content}  my-12 h-full p-14 shadow-xl`}>
+    <div className={` w-full ${styles.page} h-full md:h-screen`}>
+      <div className={`${styles.content} h-full p-4 shadow-xl md:my-12 md:p-14`}>
         <h3>Ваши цели</h3>
         {!goal && (
           <div className="flex gap-3">

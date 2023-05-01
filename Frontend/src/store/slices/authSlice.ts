@@ -27,6 +27,7 @@ const authSlice = createSlice({
     logout(state) {
       state.user = initState.user;
       state.authStatus = "notauthenticated";
+      localStorage.removeItem("token");
     },
     setHamburgerState(state) {
       state.isHamburgerMenuOpen = !state.isHamburgerMenuOpen;

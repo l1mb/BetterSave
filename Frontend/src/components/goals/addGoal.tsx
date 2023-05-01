@@ -4,6 +4,7 @@ import { Calendar, Form, Radio, RadioGroup } from "rsuite";
 import { createAim } from "@/api/aimApi";
 import { Aim, CreateAim } from "@/types/models";
 import { toast } from "react-toastify";
+import useWindowSize from "@/hooks/useWindowSizeHook";
 import useJwtToken from "../../hooks/useJwtToken";
 import { AimDateType, AimType } from "../../types/User/goals/goals";
 
@@ -26,6 +27,8 @@ function AddGoal({ goal, setRefresh }: AddGoalProps) {
   const { decodeToken } = useJwtToken();
   const [loading, setLoading] = useState(false);
   const [succ, setSucc] = useState("");
+
+  const { isMobile } = useWindowSize();
 
   const handleUpdateName = (e: string) => {
     setUserChoices({ ...userChoices, name: e });
@@ -83,14 +86,18 @@ function AddGoal({ goal, setRefresh }: AddGoalProps) {
 
   return (
     <div className="flex flex-col">
-      <div className="flex justify-between">
+      <div className="flex flex-col justify-between md:flex-row">
         <div className="flex flex-col gap-4">
           <div className="mt-5 flex flex-col">
-            <span className="font-bold">Введите название вашей цели</span>
-            <input type="text" className="w-40 rounded-md" onChange={(e) => handleUpdateName(e.target.value)} />
+            <span className="mb-2 font-bold">Введите название вашей цели</span>
+            <input
+              type="text"
+              className="w-full rounded-md md:w-40"
+              onChange={(e) => handleUpdateName(e.target.value)}
+            />
           </div>
-          <div>
-            <span className=" font-bold">Тип цели:</span>
+          <div className="flex flex-col gap-[4px]">
+            <span className="font-bold ">Тип цели:</span>
             <div className=" flex flex-col gap-1 text-base">
               <RadioGroup
                 name="radioList"
@@ -104,6 +111,8 @@ function AddGoal({ goal, setRefresh }: AddGoalProps) {
                 <Radio value={AimType.IncreaseIncome}>Получать больше доходов</Radio>
               </RadioGroup>
             </div>{" "}
+          </div>
+          <div>
             <span className=" font-bold">Периодичность цели: </span>
             <div className=" mt-2 flex flex-col gap-1 text-base">
               <RadioGroup
@@ -117,39 +126,41 @@ function AddGoal({ goal, setRefresh }: AddGoalProps) {
                 <Radio value={AimDateType.DailyCount}>Ежедневно</Radio>
                 <Radio className="flex items-center" value={AimDateType.DailyToDate}>
                   Ежедневно, до определенной даты{" "}
-                  <Form.HelpText tooltip>
-                    Цель будет проверяться каждый день,
-                    <br /> Выполнена, когда подойдет срок
-                  </Form.HelpText>
+                  {!isMobile && (
+                    <Form.HelpText tooltip>
+                      Цель будет проверяться каждый день,
+                      <br /> Выполнена, когда подойдет срок
+                    </Form.HelpText>
+                  )}
                 </Radio>
                 <Radio value={AimDateType.ToDate}>
                   До определенной даты
-                  <Form.HelpText tooltip>
-                    Когда придет время, мы проверим,
-                    <br /> выполнили ли вы свою цель
-                  </Form.HelpText>
+                  {!isMobile && (
+                    <Form.HelpText tooltip>
+                      Когда придет время, мы проверим,
+                      <br /> выполнили ли вы свою цель
+                    </Form.HelpText>
+                  )}
                 </Radio>
               </RadioGroup>
             </div>
           </div>
-          <div className="mb-4 flex flex-col">
-            <span className=" font-bold">Сумма</span>
+          {/* {userChoices.dateType === AimDateType.DailyToDate || userChoices.dateType === AimDateType.ToDate ? (
+            <div className="mb-4 flex flex-col md:hidden">
+              <DatePicker oneTap style={{ width: 200 }} />
+            </div>
+          ) : null} */}
+          <div className="mb-4 flex flex-col gap-[4px]">
+            <span className=" font-bold ">Сумма</span>
             <input
               type="number"
-              className="w-40 rounded-md"
+              className="w-full rounded-md md:w-40 "
               onChange={(e) => handleUpdateAmount(Number(e.currentTarget.value))}
             />
           </div>
-          <button
-            type="button"
-            className=" w-[328px] rounded bg-indigo-600 px-4 py-3 text-indigo-50 transition hover:bg-indigo-800"
-            onClick={() => handleAdd()}
-          >
-            Начать отслеживание цели
-          </button>
         </div>
         {userChoices.dateType === AimDateType.DailyToDate || userChoices.dateType === AimDateType.ToDate ? (
-          <div style={{ minWidth: 350, width: 400 }}>
+          <div style={{ minWidth: 350, width: isMobile ? 350 : 400 }}>
             <Calendar
               bordered
               compact
@@ -165,6 +176,13 @@ function AddGoal({ goal, setRefresh }: AddGoalProps) {
           </div>
         ) : null}
       </div>
+      <button
+        type="button"
+        className="w-full rounded bg-indigo-600 px-4 py-3 text-indigo-50 transition hover:bg-indigo-800 md:w-[328px]"
+        onClick={() => handleAdd()}
+      >
+        Начать отслеживание цели
+      </button>
 
       <div className="text-viole  mx-auto mt-10 w-8">
         {loading ? <HashLoader loading color="#6d28d9" /> : <span>{succ}</span>}
