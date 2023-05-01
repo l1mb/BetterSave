@@ -2,7 +2,10 @@
 
 //todo add webpack config
 .login_wrapper {
-  height: calc(100vh - 57px);
+  @media (min-width: 768px) {
+    height: calc(100vh - 57px) !important;
+  }
+  height: calc(100vh - 73px);
 }
 
 .form {

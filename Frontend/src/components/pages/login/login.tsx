@@ -65,8 +65,8 @@ function Login() {
       }}
     >
       {(formik) => (
-        <div className={`${styles.login_wrapper} md:h-vh flex  h-max w-full`}>
-          <div className=" flex  w-4/12  items-center justify-center">
+        <div className={`${styles.login_wrapper} md:h-vh flex  h-full w-full`}>
+          <div className="z-10 m-auto flex h-3/5 w-4/5 items-center  justify-center rounded-md bg-white bg-opacity-70 md:w-4/12">
             <div className="w-full">
               <div className="m-auto flex w-8/12 flex-col gap-1  text-2xl font-bold text-indigo-600">
                 <img src={BetterSaveLogo} alt="Logo" />
@@ -129,7 +129,7 @@ function Login() {
               </form>
             </div>
           </div>
-          <div className="h-vh relative w-8/12">
+          <div className="absolute -z-0 h-full   w-full md:relative md:h-full md:w-8/12">
             <img src={mountain} alt="Mountain background" className="h-full w-full object-cover" />
           </div>
         </div>

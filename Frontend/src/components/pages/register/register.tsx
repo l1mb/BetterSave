@@ -50,8 +50,8 @@ function Register() {
       }}
     >
       {(formik) => (
-        <div className={`${styles.login_wrapper} flex w-full `}>
-          <div className="h-vh  flex w-4/12 items-center justify-center">
+        <div className={`${styles.login_wrapper}  md:h-vh flex  h-full w-full `}>
+          <div className="z-10 m-auto flex h-3/5 w-4/5 items-center  justify-center rounded-md bg-white bg-opacity-70 md:w-4/12">
             <div className="w-full min-w-[325px] ">
               <div className="m-auto flex w-8/12 flex-col gap-1  text-2xl font-bold text-indigo-600">
                 <img src={BetterSaveLogo} alt="Logo" />
@@ -94,7 +94,7 @@ function Register() {
                 ) : (
                   <button
                     type="submit"
-                    className={` mt-6 rounded-md border border-purple-200 py-2 font-semibold transition duration-150 ease-in-out hover:border-indigo-700  hover:border-indigo-800 hover:bg-indigo-800 hover:text-indigo-100
+                    className={` mt-6 rounded-md border border-purple-200 bg-indigo-50 py-2 font-semibold text-indigo-700 transition duration-150 ease-in-out hover:border-indigo-700 hover:border-indigo-800 hover:bg-indigo-800 hover:text-indigo-100
                   `}
                   >
                     Зарегистрироваться
@@ -119,7 +119,7 @@ function Register() {
               </form>
             </div>
           </div>
-          <div className="h-vh relative w-8/12">
+          <div className="absolute -z-0 h-full   w-full md:relative md:h-full md:w-8/12">
             <img src={mountain} alt="Mountain background" className="h-full w-full object-cover" />
           </div>
         </div>
