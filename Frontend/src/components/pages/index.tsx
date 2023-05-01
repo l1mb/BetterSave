@@ -21,14 +21,14 @@ function Home() {
     <div className={styles.container}>
       <main className={styles.main}>
         <h1 className={styles.title}>Добро пожаловать в приложение BetterSave</h1>
-        <p className={`${styles.description} text-3xl  font-bold underline`}>Мы очень рады вас видеть. Снова</p>
+        <p className={`${styles.description} font-bold  underline md:text-3xl`}>Мы очень рады вас видеть. Снова</p>
 
         {/* <div className={styles.grid}> */}
         <div className="bg-white">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <div className="mx-auto max-w-2xl lg:text-center">
               {/* <h2 className="text-base font-semibold leading-7 text-indigo-600">Мяу мяу</h2> */}
-              <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+              <p className="mt-2 text-center text-base font-bold tracking-tight text-gray-900 sm:text-4xl md:text-3xl">
                 Узнайте больше о возможностях BetterSave
               </p>
               {/* <p className="mt-6 text-lg leading-8 text-gray-600">

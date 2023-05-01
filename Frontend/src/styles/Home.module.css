@@ -28,6 +28,13 @@
   flex-grow: 1;
 }
 
+.title {
+  @media (min-width: 768px) {
+    font-size: 44px !important;
+  }
+  font-size: 20px !important;
+}
+
 .title a {
   color: #0070f3;
   text-decoration: none;
@@ -51,9 +58,9 @@
 }
 
 .description {
-  margin: 2ssrem 0;
   line-height: 1.5;
   font-size: 1.5rem;
+  font-size: 14px !important;
 }
 
 .code {
