@@ -5,8 +5,8 @@ export interface links {
 }
 
 const navLinks: links[] = [
-  { label: "Register", link: "/register", align: "right" },
-  { label: "Login", link: "/login", align: "right" },
+  { label: "Зарегистрироваться", link: "/register", align: "right" },
+  { label: "Войти", link: "/login", align: "right" },
 ];
 
 export default navLinks;

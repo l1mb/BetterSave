@@ -42,10 +42,10 @@ function Sidebar({ isOpened }: SidebarProps) {
             className="mx-5 rounded  border border-indigo-700 bg-gray-50 px-2 py-2 text-start text-indigo-700 transition-colors hover:bg-white hover:text-gray-900 "
             onClick={() => logoutHandler()}
           >
-            Logout
+            Выход
           </button>
           <Link to="/settings">
-            <span className="mx-auto flex w-3/4 rounded border border-indigo-800 px-2 py-2 text-center">Settings</span>
+            <span className="mx-auto flex w-3/4 rounded border border-indigo-800 px-2 py-2 text-center">Настройки</span>
           </Link>
         </div>
       </div>

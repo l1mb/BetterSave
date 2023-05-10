@@ -1,24 +1,15 @@
 using AuthServiceApp.BL.Services.ServiceManagement;
-using AuthServiceApp.DAL.Models;
+using AuthServiceApp.DAL.Entities;
 using AuthServiceApp.Settings.Extensions;
 using AuthServiceApp.WEB.Extensions;
 using AuthServiceApp.WEB.Settings;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using AuthServiceApp.WEB.StartUp.Configuration;
+using Hangfire;
+using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-
 using Serilog;
-using Serilog.Events;
-using Serilog.Sinks.RollingFileAlternative;
 using LoggerExtensions = AuthServiceApp.WEB.Extensions.LoggerExtensions;
-using AuthServiceApp.WEB.StartUp.Configuration;
-using Microsoft.AspNetCore.Identity;
-using AuthServiceApp.DAL.Entities;
-using Hangfire;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog();
@@ -30,7 +21,7 @@ Log.Logger = LoggerExtensions.RegisterLogger();
 builder.Services.RegisterHangfire(appSettings.Database.ConnectionString);
 builder.Services.RegisterServices(appSettings);
 
-builder.Services.RegisterSwagger();
+builder.Services.RegisterSwagger(appSettings.SwaggerSettings);
 
 builder.Services.RegistryDatabase(appSettings);
 builder.Services.RegisterIdentity();
@@ -40,22 +31,24 @@ builder.Services.RegisterAutoMapper();
 
 builder.Services.RegisterAuthSettings(appSettings);
 builder.Services.RegisterHttpContextExtensions();
-builder.Services.AddControllers().AddNewtonsoftJson(options =>
-{
-    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-    options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-    options.SerializerSettings.Converters.Add(new StringEnumConverter());
-});
+builder.Services.AddControllers()
+    .AddNewtonsoftJson(options =>
+    {
+        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+        options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+        options.SerializerSettings.Converters.Add(new StringEnumConverter());
+    });
 
 builder.Services.AddCors(opts =>
 {
-    opts.AddPolicy("AllowAll", builder =>
-    {
-        builder.AllowAnyOrigin()
+    opts.AddPolicy("AllowAll",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader();
-        //.AllowCredentials();
-    });
+            //.AllowCredentials();
+        });
 });
 
 
@@ -71,8 +64,10 @@ using (var scope = scopeFactory.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-    SeedExtensions.SeedUsers(userManager, roleManager);
+    SeedExtensions.SeedUsers(userManager,
+        roleManager);
 }
+
 app.UseRouting();
 app.RegisterExceptionHandler(Log.Logger);
 app.UseSerilogRequestLogging();
@@ -80,19 +75,21 @@ app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseEndpoints((endpoints) =>
+app.UseEndpoints(endpoints =>
 {
-    endpoints.MapGet("/", async context => await context.Response.WriteAsync("healthy"));
+    endpoints.MapGet("/",
+        async context => await context.Response.WriteAsync("healthy"));
 });
 app.UseStaticFiles();
 app.MapControllers();
 
-app.UseHttpsRedirection();
 
 if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
-{
-    RecurringJob.AddOrUpdate<IServiceManagement>(x => x.CheckUserLoans(), Cron.Minutely);
-}
+    RecurringJob.AddOrUpdate<IServiceManagement>(x => x.CheckUserLoans(),
+        Cron.Minutely);
+
+RecurringJob.AddOrUpdate<IServiceManagement>(x => x.CheckUsersAims(),
+    Cron.Monthly);
 
 
 app.Run();
@@ -101,18 +98,32 @@ static AppSettings RegisterSettings(IConfiguration configuration)
 {
     Console.WriteLine(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"));
     var conf = new ConfigurationBuilder()
-        .AddJsonFile("appsettings.json")
-        .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ??"Development"}.json", optional: true)
+        .AddJsonFile("appsettings.json",
+            false,
+            true)
+        .AddJsonFile(
+            $"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development"}.json",
+            true,
+            true)
         .AddEnvironmentVariables()
         .Build();
 
     return new()
     {
-        Database = conf.GetSection(nameof(AppSettings.Database)).Get<DatabaseSettings>(),
-        Token = conf.GetSection(nameof(AppSettings.Token)).Get<TokenSettings>(),
-        SmtpClientSettings = conf.GetSection(nameof(AppSettings.SmtpClientSettings))
+        Database = conf
+            .GetSection(nameof(AppSettings.Database))
+            .Get<DatabaseSettings>(),
+        Token = conf
+            .GetSection(nameof(AppSettings.Token))
+            .Get<TokenSettings>(),
+        SmtpClientSettings = conf
+            .GetSection(nameof(AppSettings.SmtpClientSettings))
             .Get<SmtpClientSettings>(),
-        GoogleAuthSettings = conf.GetSection(nameof(AppSettings.GoogleAuthSettings))
-            .Get<GoogleAuthSettings>()
+        GoogleAuthSettings = conf
+            .GetSection(nameof(AppSettings.GoogleAuthSettings))
+            .Get<GoogleAuthSettings>(),
+        SwaggerSettings = conf
+            .GetSection(nameof(AppSettings.SwaggerSettings))
+            .Get<SwaggerSettings>()
     };
 }

@@ -11,6 +11,7 @@ namespace AuthServiceApp.DAL.Entities
     {
         public String? FirstName { get; set; }
         public String? LastName { get; set; }
+        public DateTime Birthday { get; set; }
         public IList<ApplicationUserRole> UserRoles { get; set; }
         public bool IsDeleted { get; set; }
         public List<Spending> Spendings { get; set; }

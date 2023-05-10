@@ -11,8 +11,8 @@ import ErrorDto from "@/types/auth/errorDto";
 import signUpDto from "@/types/auth/signUpDto";
 import authApi from "@/api/auth/authApi";
 import { StatusCodes } from "@/api/codes";
-import colors from "../../styles/colors";
-import styles from "../../styles/login.module.scss";
+import colors from "../../../styles/colors";
+import styles from "../login/login.module.scss";
 
 function Register() {
   const [loading, setLoading] = useState(false);
@@ -35,10 +35,10 @@ function Register() {
       initialValues={{ email: "", password: "" }}
       validationSchema={Yup.object({
         email: Yup.string()
-          .max(30, "Must be 30 characters or less")
-          .email("Invalid email address")
-          .required("Please enter your email"),
-        password: Yup.string().required("Please enter your password"),
+          .max(30, "Максимум 30 символов")
+          .email("Неверный email адрес")
+          .required("Пожалуйста, введите email"),
+        password: Yup.string().required("Пожалуйста, введите пароль"),
       })}
       onSubmit={async (values, { setSubmitting, validateForm }) => {
         setSubmitting(true);
@@ -50,8 +50,8 @@ function Register() {
       }}
     >
       {(formik) => (
-        <div className={`${styles.login_wrapper} flex w-full `}>
-          <div className="h-vh  flex w-4/12 items-center justify-center">
+        <div className={`${styles.login_wrapper}  md:h-vh flex  h-full w-full `}>
+          <div className="z-10 m-auto flex h-3/5 w-4/5 items-center  justify-center rounded-md bg-white bg-opacity-70 md:w-4/12">
             <div className="w-full min-w-[325px] ">
               <div className="m-auto flex w-8/12 flex-col gap-1  text-2xl font-bold text-indigo-600">
                 <img src={BetterSaveLogo} alt="Logo" />
@@ -67,15 +67,15 @@ function Register() {
                   <FormikInput
                     htmlFor="email"
                     label="Email"
-                    ariaLabel="Enter your email"
+                    ariaLabel="введите свой адрес электронной почты"
                     ariaRequired
                     type="email"
                     error={formik.errors.email}
                   />
                   <FormikInput
                     htmlFor="password"
-                    label="Password"
-                    ariaLabel="Enter your password"
+                    label="Пароль"
+                    ariaLabel="введите свой пароль"
                     ariaRequired
                     type="password"
                     error={formik.errors.password}
@@ -94,19 +94,19 @@ function Register() {
                 ) : (
                   <button
                     type="submit"
-                    className={` mt-6 rounded-md border border-purple-200 py-2 font-semibold transition duration-150 ease-in-out hover:border-indigo-700  hover:border-indigo-800 hover:bg-indigo-800 hover:text-indigo-100
+                    className={` mt-6 rounded-md border border-purple-200 bg-indigo-50 py-2 font-semibold text-indigo-700 transition duration-150 ease-in-out hover:border-indigo-700 hover:border-indigo-800 hover:bg-indigo-800 hover:text-indigo-100
                   `}
                   >
-                    Register
+                    Зарегистрироваться
                   </button>
                 )}
 
                 <span className=" text-right text-xs text-indigo-800">
-                  Or you may want to{" "}
+                  Или вы можете{" "}
                   <Link to="/login">
-                    <span className="cursor-pointer text-indigo-600">login</span>
+                    <span className="cursor-pointer text-indigo-600">войти в аккаунт</span>
                   </Link>{" "}
-                  instead
+                  вместо этого
                 </span>
 
                 <span
@@ -119,8 +119,8 @@ function Register() {
               </form>
             </div>
           </div>
-          <div className="h-vh relative w-8/12">
-            <img src={mountain} alt="Mountain background" />
+          <div className="absolute -z-0 h-full   w-full md:relative md:h-full md:w-8/12">
+            <img src={mountain} alt="Mountain background" className="h-full w-full object-cover" />
           </div>
         </div>
       )}

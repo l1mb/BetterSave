@@ -11,9 +11,9 @@ namespace AuthServiceApp.BL.Services.Loan
 {
     public class LoanService : GenericService<LoanEntity>, ILoanService
     {
-        private readonly IBaseRepository<LoanEntity> _loanRepository;
+        private readonly IBaseRepository<LoanEntity?> _loanRepository;
         private readonly IMapper mapper;
-        public LoanService(IBaseRepository<LoanEntity> repository, IMapper mapper) : base(repository)
+        public LoanService(IBaseRepository<LoanEntity?> repository, IMapper mapper) : base(repository)
         {
             this.mapper = mapper;
             this._loanRepository = repository;

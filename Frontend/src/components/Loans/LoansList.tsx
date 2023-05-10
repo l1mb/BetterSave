@@ -72,7 +72,7 @@ function LoansList() {
                           type="button"
                           className="mx-2 rounded p-1 transition hover:bg-indigo-100 "
                         >
-                          Delete
+                          Удалить
                         </button>
                       </div>
                     </div>
@@ -81,7 +81,7 @@ function LoansList() {
               </Popover>
             }
           >
-            <span>{moreCount} more</span>
+            <span className=" animate-pulse md:text-sm">Еще</span>
           </Whisper>
         </li>
       );

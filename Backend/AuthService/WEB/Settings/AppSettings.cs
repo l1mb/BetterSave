@@ -7,7 +7,8 @@
         public GoogleAuthSettings GoogleAuthSettings{ get; set; }
 
         public SmtpClientSettings SmtpClientSettings { get; set; }
-       
+        public SwaggerSettings SwaggerSettings { get; set; }
+
     }
 
 }

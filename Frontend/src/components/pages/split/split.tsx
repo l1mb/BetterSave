@@ -27,7 +27,7 @@ function Split() {
       </div>
       <div className="mx-auto my-2 flex w-1/2 flex-row justify-evenly gap-4 text-lg">
         <span>Сергей 🤴</span>
-        <span>Лиза 👸</span>
+        <span>Ян 👸</span>
       </div>
       <div className="my-4 mx-auto flex w-1/2 justify-center gap-3">
         <button

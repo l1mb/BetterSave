@@ -1,8 +1,14 @@
 const apiPreffix = "api";
 
+const account = `${apiPreffix}/Account/`;
+const getAccounts = `${account}getAccountsList`;
+const createAccount = `${account}createAccount`;
+const deleteAccount = `${account}DeleteAccount`;
+const updateAccount = `${account}updateAccount`;
+
 const signInRoute = `${apiPreffix}/auth/sign-in`;
 const signUpRoute = `${apiPreffix}/auth/sign-up`;
-const getInfo = `${apiPreffix}/user`;
+const getInfo = `${apiPreffix}/user/GetInfoAboutUser`;
 
 // cards
 const cardsPostfix = `${apiPreffix}/card`;
@@ -17,11 +23,23 @@ const userLoans = `${apiPreffix}/loan/user`;
 
 // aims
 const aims = `${apiPreffix}/aim`;
-const userAim = `${apiPreffix}/aim/user`;
+const userAim = `${apiPreffix}/aim/GetAimByUserId`;
+const createAim = `${apiPreffix}/aim/CreateAim`;
 
-//
+// categories
 const category = `${apiPreffix}/category`;
 const userCategories = `${apiPreffix}/category/getCategories`;
+
+// users
+const user = `${apiPreffix}/User`;
+
+// operations
+const operations = `${apiPreffix}/Operation/`;
+const createOperation = `${operations}/CreateOperation`;
+const getOperations = `${operations}/GetOperationsByUserId`;
+
+// get protected
+const getProgress = `${apiPreffix}/aim/GetProgress`;
 
 export default {
   signInRoute,
@@ -34,6 +52,16 @@ export default {
   userLoans,
   aims,
   userAim,
+  createAim,
   category,
   userCategories,
+  user,
+  getAccounts,
+  createAccount,
+  updateAccount,
+  operations,
+  getOperations,
+  deleteAccount,
+  createOperation,
+  getProgress,
 };

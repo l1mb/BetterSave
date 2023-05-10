@@ -76,21 +76,13 @@ export const deleteCardThunk = createAsyncThunk("cards/delete", async (params: T
 export const updateCardThunk = createAsyncThunk("cards/update", async (params: ThunkParam): Promise<Card | null> => {
   const { getToken } = useJwtToken();
   const token = getToken();
-  console.log(1);
-  console.log(token);
-  console.log(params.value?.id);
   if (token == null || !params.value?.id) {
-    console.log(2);
     params.setError("Unable to authorize");
   }
-  console.log(1);
 
   let response = new Response();
 
-  console.log(3);
-
   if (token !== null && params.value && params.value.id) {
-    console.log(4);
     response = await updateCard({
       id: params?.value?.id,
       balance: params?.value?.balance,
@@ -99,7 +91,6 @@ export const updateCardThunk = createAsyncThunk("cards/update", async (params: T
   const result = await response.json();
 
   if (response.status !== StatusCodes.Ok) {
-    console.log(5);
     params.setError(result.errorMessage);
 
     return null;

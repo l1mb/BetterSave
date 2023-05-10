@@ -26,7 +26,7 @@ function Modal({ setOpenModal, onSucc, children, title }: props) {
                   setOpenModal(false);
                 }}
               >
-                Cancel
+                Отмена
               </button>
               <button
                 type="button"
@@ -36,7 +36,7 @@ function Modal({ setOpenModal, onSucc, children, title }: props) {
                   setOpenModal(false);
                 }}
               >
-                Proceed
+                Ок
               </button>
             </div>
           </div>

@@ -6,7 +6,7 @@ export interface OperaionTypeProps extends BaseProps {
   onSelect: () => void;
 }
 
-function OperationType({ label, onSelect }: OperaionTypeProps) {
+function OperationTypeLabel({ label, onSelect }: OperaionTypeProps) {
   return (
     <button
       type="button"
@@ -18,4 +18,4 @@ function OperationType({ label, onSelect }: OperaionTypeProps) {
   );
 }
 
-export default OperationType;
+export default OperationTypeLabel;

@@ -1,11 +1,12 @@
 ﻿using Microsoft.OpenApi.Models;
 using System.Reflection;
+using AuthServiceApp.WEB.Settings;
 
 namespace AuthServiceApp.WEB.Extensions
 {
     public static class SwaggerExtensions
     {
-        public static void RegisterSwagger(this IServiceCollection services)
+        public static void RegisterSwagger(this IServiceCollection services, SwaggerSettings swaggerSettings)
         {
             services.AddSwaggerGen(
                 c =>
@@ -17,9 +18,9 @@ namespace AuthServiceApp.WEB.Extensions
                     c.SwaggerDoc("v1",  new()
                     {
                         Version = "v1",
-                        Title = "Click on 'TermsOfService' API",
-                        Description = "Better Save WEB API",
-                        TermsOfService = new("../Home/GetInfo", UriKind.Relative)
+                        Title = "Better Save WEB API",
+                        Description = "Backend documentation for ASP.NET Core server",
+                        TermsOfService = new(swaggerSettings.FrontHost, UriKind.Absolute),
                     });
 
                     c.CustomSchemaIds(x => x.FullName);

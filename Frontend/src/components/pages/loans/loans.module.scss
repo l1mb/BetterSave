@@ -1,0 +1,12 @@
+.page {
+  @media (min-width: 768px) {
+    height: calc(100vh - 64px);
+  }
+
+  &Content {
+    @media (min-width: 768px) {
+      width: 1076px;
+      margin: 32px auto;
+    }
+  }
+}

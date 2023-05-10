@@ -3,6 +3,8 @@ import authSlice from "./slices/authSlice";
 import cardSlice from "./slices/cardSlice";
 import spendingSlice from "./slices/spendingSlice";
 import categorySlice from "./slices/categorySlice";
+import userSlice from "./slices/userSlice";
+import accountSlice from "./slices/accountSlice";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +12,8 @@ const store = configureStore({
     cards: cardSlice,
     spending: spendingSlice,
     category: categorySlice,
+    user: userSlice,
+    accounts: accountSlice,
   },
 });
 

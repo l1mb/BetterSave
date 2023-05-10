@@ -23,8 +23,6 @@ function Categories() {
   const onClickAddSubcategory = (x: string) => {
     setShow(true);
     setParentId(x);
-
-    console.log(x);
   };
 
   const handleCancel = () => {
@@ -34,7 +32,6 @@ function Categories() {
 
   const handleProceed = (value: { name: string; icon: string; color: string }) => {
     if (parentId) {
-      console.log(parentId);
       dispatch(addSubcategory({ ...value, categoryId: parentId }));
     } else {
       dispatch(addCategory(value));
@@ -44,9 +41,9 @@ function Categories() {
   };
 
   return (
-    <div className="mx-auto h-screen w-[700px] py-24">
+    <div className="mx-auto py-6 md:h-screen md:w-[700px] md:py-24">
       {categories && categories.length > 0 ? (
-        <div className="flex flex-col">
+        <div className="flex flex-col px-5">
           <div className="flex items-center justify-between">
             <h2>Категории</h2>
             <PlusButton onClick={onClickAddCategory} />

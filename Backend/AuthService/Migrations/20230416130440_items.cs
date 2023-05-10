@@ -5,23 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AuthServiceApp.Migrations
 {
-    public partial class OperationsAndAccount : Migration
+    public partial class items : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "AimType",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AimType", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -63,6 +50,20 @@ namespace AuthServiceApp.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Drivers",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DriverNumber = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Drivers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -146,18 +147,16 @@ namespace AuthServiceApp.Migrations
                     FinishDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Amount = table.Column<float>(type: "real", nullable: false),
                     AimType = table.Column<int>(type: "int", nullable: false),
+                    AimDateType = table.Column<int>(type: "int", nullable: false),
+                    IsMastered = table.Column<bool>(type: "bit", nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AimTypeEntityId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    AimRecordingId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Aim", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Aim_AimType_AimTypeEntityId",
-                        column: x => x.AimTypeEntityId,
-                        principalTable: "AimType",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Aim_AspNetUsers_UserId",
                         column: x => x.UserId,
@@ -363,6 +362,26 @@ namespace AuthServiceApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AimRecording",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AimId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AimRecording", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AimRecording_Aim_AimId",
+                        column: x => x.AimId,
+                        principalTable: "Aim",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Spendings",
                 columns: table => new
                 {
@@ -476,15 +495,15 @@ namespace AuthServiceApp.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Aim_AimTypeEntityId",
-                table: "Aim",
-                column: "AimTypeEntityId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Aim_UserId",
                 table: "Aim",
                 column: "UserId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AimRecording_AimId",
+                table: "AimRecording",
+                column: "AimId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -614,7 +633,7 @@ namespace AuthServiceApp.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Aim");
+                name: "AimRecording");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -632,6 +651,9 @@ namespace AuthServiceApp.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Drivers");
+
+            migrationBuilder.DropTable(
                 name: "Loans");
 
             migrationBuilder.DropTable(
@@ -641,7 +663,7 @@ namespace AuthServiceApp.Migrations
                 name: "ShopPositionSpending");
 
             migrationBuilder.DropTable(
-                name: "AimType");
+                name: "Aim");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
