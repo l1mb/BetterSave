@@ -62,14 +62,17 @@ namespace AuthServiceApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("AimType")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("AimTypeEntityId")
+                    b.Property<Guid>("AimRecordingId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<float>("Amount")
                         .HasColumnType("real");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DateType")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("FinishDate")
                         .HasColumnType("datetime2");
@@ -77,16 +80,20 @@ namespace AuthServiceApp.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<bool?>("IsMastered")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AimTypeEntityId");
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -94,22 +101,26 @@ namespace AuthServiceApp.Migrations
                     b.ToTable("Aim");
                 });
 
-            modelBuilder.Entity("AuthServiceApp.DAL.Entities.AimTypeEntity", b =>
+            modelBuilder.Entity("AuthServiceApp.DAL.Entities.AimRecordingEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("AimId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
-                    b.ToTable("AimType");
+                    b.HasIndex("AimId");
+
+                    b.ToTable("AimRecording");
                 });
 
             modelBuilder.Entity("AuthServiceApp.DAL.Entities.ApplicationRole", b =>
@@ -151,6 +162,9 @@ namespace AuthServiceApp.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("Birthday")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -552,6 +566,27 @@ namespace AuthServiceApp.Migrations
                     b.ToTable("Cards");
                 });
 
+            modelBuilder.Entity("AuthServiceApp.WEB.DTOs.Driver.Driver", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("DriverNumber")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Drivers");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
@@ -668,10 +703,6 @@ namespace AuthServiceApp.Migrations
 
             modelBuilder.Entity("AuthServiceApp.DAL.Entities.AimEntity", b =>
                 {
-                    b.HasOne("AuthServiceApp.DAL.Entities.AimTypeEntity", null)
-                        .WithMany("AimEntities")
-                        .HasForeignKey("AimTypeEntityId");
-
                     b.HasOne("AuthServiceApp.DAL.Entities.ApplicationUser", "User")
                         .WithOne("Aim")
                         .HasForeignKey("AuthServiceApp.DAL.Entities.AimEntity", "UserId")
@@ -679,6 +710,17 @@ namespace AuthServiceApp.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("AuthServiceApp.DAL.Entities.AimRecordingEntity", b =>
+                {
+                    b.HasOne("AuthServiceApp.DAL.Entities.AimEntity", "Aim")
+                        .WithMany("AimRecordings")
+                        .HasForeignKey("AimId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Aim");
                 });
 
             modelBuilder.Entity("AuthServiceApp.DAL.Entities.ApplicationUserRole", b =>
@@ -863,9 +905,9 @@ namespace AuthServiceApp.Migrations
                     b.Navigation("Operations");
                 });
 
-            modelBuilder.Entity("AuthServiceApp.DAL.Entities.AimTypeEntity", b =>
+            modelBuilder.Entity("AuthServiceApp.DAL.Entities.AimEntity", b =>
                 {
-                    b.Navigation("AimEntities");
+                    b.Navigation("AimRecordings");
                 });
 
             modelBuilder.Entity("AuthServiceApp.DAL.Entities.ApplicationRole", b =>

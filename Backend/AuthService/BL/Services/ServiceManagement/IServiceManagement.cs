@@ -7,5 +7,6 @@
         void SyncData();
         Task CheckUserLoans();
         Task SendSuccessMessage(string email);
+        Task CheckUsersAims();
     }
 }

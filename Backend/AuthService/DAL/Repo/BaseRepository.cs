@@ -27,7 +27,7 @@ namespace AuthServiceApp.DAL.Repo
             return item;
         }
 
-        public async Task<T> SearchForSingleItemAsync(Expression<Func<T, bool>> expression,
+        public async Task<List<T>> SearchWithIncludeItemAsync(Expression<Func<T, bool>> expression,
             params Expression<Func<T, object>>[] includes)
         {
             try
@@ -43,7 +43,7 @@ namespace AuthServiceApp.DAL.Repo
                         );
                 }
 
-                var item = await query.SingleOrDefaultAsync();
+                var item = await query.ToListAsync();
 
                 return item;
             }
@@ -114,6 +114,7 @@ namespace AuthServiceApp.DAL.Repo
 
             return items;
         }
+
 
         public async Task<List<T>> SearchForMultipleItemsAsync<TK>(
             Expression<Func<T, bool>> expression,

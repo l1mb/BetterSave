@@ -46,7 +46,6 @@ const addCategory = createAsyncThunk(
 const addSubcategory = createAsyncThunk(
   "category/createSubcategory",
   async (param: AddSubcategoryRequest): Promise<SubCategory | null> => {
-    debugger;
     const response = await categoryApi.createSubcategory(param);
     const result: ApiResponse<SubCategory> = await response.json();
 

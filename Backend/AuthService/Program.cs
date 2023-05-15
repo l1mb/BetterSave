@@ -1,23 +1,15 @@
 using AuthServiceApp.BL.Services.ServiceManagement;
-using AuthServiceApp.DAL.Models;
+using AuthServiceApp.DAL.Entities;
 using AuthServiceApp.Settings.Extensions;
 using AuthServiceApp.WEB.Extensions;
 using AuthServiceApp.WEB.Settings;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using AuthServiceApp.WEB.StartUp.Configuration;
+using Hangfire;
+using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Serilog;
-using Serilog.Events;
-using Serilog.Sinks.RollingFileAlternative;
 using LoggerExtensions = AuthServiceApp.WEB.Extensions.LoggerExtensions;
-using AuthServiceApp.WEB.StartUp.Configuration;
-using Microsoft.AspNetCore.Identity;
-using AuthServiceApp.DAL.Entities;
-using Hangfire;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,7 +21,7 @@ var appSettings = builder.Configuration.RegisterSettings(); // inject settings f
 builder.Services.RegisterServices(appSettings);
 builder.Services.RegisterHangfire(appSettings.Database.ConnectionString);
 
-builder.Services.RegisterSwagger();
+builder.Services.RegisterSwagger(appSettings.SwaggerSettings);
 
 builder.Services.RegistryDatabase(appSettings);
 builder.Services.RegisterIdentity();
@@ -80,7 +72,7 @@ app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseEndpoints((endpoints) =>
+app.UseEndpoints(endpoints =>
 {
     endpoints.MapGet("/",
         async context => await context.Response.WriteAsync("healthy"));
@@ -88,13 +80,13 @@ app.UseEndpoints((endpoints) =>
 app.UseStaticFiles();
 app.MapControllers();
 
-app.UseHttpsRedirection();
 
 if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
-{
     RecurringJob.AddOrUpdate<IServiceManagement>(x => x.CheckUserLoans(),
-        Cron.Daily);
-}
+        Cron.Minutely);
+
+RecurringJob.AddOrUpdate<IServiceManagement>(x => x.CheckUsersAims(),
+    Cron.Monthly);
 
 app.Run();
 

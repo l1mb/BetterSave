@@ -24,9 +24,9 @@ function CreateSpendingModal({ setIsOpen, cardId }: CreateSpendingModalProps) {
 
   const [loading, setLoading] = useState(false);
   const allSteps: { title: string; description?: string }[] = [
-    { title: "Add date" },
-    { title: "Add transactions" },
-    { title: "Finish" },
+    { title: "Указать дату" },
+    { title: "Добавить транзакции" },
+    { title: "Готово" },
   ];
   const [step, setStep] = useState(0);
 
@@ -137,7 +137,7 @@ function CreateSpendingModal({ setIsOpen, cardId }: CreateSpendingModalProps) {
         <div className="relative mx-auto w-full max-w-2xl rounded-md bg-white p-4 shadow-lg">
           <div className="mt-3 flex h-[600px] flex-col">
             <div className="border-b border-b-indigo-400">
-              <h3 className="mb-1 text-2xl font-bold text-indigo-700">Add new transaction</h3>
+              <h3 className="mb-1 text-2xl font-bold text-indigo-700">Добавить новую транзакцию</h3>
             </div>
             <div className="my-2">
               <Stepper steps={allSteps} currentStep={step} />
@@ -156,7 +156,7 @@ function CreateSpendingModal({ setIsOpen, cardId }: CreateSpendingModalProps) {
                 <div className="mx-4 flex w-full flex-grow">
                   <div className="mt-4 flex w-full  flex-col gap-4">
                     <div className="flex w-full flex-col">
-                      <span className="text-indigo-600">Transaction name</span>
+                      <span className="text-indigo-600">Название транзакции</span>
                       <input
                         type="text"
                         className="flex flex-grow rounded border border-indigo-500 px-3 py-2 outline-none focus:outline-none"
@@ -165,7 +165,7 @@ function CreateSpendingModal({ setIsOpen, cardId }: CreateSpendingModalProps) {
                       />
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-indigo-600">Shop name</span>
+                      <span className="text-indigo-600">Название магазина</span>
                       <input
                         type="text"
                         className="flex flex-grow rounded border border-indigo-500 px-3 py-2 outline-none focus:outline-none"
@@ -236,7 +236,7 @@ function CreateSpendingModal({ setIsOpen, cardId }: CreateSpendingModalProps) {
                           className="rounded bg-indigo-700 px-6 py-3 text-indigo-50 transition-all  hover:bg-indigo-800"
                           onClick={addNewShopPosition}
                         >
-                          Add
+                          Добавить
                         </button>
                       </div>
                     </div>
@@ -247,12 +247,12 @@ function CreateSpendingModal({ setIsOpen, cardId }: CreateSpendingModalProps) {
                       {shopPositions.map((position, index) => (
                         <div className="flex w-full justify-between rounded border px-4 py-3">
                           <div className="flex flex-col">
-                            <span className="text-xs text-gray-400">Name</span>
+                            <span className="text-xs text-gray-400">Название</span>
                             <span>{position.name}</span>
                           </div>
                           <div className="flex items-center gap-3">
                             <div className="flex flex-col">
-                              <span className="text-xs text-gray-400">Price</span>
+                              <span className="text-xs text-gray-400">Цена</span>
                               <span>{position.price}</span>
                             </div>
                             <button
@@ -272,7 +272,7 @@ function CreateSpendingModal({ setIsOpen, cardId }: CreateSpendingModalProps) {
             )}
             {step === 2 && (
               <div className="flex h-full w-full items-center justify-center">
-                <span className="text-5xl font-bold text-gray-400">Success</span>
+                <span className="text-5xl font-bold text-gray-400">Успех</span>
               </div>
             )}
 
@@ -285,7 +285,7 @@ function CreateSpendingModal({ setIsOpen, cardId }: CreateSpendingModalProps) {
                   setIsOpen(false);
                 }}
               >
-                Cancel
+                Отмена
               </button>
 
               <div className="flex gap-2">
@@ -296,7 +296,7 @@ function CreateSpendingModal({ setIsOpen, cardId }: CreateSpendingModalProps) {
                     onPrev();
                   }}
                 >
-                  Go back
+                  Назад
                 </button>
                 <button
                   type="button"
@@ -305,7 +305,7 @@ function CreateSpendingModal({ setIsOpen, cardId }: CreateSpendingModalProps) {
                     onNext();
                   }}
                 >
-                  Next
+                  Далее
                 </button>
               </div>
             </div>

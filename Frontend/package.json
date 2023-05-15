@@ -6,7 +6,7 @@
     "test": "exit 0",
     "start": "npm run serve",
     "serve": ".\\node_modules\\.bin\\webpack serve --open --config webpack.devServer.js",
-    "serve-proxy": "npm run serve -- --env=proxy=https://localhost:7053/",
+    "serve-proxy": "npm run serve -- --env=proxy=http://localhost:5053/",
     "serve-proxy-docker": "cd .. && docker compose -f frontend-dev-compose.yml up -d && cd Frontend && npm run serve -- --env=proxy=http://localhost:7053/",
     "build-prod": ".\\node_modules\\.bin\\webpack --mode production --config webpack.prod.js",
     "build-prod-withMap": "npm run build-prod -- --sourceMap",
@@ -15,7 +15,8 @@
     "lint-ts": ".\\node_modules\\.bin\\tsc --skipLibCheck --incremental --noEmit",
     "lint-es": ".\\node_modules\\.bin\\eslint --fix --cache ./**/*.{js,jsx,ts,tsx,json} && prettier --write **/*.{js,jsx,ts,tsx,json,html} --loglevel warn",
     "lint-styles": ".\\node_modules\\.bin\\stylelint --fix --cache ./**/*.{css,scss,less} && prettier --write **/*.{css,scss,less} --loglevel warn",
-    "lint-md": ".\\node_modules\\.bin\\markdownlint --fix **/*.md --ignore node_modules"
+    "lint-md": ".\\node_modules\\.bin\\markdownlint --fix **/*.md --ignore node_modules",
+    "serve-single-docker": "./node_modules/.bin/webpack serve --open --config webpack.devServer.js--env=proxy=http://localhost:7053/"
   },
   "dependencies": {
     "@babel/core": "^7.18.10",
@@ -23,6 +24,7 @@
     "@babel/plugin-proposal-private-methods": "^7.18.6",
     "@babel/preset-env": "^7.18.10",
     "@babel/preset-react": "^7.18.6",
+    "@nivo/calendar": "^0.80.0",
     "@nivo/core": "^0.80.0",
     "@nivo/line": "^0.80.0",
     "@nivo/pie": "^0.80.0",

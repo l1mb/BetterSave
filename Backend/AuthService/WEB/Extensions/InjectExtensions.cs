@@ -1,5 +1,6 @@
 ﻿using AuthServiceApp.BL.Services.Account;
 using AuthServiceApp.BL.Services.Aim;
+using AuthServiceApp.BL.Services.AimRecording;
 using AuthServiceApp.BL.Services.Card;
 using AuthServiceApp.BL.Services.Category;
 using AuthServiceApp.BL.Services.Classes;
@@ -13,6 +14,7 @@ using AuthServiceApp.BL.Services.ServiceManagement;
 using AuthServiceApp.DAL.Interfaces;
 using AuthServiceApp.DAL.Repo;
 using AuthServiceApp.DAL.Repo.Account;
+using AuthServiceApp.DAL.Repo.Aim;
 using AuthServiceApp.DAL.Repo.Card;
 using AuthServiceApp.DAL.Repo.CategoryRepository;
 using AuthServiceApp.Services.Classes;
@@ -42,11 +44,13 @@ namespace AuthServiceApp.WEB.Extensions
             services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IAimRecordingService, AimRecordingService>();
             services.AddTransient<ISpendingService, SpendingService>();
             services.AddTransient<IShopService, ShopService>();
 
             //Repositories
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+            services.AddTransient<IAimRepository, AimRepository>();
             services.AddTransient<IAccountRepository, AccountRepository>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();
             services.AddTransient<ICardRepository, CardRepository>();

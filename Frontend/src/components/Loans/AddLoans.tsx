@@ -55,9 +55,9 @@ function AddLoans() {
   return (
     <>
       <div>
-        <h3>Do you want to borrow to someone or to borrow from someone?</h3>
+        <h3>Вы хотите дать взаймы кому-то или отдолжить у кого-то?</h3>
 
-        <div className="mt-6 flex justify-evenly">
+        <div className="mt-6 flex flex-col md:flex-row md:justify-evenly">
           <div className="flex flex-col">
             <div className="flex flex-col ">
               <Radio
@@ -66,7 +66,7 @@ function AddLoans() {
                 checked={loanTarget === "decrease"}
                 onChange={(val) => setLoanTarget("decrease")}
               >
-                To someone
+                Дать кому-то взаймы
               </Radio>
               <Radio
                 id="react"
@@ -75,11 +75,11 @@ function AddLoans() {
                 checked={loanTarget === "increase"}
                 onChange={(val) => setLoanTarget("increase")}
               >
-                From someone
+                Отдолжить у кого-то
               </Radio>
             </div>
             <div className="mt-2 flex flex-col gap-2">
-              <span className="px-2 text-gray-400">{loanTarget === "increase" ? "From" : "To"} who</span>
+              <span className="px-2 text-gray-400">{loanTarget === "increase" ? "У кого " : "Кому "} то</span>
               <input
                 type="text"
                 className="w-40 rounded-md"
@@ -95,7 +95,7 @@ function AddLoans() {
               />
             </div>
             <div className="mt-2 flex flex-col gap-2">
-              <span className="px-2 text-gray-400">Amount</span>
+              <span className="px-2 text-gray-400">Сумма</span>
               <div className="flex gap-2">
                 <input
                   type="number"
@@ -136,7 +136,7 @@ function AddLoans() {
               className=" mx-3 w-[328px] rounded bg-indigo-600 px-4 py-2 text-indigo-50 transition hover:bg-indigo-800"
               onClick={() => handleAdd()}
             >
-              Add loan
+              Добавить долг(займ)
             </button>
           </div>
         </div>

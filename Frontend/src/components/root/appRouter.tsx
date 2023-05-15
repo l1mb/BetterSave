@@ -4,14 +4,15 @@ import Home from "../pages";
 import Cards from "../pages/cards/cards";
 import Goals from "../pages/goals/goals";
 import Layout from "../pages/layout";
-import Loans from "../pages/loans";
-import Login from "../pages/login";
-import NotFound from "../pages/notFound";
+import Loans from "../pages/loans/loans";
+import Login from "../pages/login/login";
+import NotFound from "../pages/notFound/notFound";
 import Operations from "../pages/operations/operations";
-import Register from "../pages/register";
+import Register from "../pages/register/register";
 import Stats from "../pages/stats";
 import Split from "../pages/split/split";
 import Categories from "../pages/categories/categories";
+import Settings from "../pages/settings";
 
 function AppRouter() {
   return (
@@ -29,7 +30,7 @@ function AppRouter() {
           <Route path="/operations" element={<Operations />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/split" element={<Split />} />
-          <Route path="/settings" element={<Stats />} />
+          <Route path="/settings" element={<Settings />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>

@@ -262,12 +262,6 @@ module.exports = function (env, argv) {
       new webpack.ProvidePlugin({
         React: "react", // optional: react. it adds [import React from 'react'] as ES6 module to every file into the project
       }),
-      new ObsoleteWebpackPlugin({
-        // optional: browser: provides popup via alert-script if browser unsupported (according to .browserlistrc)
-        name: "obsolete",
-        promptOnNonTargetBrowser: true, // show popup if browser is not listed in .browserlistrc
-        // optional: browser: [template: 'html string here']
-      }),
       new ScriptExtHtmlWebpackPlugin({
         // it adds to obsolete-plugin-script 'async' tag (for perfomance puprpose)
         async: "obsolete",
