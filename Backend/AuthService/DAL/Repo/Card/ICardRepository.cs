@@ -7,6 +7,6 @@ namespace AuthServiceApp.DAL.Repo
 {
     public interface ICardRepository : IBaseRepository<CardEntity>
     {
-        Task<BaseEntity> SoftDeleteAsync(Expression<Func<CardEntity, bool>> expression);
+        Task<BaseEntity?> SoftDeleteAsync(Expression<Func<CardEntity, bool>> expression);
     }
 }

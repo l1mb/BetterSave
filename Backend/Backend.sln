@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterSave.UTest", "BetterSave.UTest\BetterSave.UTest.csproj", "{43403129-8D58-47A6-8D8C-19302F1FF11B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +26,10 @@ Global
 		{1042C971-E9DF-4DC8-A880-D79DE4529D2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1042C971-E9DF-4DC8-A880-D79DE4529D2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1042C971-E9DF-4DC8-A880-D79DE4529D2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43403129-8D58-47A6-8D8C-19302F1FF11B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43403129-8D58-47A6-8D8C-19302F1FF11B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43403129-8D58-47A6-8D8C-19302F1FF11B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43403129-8D58-47A6-8D8C-19302F1FF11B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

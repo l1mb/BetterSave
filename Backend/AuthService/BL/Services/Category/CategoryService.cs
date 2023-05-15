@@ -18,7 +18,7 @@ namespace AuthServiceApp.BL.Services.Category
         private IMapper _mapper;
         
 
-        public CategoryService(IBaseRepository<CategoryEntity> repository, IMapper mapper, IBaseRepository<SubCategoryEntity> subCategoryRepository, ICategoryRepository categoryRepository) : base(repository)
+        public CategoryService(IBaseRepository<CategoryEntity?> repository, IMapper mapper, IBaseRepository<SubCategoryEntity> subCategoryRepository, ICategoryRepository categoryRepository) : base(repository)
         {
             _mapper = mapper;
             _subCategoryRepository = subCategoryRepository;

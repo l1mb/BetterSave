@@ -54,8 +54,6 @@ namespace AuthServiceApp.WEB.Extensions
             services.AddTransient<IShopRepository, ShopRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IEmailSender, EmailSender>();
-
-
         }
     }
 }

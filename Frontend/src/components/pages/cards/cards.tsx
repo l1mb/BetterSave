@@ -32,7 +32,7 @@ function Cards() {
   const [editableIndex, setEditable] = useState(-1);
   const [newBalance, setNewBalance] = useState(0);
 
-  const handleStartEdit = () => {
+  const handleStartEdit = () => {В
     setNewBalance(cards[selectedCardIndex].balance);
     setEditable(selectedCardIndex);
   };

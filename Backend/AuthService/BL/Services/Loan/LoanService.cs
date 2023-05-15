@@ -1,4 +1,6 @@
-﻿using AuthServiceApp.BL.Exceptions;
+﻿using AuthServiceApp.BL.Constants;
+using AuthServiceApp.BL.Enums;
+using AuthServiceApp.BL.Exceptions;
 using AuthServiceApp.BL.Helpers;
 using AuthServiceApp.BL.Services.GenericService;
 using AuthServiceApp.DAL.Entities;
@@ -11,9 +13,9 @@ namespace AuthServiceApp.BL.Services.Loan
 {
     public class LoanService : GenericService<LoanEntity>, ILoanService
     {
-        private readonly IBaseRepository<LoanEntity> _loanRepository;
+        private readonly IBaseRepository<LoanEntity?> _loanRepository;
         private readonly IMapper mapper;
-        public LoanService(IBaseRepository<LoanEntity> repository, IMapper mapper) : base(repository)
+        public LoanService(IBaseRepository<LoanEntity?> repository, IMapper mapper) : base(repository)
         {
             this.mapper = mapper;
             this._loanRepository = repository;
@@ -41,6 +43,11 @@ namespace AuthServiceApp.BL.Services.Loan
         public async Task<LoanDto> GetLoanById(Guid id)
         {
             var result = await _loanRepository.SearchForSingleItemAsync(loan => loan.Id == id);
+
+            if (result is null)
+            {
+                throw new ApplicationHelperException(ServiceResultType.NotFound, ExceptionMessageConstants.NotFound);
+            }
 
             var mapped = mapper.Map<LoanDto>(result);
 

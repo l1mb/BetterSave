@@ -20,10 +20,10 @@ namespace AuthServiceApp.BL.Services.Classes
     {
         private readonly IMapper _mapper;
         private readonly ISpendingRepository _spendingRepository;
-        private readonly IGenericService<SpendingCategory> _spendingCategoryService;
-        private readonly IGenericService<CardEntity> _cardRepository;
+        private readonly IGenericService<SpendingCategory?> _spendingCategoryService;
+        private readonly IGenericService<CardEntity?> _cardRepository;
 
-        public SpendingService(IMapper mapper, ISpendingRepository spendingRepository, IGenericService<SpendingCategory> spendingCategoryService, IGenericService<CardEntity> cardRepository)
+        public SpendingService(IMapper mapper, ISpendingRepository spendingRepository, IGenericService<SpendingCategory?> spendingCategoryService, IGenericService<CardEntity?> cardRepository)
         {
             _mapper = mapper;
             _spendingCategoryService = spendingCategoryService;
@@ -130,7 +130,7 @@ namespace AuthServiceApp.BL.Services.Classes
             return dto;
         }
 
-        public async Task<Spending> GetSpendingAsync(Guid id)
+        public async Task<Spending?> GetSpendingAsync(Guid id)
         {
             var result = await _spendingRepository.SearchForSingleItemAsync(item => item.Id == id);
 
@@ -174,7 +174,7 @@ namespace AuthServiceApp.BL.Services.Classes
     public interface ISpendingService
     {
         Task<SpendingReportDto> CreateSpending(SpendingDto spendingDto);
-        Task<Spending> GetSpendingAsync(Guid id);
+        Task<Spending?> GetSpendingAsync(Guid id);
         Task<List<SpendingReportDto>> GetSpendingsAsync(DateTime beginEnd, int limit, int offset, string orderBy, Guid? cardId);
         //todo add update method
         Task<Spending> DeleteSpendingAsync(Guid id);

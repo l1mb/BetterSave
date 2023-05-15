@@ -30,14 +30,12 @@ namespace AuthServiceApp.DAL.Models
         public DbSet<SpendingCategory> SpendingCategories { get; set; }
         public DbSet<AimEntity> AimEntities { get; set; }
         public DbSet<AimTypeEntity> AimTypeEntities { get; set; }
-        public DbSet<res> CategoryInfo { get; set; }
         public DbSet<CategoryEntity> Categories { get; set; }
         public DbSet<SubCategoryEntity> Subcategories { get; set; }
-        public DbSet<Driver> Drivers { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-            Database.Migrate();
+            //Database.Migrate();
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

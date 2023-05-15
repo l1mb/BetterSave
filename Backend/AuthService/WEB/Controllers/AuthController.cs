@@ -67,7 +67,7 @@ public class AuthController : ControllerBase
 
 
     /// <summary>
-    ///     Confirms user email
+    ///     Confirms user email and send email
     /// </summary>
     /// <param name="id">User id</param>
     /// <param name="token">Email confirmation token</param>
@@ -82,7 +82,6 @@ public class AuthController : ControllerBase
         var confirmResult = await _authService.ConfirmAsync(id, token);
 
         var jobId = BackgroundJob.Enqueue<IServiceManagement>(x => x.SendSuccessMessage(confirmResult));
-
 
         return Ok("Confirmed");
     }
