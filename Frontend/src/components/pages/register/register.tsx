@@ -23,7 +23,16 @@ function Register() {
     const result = await authApi.signUp(values);
     const body = await result.json();
     if (result.status !== StatusCodes.Created) {
-      setError((body as ErrorDto).errorMessage);
+      debugger;
+      if (body?.errors) {
+        const w = Object.keys(body.errors)[0];
+        const q = body.errors[Object.keys(body.errors)[0]];
+        const z = q[0];
+        const g = q.toString();
+        setError(body.errors[Object.keys(body.errors)[0]][0]);
+      } else {
+        setError((body as ErrorDto).errorMessage);
+      }
     } else {
       navigate("/continue");
     }

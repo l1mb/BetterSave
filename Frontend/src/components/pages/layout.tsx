@@ -28,6 +28,9 @@ function Layout({ children }: LayoutProps) {
   const itemHeight = 30;
 
   const onTokenInvalid = () => {
+    if (window.location.pathname === "/continue") {
+      return;
+    }
     navigate("/login");
   };
 

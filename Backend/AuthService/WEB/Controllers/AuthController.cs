@@ -2,6 +2,7 @@
 using AuthServiceApp.Services.Interfaces;
 using AuthServiceApp.WEB.DTOs.Input;
 using AuthServiceApp.WEB.DTOs.Output;
+using AuthServiceApp.WEB.DTOs.User;
 using AuthServiceApp.WEB.Settings;
 using Hangfire;
 using Microsoft.AspNetCore.Mvc;

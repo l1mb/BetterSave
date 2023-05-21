@@ -14,6 +14,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Web;
+using AuthServiceApp.WEB.DTOs.User;
 
 namespace AuthServiceApp.Services.Classes
 {

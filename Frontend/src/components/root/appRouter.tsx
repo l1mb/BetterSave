@@ -13,6 +13,7 @@ import Stats from "../pages/stats";
 import Split from "../pages/split/split";
 import Categories from "../pages/categories/categories";
 import Settings from "../pages/settings";
+import Continue from "../pages/continue";
 
 function AppRouter() {
   return (
@@ -29,6 +30,7 @@ function AppRouter() {
           <Route path="/budget" element={<Stats />} />
           <Route path="/operations" element={<Operations />} />
           <Route path="/categories" element={<Categories />} />
+          <Route path="/continue" element={<Continue />} />
           <Route path="/split" element={<Split />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="*" element={<NotFound />} />

@@ -2,6 +2,7 @@
 using AuthServiceApp.WEB.DTOs.Input;
 using AuthServiceApp.WEB.DTOs.Output;
 using AuthServiceApp.WEB.DTOs.Output.User;
+using AuthServiceApp.WEB.DTOs.User;
 using AutoMapper;
 
 namespace AuthServiceApp.BL.Mappers

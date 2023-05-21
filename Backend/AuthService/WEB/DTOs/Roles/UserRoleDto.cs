@@ -1,4 +1,5 @@
 ﻿using AuthServiceApp.WEB.DTOs.Input;
+using AuthServiceApp.WEB.DTOs.User;
 
 namespace AuthServiceApp.WEB.DTOs.Roles
 {

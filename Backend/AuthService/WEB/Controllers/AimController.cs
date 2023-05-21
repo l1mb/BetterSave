@@ -22,14 +22,14 @@ namespace AuthServiceApp.WEB.Controllers
         [HttpPost]
         public async Task<ActionResult<AimDto>> CreateAim(AimDto aimDto)
         {
-            var result = await _aimService.CreateAim(aimDto);
+            var result = await _aimService.CreateAimAsync(aimDto);
             return result;
         }
 
         [HttpGet("{id:guid}")]
         public async Task<ActionResult<AimDto>> GetAim(Guid id)
         {
-            var result = await _aimService.GetAimById(id);
+            var result = await _aimService.GetAimByIdAsync(id);
             return result;
         }
 
@@ -41,14 +41,14 @@ namespace AuthServiceApp.WEB.Controllers
         [HttpGet("{userId:guid}")]
         public async Task<ActionResult<GetAimDto>> GetAimByUserId(Guid userId)
         {
-            var result = await _aimService.GetAimByUserId(userId);
+            var result = await _aimService.GetAimByUserIdAsync(userId);
             return Ok(result);
         }
 
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult> DeleteAim(Guid id)
         {
-            await _aimService.Delete(id);
+            await _aimService.DeleteAimAsync(id);
             return NoContent();
         }
 

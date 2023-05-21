@@ -45,7 +45,6 @@ public class LoanServiceTests
 
         //Assert
         await Assert.ThrowsAsync<ApplicationHelperException>(Action);
-
     }
 
     [Fact]

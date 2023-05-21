@@ -2,6 +2,7 @@
 using AuthServiceApp.DAL.Entities;
 using AuthServiceApp.WEB.DTOs.Input;
 using AuthServiceApp.WEB.DTOs.Output;
+using AuthServiceApp.WEB.DTOs.User;
 using AuthServiceApp.WEB.Settings;
 
 namespace AuthServiceApp.Services.Interfaces

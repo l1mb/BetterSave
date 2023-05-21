@@ -17,14 +17,21 @@ public static class SettingsExtension
 
         return new()
         {
-            Database = conf.GetSection(nameof(AppSettings.Database))
+            Database = conf
+                .GetSection(nameof(AppSettings.Database))
                 .Get<DatabaseSettings>(),
-            Token = conf.GetSection(nameof(AppSettings.Token))
+            Token = conf
+                .GetSection(nameof(AppSettings.Token))
                 .Get<TokenSettings>(),
-            SmtpClientSettings = conf.GetSection(nameof(AppSettings.SmtpClientSettings))
+            SmtpClientSettings = conf
+                .GetSection(nameof(AppSettings.SmtpClientSettings))
                 .Get<SmtpClientSettings>(),
-            GoogleAuthSettings = conf.GetSection(nameof(AppSettings.GoogleAuthSettings))
-                .Get<GoogleAuthSettings>()
+            GoogleAuthSettings = conf
+                .GetSection(nameof(AppSettings.GoogleAuthSettings))
+                .Get<GoogleAuthSettings>(),
+            SwaggerSettings = conf
+                .GetSection(nameof(AppSettings.SwaggerSettings))
+                .Get<SwaggerSettings>()
         };
     }
 }
