@@ -10,6 +10,7 @@ namespace AuthServiceApp.BL.Services.ServiceManagement;
 
 public class ServiceManagement : IServiceManagement
 {
+        
     private readonly IUserService _userService;
     private readonly IEmailSender _emailSender;
     private readonly IAimService _aimService;
@@ -67,7 +68,7 @@ public class ServiceManagement : IServiceManagement
 
     public async Task CheckUsersAims()
     {
-        var allRecordings = await _aimService.GetAllActiveAims();
+        var allRecordings = await _aimService.GetAllActiveAimsAsync();
         var daily = allRecordings.Where(x => x.DateType == AimDateType.DailyCount).ToList();
 
         var dailyToDate = allRecordings.Where(x => x.DateType == AimDateType.DailyToDate).ToList();
@@ -77,15 +78,15 @@ public class ServiceManagement : IServiceManagement
 
         daily.ForEach(x =>
         {
-            operations.Add(_aimService.MainAimFunction(x));
+            operations.Add(_aimService.CheckAimMainFuncAsync(x));
         });
         dailyToDate.ForEach(x =>
         {
-            operations.Add(_aimService.MainAimFunction(x));
+            operations.Add(_aimService.CheckAimMainFuncAsync(x));
         });
         toDate.ForEach(x =>
         {
-            operations.Add(_aimService.MainAimFunction(x));
+            operations.Add(_aimService.CheckAimMainFuncAsync(x));
         });
 
         await Task.WhenAll(operations);

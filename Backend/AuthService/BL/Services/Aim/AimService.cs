@@ -17,49 +17,52 @@ namespace AuthServiceApp.BL.Services.Aim;
 public class AimService : GenericService<AimEntity>, IAimService
 {
     private readonly IBaseRepository<AimEntity> _repository;
+    private readonly IBaseRepository<UserAims> _userAims;
     private readonly IMapper _mapper;
     private readonly IAimRepository _aimRepository;
     private readonly IAimRecordingService _recordingService;
     private readonly IOperationService _operationService;
 
-    public AimService(IBaseRepository<AimEntity> repository, IMapper mapper, IAimRepository aimRepository,
-        IAimRecordingService recordingService, IOperationService operationService) : base(repository)
+    public AimService(IBaseRepository<AimEntity> repository, IMapper mapper, IAimRepository aimRepository, IBaseRepository<UserAims> _userAims,
+        IAimRecordingService recordingService, IOperationService operationService, IBaseRepository<UserAims> userAims) : base(repository)
     {
         _repository = repository;
         _mapper = mapper;
         _aimRepository = aimRepository;
         _recordingService = recordingService;
         _operationService = operationService;
+        this._userAims = userAims;
     }
 
-    public async Task<AimDto> CreateAim(AimDto dto)
+    public async Task<AimDto> CreateAimAsync(AimDto dto)
     {
-        var prevEntity = await GetAimByUserId(dto.UserId);
-        if (prevEntity is not null)
-            throw new ApplicationHelperException(ServiceResultType.InvalidData,
-                ExceptionMessageConstants.ItemExistCannotSave);
+        //var prevEntity = await GetAimByUserIdAsync(dto.UserId);
+        //if (prevEntity is not null)
+        //    throw new ApplicationHelperException(ServiceResultType.InvalidData,
+        //        ExceptionMessageConstants.ItemExistCannotSave);
         var entity = _mapper.Map<AimEntity>(dto);
         entity.CreationDate = DateTime.Now;
         var saveResult = await _repository.CreateItemAsync(entity);
+        var q = _userAims.CreateItemAsync(new UserAims() { UserId = dto.UserId, AimId = saveResult.Id });
 
         ExceptionUtilities.CheckSaveStatus(saveResult);
         var outResult = _mapper.Map<AimDto>(saveResult);
         return outResult;
     }
 
-    public async Task<GetAimDto> GetAimByUserId(Guid id)
+    public async Task<List<GetAimDto>> GetAimByUserIdAsync(Guid id)
     {
-        var res = await GetOneAsync(item => item.UserId == id);
-        return _mapper.Map<GetAimDto>(res);
+        var res = await _aimRepository.SearchWithIncludeItemAsync(x => x.UserAims.Select(y => y.UserId).Contains(id), y => y.CreationDate, q => q.UserAims);
+        return _mapper.Map<List<GetAimDto>>(res);
     }
 
-    public async Task<AimDto> GetAimById(Guid id)
+    public async Task<AimDto> GetAimByIdAsync(Guid id)
     {
         var res = await GetOneAsync(item => item.Id == id);
         return _mapper.Map<AimDto>(res);
     }
 
-    public async Task<AimDto> Delete(Guid id)
+    public async Task<AimDto> DeleteAimAsync(Guid id)
     {
         var res = await DeleteAsync(id);
         if (res is null)
@@ -68,7 +71,7 @@ public class AimService : GenericService<AimEntity>, IAimService
     }
 
     [HttpPut("/api/aim")]
-    public async Task<AimDto> UpdateAsync(UpdateAimDto dto)
+    public async Task<AimDto> UpdateAimAsync(UpdateAimDto dto)
     {
         var item = await _repository.SearchForSingleItemAsync(item => item.Id == dto.Id);
 
@@ -82,14 +85,14 @@ public class AimService : GenericService<AimEntity>, IAimService
         return _mapper.Map<AimDto>(item);
     }
 
-    public async Task<List<AimDto>> GetAllActiveAims()
+    public async Task<List<AimDto>> GetAllActiveAimsAsync()
     {
         var res = await _repository.SearchWithIncludeItemAsync(x => x.IsMastered == null && x.IsDeleted == false,
             y => y.AimRecordings);
         return _mapper.Map<List<AimDto>>(res);
     }
 
-    public async Task<AimDto> MasterAim(Guid dtoId, bool value)
+    public async Task<AimDto> MasterAimAsync(Guid dtoId, bool value)
     {
         var prevEntity = await _aimRepository.FindOneById(dtoId);
         if (prevEntity != null)
@@ -105,7 +108,7 @@ public class AimService : GenericService<AimEntity>, IAimService
 
     public async Task MainAimFunctionWrapper(AimDto x)
     {
-        await MainAimFunction(x);
+        await CheckAimMainFuncAsync(x);
     }
 
     private async Task<float> GetSumOfOperations(AimDto dto, DateTime startDate, DateTime endDate)
@@ -143,7 +146,6 @@ public class AimService : GenericService<AimEntity>, IAimService
         {
             sum = await GetSumOfOperations(dto, DateTime.Now.AddDays(-1).Date, DateTime.Now);
 
-            //result = CheckAimCriteria(sum, dto.Type, dto.Amount);
             result = CheckIfAimExpires(dto);
         }
 
@@ -151,7 +153,7 @@ public class AimService : GenericService<AimEntity>, IAimService
         {
             sum = await GetSumOfOperations(dto, dto.CreationDate, DateTime.Now);
             if (CheckIfAimExpires(dto))
-                result = CheckAimCriteria(sum, dto.Type, dto.Amount);
+                result = CheckAimCriteriaAsync(sum, dto.Type, dto.Amount);
             else
                 result = null;
         }
@@ -169,7 +171,7 @@ public class AimService : GenericService<AimEntity>, IAimService
         if (dto.DateType == AimDateType.DailyCount || dto.DateType == AimDateType.DailyToDate)
         {
             var sum = await GetSumOfOperations(dto, dto.CreationDate, DateTime.Now);
-            var result = CheckAimCriteria(sum, dto.Type, dto.Amount);
+            var result = CheckAimCriteriaAsync(sum, dto.Type, dto.Amount);
             if (result)
                 await _recordingService.CreateAimRecordingAsync(new()
                 {
@@ -179,32 +181,35 @@ public class AimService : GenericService<AimEntity>, IAimService
         }
     }
         
-    public async Task MainAimFunction(AimDto dto)
+    public async Task CheckAimMainFuncAsync(AimDto dto)
     {
         var isMastered = await GetIsMastered(dto);
         await CreateRecordings(dto);
-        if (isMastered is not null) await MasterAim(Guid.Parse(dto.Id.ToString() ?? string.Empty), (bool)isMastered);
+        if (isMastered is not null) await MasterAimAsync(Guid.Parse(dto.Id.ToString() ?? string.Empty), (bool)isMastered);
     }
 
-    public async Task<AimProgressDto> GetProgressAsync(string userId)
+    public async Task<List<AimProgressDto>> GetProgressAsync(string userId)
     {
-        var aim =  await GetAimByUserId(Guid.Parse(userId));
+        var recordings = await _recordingService.GetAimEntityByUserIdAsync(Guid.Parse(userId));
 
-        var recordings = await _recordingService.GetAimRecordingAsync(aim.Id);
-
-        var sumOfOperations = await GetSumOfOperations(aim, aim.CreationDate, DateTime.Now);
-
-        var percent = sumOfOperations / aim.Amount;
-
-        return new()
+        var q =  recordings.Select(async x =>
         {
-            AimRecords = recordings,
-            Percent = percent
-        };
+            var sum = await GetSumOfOperations(_mapper.Map<AimDto>(x), x.CreationDate, DateTime.Now);
+            return new AimProgressDto()
+            {
+                Aim = x,
+                Percent = sum / x.Amount
+            };
+        }).ToList();
+
+        var result = await Task.WhenAll(q);
+
+        return result.ToList();
+
     }
 
 
-    private bool CheckAimCriteria(float sum, AimType type, float amount)
+    private bool CheckAimCriteriaAsync(float sum, AimType type, float amount)
     {       
         var result = false;
         if (type == AimType.IncreaseIncome)

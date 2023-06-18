@@ -20,7 +20,7 @@ function Home() {
   return (
     <div className={styles.container}>
       <main className={styles.main}>
-        <h1 className={styles.title}>Добро пожаловать в приложение BetterSave</h1>
+        <h1 className={styles.title}>Добро пожаловать в приложение Better Save</h1>
         <p className={`${styles.description} font-bold  underline md:text-3xl`}>Мы очень рады вас видеть. Снова</p>
 
         {/* <div className={styles.grid}> */}

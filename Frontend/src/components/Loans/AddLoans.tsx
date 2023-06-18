@@ -5,7 +5,6 @@ import { toast } from "react-toastify";
 import { Radio, Calendar } from "rsuite";
 import loans from "@/api/loans/loans";
 import useJwtToken from "../../hooks/useJwtToken";
-import { Currency } from "../../types/User/Cards/card";
 import { Loan } from "../../types/User/loans/loans";
 
 function AddLoans() {
@@ -94,9 +93,9 @@ function AddLoans() {
                 }}
               />
             </div>
-            <div className="mt-2 flex flex-col gap-2">
+            <div className="mt-2 flex flex-col items-start gap-2">
               <span className="px-2 text-gray-400">Сумма</span>
-              <div className="flex gap-2">
+              <div className="flex items-center gap-2">
                 <input
                   type="number"
                   className="w-40 rounded-md"
@@ -110,16 +109,7 @@ function AddLoans() {
                     }
                   }}
                 />
-                <select
-                  //   value={pageState?.currency}
-                  className="flex   appearance-none rounded border bg-indigo-200  pr-8 leading-tight text-indigo-700 focus:border-indigo-500 focus:bg-white focus:outline-none"
-                  //   onChange={(val) => handleUpdateCurrency(val)}
-                  id="grid-state"
-                >
-                  <option>{Currency.BYN}</option>
-                  <option>{Currency.EUR}</option>
-                  <option>{Currency.USD}</option>
-                </select>
+                <span>BYN</span>
               </div>
             </div>
           </div>

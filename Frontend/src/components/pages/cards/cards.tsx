@@ -266,7 +266,7 @@ function Accounts() {
         </div>
         <div className="w-full">
           <div className="mt-6 flex w-full justify-center">
-            {!accounts[activeSlide] ? (
+            {!accounts[activeSlide] || accounts[activeSlide]?.operations?.length === 0 ? (
               <h3 className="text-xl font-bold">Трат пока нет</h3>
             ) : (
               <section className="w-full bg-indigo-50 py-1 xl:mx-auto xl:w-8/12">
@@ -299,9 +299,6 @@ function Accounts() {
                               Стоимость
                             </th>
                             <th className="bg-blueGray-50 text-blueGray-500 border-blueGray-100 whitespace-nowrap border border-l-0 border-r-0 border-solid px-6 py-3 text-left align-middle text-xs font-semibold uppercase">
-                              Описание
-                            </th>
-                            <th className="bg-blueGray-50 text-blueGray-500 border-blueGray-100 whitespace-nowrap border border-l-0 border-r-0 border-solid px-6 py-3 text-left align-middle text-xs font-semibold uppercase">
                               Дата транзакции
                             </th>
                             <th className="bg-blueGray-50 text-blueGray-500 border-blueGray-100 whitespace-nowrap border border-l-0 border-r-0 border-solid px-6 py-3 text-left align-middle text-xs font-semibold uppercase">
@@ -318,9 +315,6 @@ function Accounts() {
                               </th>
                               <td className="whitespace-nowrap border-t-0 border-l-0 border-r-0 p-4 px-6 align-middle text-xs ">
                                 {operation.value} BYN
-                              </td>
-                              <td className="align-center whitespace-nowrap border-t-0 border-l-0 border-r-0 p-4 px-6 text-xs">
-                                {operation.description}
                               </td>
                               <td className="align-center whitespace-nowrap border-t-0 border-l-0 border-r-0 p-4 px-6 text-xs">
                                 {moment(operation.createdDate).format("L")}

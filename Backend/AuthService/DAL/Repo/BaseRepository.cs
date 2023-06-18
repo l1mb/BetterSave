@@ -1,10 +1,9 @@
-﻿using AuthServiceApp.BL.Enums;
+﻿using System.Linq.Expressions;
+using AuthServiceApp.BL.Enums;
 using AuthServiceApp.BL.Exceptions;
-using AuthServiceApp.DAL.Entities;
 using AuthServiceApp.DAL.Interfaces;
 using AuthServiceApp.DAL.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
 namespace AuthServiceApp.DAL.Repo
 {
@@ -22,7 +21,8 @@ namespace AuthServiceApp.DAL.Repo
 
         public async Task<T?> SearchForSingleItemAsync(Expression<Func<T, bool>> expression)
         {
-            var item = await Entity.AsNoTracking().SingleOrDefaultAsync(expression);
+            var item = await Entity.AsNoTracking()
+                .SingleOrDefaultAsync(expression);
 
             return item;
         }
@@ -32,14 +32,16 @@ namespace AuthServiceApp.DAL.Repo
         {
             try
             {
-                var query = Entity.Where(expression).AsNoTracking();
+                var query = Entity.Where(expression)
+                    .AsNoTracking();
 
                 if (includes.Length != 0)
                 {
                     query = includes
                         .Aggregate(query,
                             (
-                                current, includeProperty) => current.Include(includeProperty)
+                                current,
+                                includeProperty) => current.Include(includeProperty)
                         );
                 }
 
@@ -108,9 +110,10 @@ namespace AuthServiceApp.DAL.Repo
             List<T> items;
 
 
-
-            items = await Entity.Where(expression).OrderByDescending(sort).AsNoTracking().ToListAsync();
-
+            items = await Entity.Where(expression)
+                .OrderByDescending(sort)
+                .AsNoTracking()
+                .ToListAsync();
 
             return items;
         }
@@ -145,43 +148,27 @@ namespace AuthServiceApp.DAL.Repo
                     .ToListAsync();
             }
 
-            //TODO
-            //if (expression != null)
-            //{
-            //    items = await Entity
-            //        .Where(expression)
-            //        .OrderByDescending(sort)
-            //        .Skip(offset)
-            //        .Take(limit)
-            //        .AsNoTracking()
-            //        .ToListAsync();
-            //}
-            //else
-            //{
-            //    items = await Entity
-            //        .OrderByDescending(sort)
-            //        .Skip(offset)
-            //        .Take(limit)
-            //        .AsNoTracking()
-            //        .ToListAsync();
-            //}
 
             return items;
         }
 
-        public async Task<T> UpdateItemAsync(T item, params Expression<Func<T, object>>[] unmodifiedProperties)
+        public async Task<T> UpdateItemAsync(T item,
+            params Expression<Func<T, object>>[] unmodifiedProperties)
         {
             try
             {
                 Entity.Update(item);
                 foreach (var property in unmodifiedProperties)
                 {
-                    DbContext.Entry(item).Property(property).IsModified = false;
+                    DbContext.Entry(item)
+                        .Property(property)
+                        .IsModified = false;
                 }
 
                 await DbContext.SaveChangesAsync();
 
-                DbContext.Entry(item).State = EntityState.Detached;
+                DbContext.Entry(item)
+                    .State = EntityState.Detached;
             }
             catch (Exception e)
             {
@@ -201,25 +188,30 @@ namespace AuthServiceApp.DAL.Repo
             }
             catch
             {
-                throw new ApplicationHelperException(ServiceResultType.InvalidData, "Unable to update this entity");
+                throw new ApplicationHelperException(ServiceResultType.InvalidData,
+                    "Unable to update this entity");
             }
 
             return item;
         }
 
-        public async Task<T> UpdateItemAsyncWithModified(T item, params Expression<Func<T, object>>[] modifiedProperties)
+        public async Task<T> UpdateItemAsyncWithModified(T item,
+            params Expression<Func<T, object>>[] modifiedProperties)
         {
             try
             {
                 Entity.Update(item);
                 foreach (var property in modifiedProperties)
                 {
-                    DbContext.Entry(item).Property(property).IsModified = true;
+                    DbContext.Entry(item)
+                        .Property(property)
+                        .IsModified = true;
                 }
 
                 await DbContext.SaveChangesAsync();
 
-                DbContext.Entry(item).State = EntityState.Detached;
+                DbContext.Entry(item)
+                    .State = EntityState.Detached;
             }
             catch (Exception e)
             {
@@ -242,7 +234,8 @@ namespace AuthServiceApp.DAL.Repo
 
                 foreach (var entity in entitiesList)
                 {
-                    DbContext.Entry(entity).State = EntityState.Detached;
+                    DbContext.Entry(entity)
+                        .State = EntityState.Detached;
                 }
             }
             catch (Exception e)
@@ -262,12 +255,15 @@ namespace AuthServiceApp.DAL.Repo
                 Entity.Update(item);
                 foreach (var property in modifiedProperties)
                 {
-                    DbContext.Entry(item).Property(property).IsModified = true;
+                    DbContext.Entry(item)
+                        .Property(property)
+                        .IsModified = true;
                 }
 
                 await DbContext.SaveChangesAsync();
 
-                DbContext.Entry(item).State = EntityState.Detached;
+                DbContext.Entry(item)
+                    .State = EntityState.Detached;
             }
             catch (Exception e)
             {
@@ -287,17 +283,16 @@ namespace AuthServiceApp.DAL.Repo
                 Entity.Remove(item);
 
                 await DbContext.SaveChangesAsync();
-                DbContext.Entry(item).State = EntityState.Detached;
+                DbContext.Entry(item)
+                    .State = EntityState.Detached;
 
                 return item;
             }
             catch (Exception e)
             {
-                throw new ApplicationHelperException(ServiceResultType.InvalidData, e.Message);
+                throw new ApplicationHelperException(ServiceResultType.InvalidData,
+                    e.Message);
             }
         }
-
-
     }
-
 }

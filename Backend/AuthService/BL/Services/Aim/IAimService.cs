@@ -7,13 +7,13 @@ namespace AuthServiceApp.BL.Services.Aim
 {
     public interface IAimService : IGenericService<AimEntity>
     {
-        Task<AimDto> CreateAim(AimDto dto);
-        Task<GetAimDto> GetAimByUserId(Guid id);
-        Task<AimDto> GetAimById(Guid id);
-        Task<AimDto> Delete(Guid id);
-        Task<AimDto> UpdateAsync(UpdateAimDto id);
-        Task<List<AimDto>> GetAllActiveAims();
-        Task MainAimFunction(AimDto dto);
-        Task<AimProgressDto> GetProgressAsync(string userId);
+        Task<AimDto> CreateAimAsync(AimDto dto);
+        Task<List<GetAimDto>> GetAimByUserIdAsync(Guid id);
+        Task<AimDto> GetAimByIdAsync(Guid id);
+        Task<AimDto> DeleteAimAsync(Guid id);
+        Task<AimDto> UpdateAimAsync(UpdateAimDto id);
+        Task<List<AimDto>> GetAllActiveAimsAsync();
+        Task CheckAimMainFuncAsync(AimDto dto);
+        Task<List<AimProgressDto>> GetProgressAsync(string userId);
     }
 }

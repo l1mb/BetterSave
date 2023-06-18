@@ -71,7 +71,7 @@ namespace AuthServiceApp.DAL.Repo
             return new(ServiceResultType.Ok, users);
         }
 
-        private async Task<ApplicationUser> GetUserWithChildrenAsync(Expression<Func<ApplicationUser, bool>> expression) => await Entity.AsNoTracking().Include(o => o.UserRoles).FirstOrDefaultAsync(expression);
+        private async Task<ApplicationUser> GetUserWithChildrenAsync(Expression<Func<ApplicationUser, bool>> expression) => await Entity.AsNoTracking().FirstOrDefaultAsync(expression);
 
 
         public async Task<List<(ApplicationUser, LoanEntity)>> GetUsersWithLoansBeforeTomorrow()

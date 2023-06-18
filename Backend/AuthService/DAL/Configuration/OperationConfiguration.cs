@@ -1,6 +1,5 @@
 ﻿using AuthServiceApp.DAL.Entities.Categories;
 using AuthServiceApp.DAL.Entities.Operations;
-using AuthServiceApp.DAL.Repo.Card;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

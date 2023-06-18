@@ -1,6 +1,5 @@
 ﻿using AuthServiceApp.BL.Enums;
 using AuthServiceApp.BL.Services.Aim;
-using AuthServiceApp.BL.Services.Card;
 using AuthServiceApp.DAL.Entities;
 using AuthServiceApp.WEB.DTOs.Aim;
 using Microsoft.AspNetCore.Authorization;

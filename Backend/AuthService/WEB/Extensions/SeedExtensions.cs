@@ -7,7 +7,7 @@ namespace AuthServiceApp.WEB.Extensions
     {
         public static void SeedUsers(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
         {
-            if (roleManager.FindByNameAsync("Admin").Result == null)
+            if (roleManager.FindByNameAsync("Admin")?.Result == null)
             {
                 roleManager.CreateAsync(new ApplicationRole() { Name = "Admin" });
             }

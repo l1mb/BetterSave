@@ -1,6 +1,6 @@
 ﻿namespace AuthServiceApp.BL.Services.ServiceManagement
 {
-    public interface IServiceManagement
+    public interface  IServiceManagement
     {
         void SendEmail();
         void UpdateDatabase();

@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-05-21T17:07:35.210Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36" etag="sS1NJTBbTrHqcyN027v3" version="21.3.2" type="device">
+<mxfile host="app.diagrams.net" modified="2023-05-23T16:27:30.280Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36" etag="OCOXcgInlRqp4-IlFGV_" version="21.3.3" type="device">
   <diagram name="Page-1" id="Yqc5dYWwi-8NxwFvMzGB">
-    <mxGraphModel dx="1687" dy="889" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1793" dy="985" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -43,11 +43,8 @@
         <mxCell id="RxKTxGBx4nOWmHTjuApw-45" value="&amp;lt;&amp;lt;executionEnvironment&amp;gt;&amp;gt; Docker Container" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;strokeWidth=0.75;fontFamily=Times New Roman;fontSize=14;" parent="1" vertex="1">
           <mxGeometry x="743.75" y="400" width="272.5" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="RxKTxGBx4nOWmHTjuApw-47" value="{Base image = aspnet:6.0}" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;strokeWidth=0.75;fontFamily=Times New Roman;fontSize=14;" parent="1" vertex="1">
-          <mxGeometry x="357.75" y="328" width="272.5" height="30" as="geometry" />
-        </mxCell>
         <mxCell id="RxKTxGBx4nOWmHTjuApw-48" value="{Base image = node:16}" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;strokeWidth=0.75;fontFamily=Times New Roman;fontSize=14;" parent="1" vertex="1">
-          <mxGeometry x="334.25" y="645" width="272.5" height="30" as="geometry" />
+          <mxGeometry x="360.25" y="328" width="272.5" height="30" as="geometry" />
         </mxCell>
         <mxCell id="RxKTxGBx4nOWmHTjuApw-49" value="{Base image =&amp;nbsp;server:2022-latest}" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;strokeWidth=0.75;fontFamily=Times New Roman;fontSize=14;" parent="1" vertex="1">
           <mxGeometry x="743.75" y="414" width="272.5" height="30" as="geometry" />
@@ -58,7 +55,7 @@
         <mxCell id="RxKTxGBx4nOWmHTjuApw-53" value="Backend application" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=middle;whiteSpace=wrap;html=1;rounded=0;strokeWidth=0.75;fontFamily=Times New Roman;fontSize=14;fontColor=default;fillColor=none;gradientColor=none;" parent="1" vertex="1">
           <mxGeometry x="407.5" y="675" width="170" height="65" as="geometry" />
         </mxCell>
-        <mxCell id="RxKTxGBx4nOWmHTjuApw-54" value="Backend application" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=middle;whiteSpace=wrap;html=1;rounded=0;strokeWidth=0.75;fontFamily=Times New Roman;fontSize=14;fontColor=default;fillColor=none;gradientColor=none;" parent="1" vertex="1">
+        <mxCell id="RxKTxGBx4nOWmHTjuApw-54" value="Frontend application" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=middle;whiteSpace=wrap;html=1;rounded=0;strokeWidth=0.75;fontFamily=Times New Roman;fontSize=14;fontColor=default;fillColor=none;gradientColor=none;" parent="1" vertex="1">
           <mxGeometry x="406" y="358" width="170" height="65" as="geometry" />
         </mxCell>
         <mxCell id="RxKTxGBx4nOWmHTjuApw-55" value="&amp;lt;&amp;lt;workflow engine&amp;gt;&amp;gt; Docker-compose" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontFamily=Times New Roman;fontColor=default;strokeWidth=0.75;" parent="1" vertex="1">
@@ -82,8 +79,11 @@
         <mxCell id="RxKTxGBx4nOWmHTjuApw-62" value="&lt;span style=&quot;font-weight: normal;&quot;&gt;{JavaScript enabled = true}&lt;/span&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontFamily=Times New Roman;fontColor=default;fontStyle=1" parent="1" vertex="1">
           <mxGeometry x="1350" y="560" width="170" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="Ms0tMnVrW9IZNVKawMBX-1" value="&amp;lt;&amp;lt;protocol&amp;gt;&amp;gt;&lt;br style=&quot;font-size: 14px;&quot;&gt;TCP" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;strokeWidth=0.75;fontFamily=Times New Roman;fontSize=14;" vertex="1" parent="1">
+        <mxCell id="Ms0tMnVrW9IZNVKawMBX-1" value="&amp;lt;&amp;lt;protocol&amp;gt;&amp;gt;&lt;br style=&quot;font-size: 14px;&quot;&gt;TCP" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;strokeWidth=0.75;fontFamily=Times New Roman;fontSize=14;" parent="1" vertex="1">
           <mxGeometry x="700" y="660" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="2GDPVuEhkNn9PzzcWISo-1" value="{Base image = aspnet:6.0}" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;strokeWidth=0.75;fontFamily=Times New Roman;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="357.75" y="645" width="272.5" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

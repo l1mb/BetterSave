@@ -144,11 +144,21 @@ export interface CreateAim {
 
 export interface AimProgressModel {
   percent: number;
-  aimRecords: AimRecording[];
+  aim: {
+    name: string;
+    finishDate: string;
+    amount: number;
+    type: AimType;
+    dateType: AimDateType;
+    creationDate: string;
+    aimRecordings: AimRecording[];
+    id: string;
+    isDeleted: boolean;
+  };
 }
 
 export interface AimRecording {
   id: string;
   aimId: string;
-  date: Date;
+  date: string;
 }

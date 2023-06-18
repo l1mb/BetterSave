@@ -13,9 +13,7 @@ namespace AuthServiceApp.DAL.Entities
         public AimDateType DateType { get; set; }
         public bool? IsMastered { get; set; }
         public DateTime CreationDate { get; set; }
-        public Guid UserId { get; set; }
-        public virtual ApplicationUser User { get; set; }
-        public Guid AimRecordingId { get; set; }
+        public virtual List<UserAims> UserAims { get; set; }
         public virtual List<AimRecordingEntity> AimRecordings { get; set; }
     }
 }

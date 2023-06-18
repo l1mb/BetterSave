@@ -8,7 +8,6 @@ namespace AuthServiceApp.BL.Mappers
     {
         public ShopProfile()
         {
-            CreateMap<Shop, ShopDto>().ReverseMap();
         }
     }
 }

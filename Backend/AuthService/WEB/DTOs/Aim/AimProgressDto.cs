@@ -1,10 +1,11 @@
-﻿using AuthServiceApp.WEB.DTOs.AimRecording;
+﻿using AuthServiceApp.DAL.Entities;
+using AuthServiceApp.WEB.DTOs.AimRecording;
 
 namespace AuthServiceApp.WEB.DTOs.Aim
 {
     public class AimProgressDto
     {
-        public List<AimRecordingModel> AimRecords { get; set; }
+        public AimEntity Aim { get; set; }
         public float Percent { get; set; }
     }
 }

@@ -11,7 +11,7 @@ export const deleteAim = (id: string) => {
   apiDelete(`${routes.aims}/DeleteAim/${id}`);
 };
 
-export const getProgress = async (token: string): Promise<AimProgressModel> => {
+export const getProgress = async (token: string): Promise<AimProgressModel[]> => {
   const result = await apiGetProtected(`${routes.getProgress}`, token);
   return result.json();
 };

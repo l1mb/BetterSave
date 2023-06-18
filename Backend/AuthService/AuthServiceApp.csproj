@@ -56,6 +56,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Folder Include="DAL\Repo\Card\" />
 		<Folder Include="WEB\DTOs\Input\User\" />
 	</ItemGroup>
 

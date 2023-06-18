@@ -1,5 +1,6 @@
 using AuthServiceApp.BL.Services.ServiceManagement;
 using AuthServiceApp.DAL.Entities;
+using AuthServiceApp.DAL.Models;
 using AuthServiceApp.Settings.Extensions;
 using AuthServiceApp.WEB.Extensions;
 using AuthServiceApp.WEB.Settings;
@@ -17,7 +18,6 @@ Log.Logger = LoggerExtensions.RegisterLogger();
 builder.Host.UseSerilog();
 
 var appSettings = builder.Configuration.RegisterSettings(); // inject settings from appsettings.json
-
 builder.Services.RegisterServices(appSettings);
 builder.Services.RegisterHangfire(appSettings.Database.ConnectionString);
 
@@ -61,8 +61,7 @@ using (var scope = scopeFactory.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-    SeedExtensions.SeedUsers(userManager,
-        roleManager);
+    SeedExtensions.SeedUsers(userManager, roleManager);
 }
 
 app.UseRouting();
@@ -81,12 +80,11 @@ app.UseStaticFiles();
 app.MapControllers();
 
 
-if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
-    RecurringJob.AddOrUpdate<IServiceManagement>(x => x.CheckUserLoans(),
-        Cron.Minutely);
+RecurringJob.AddOrUpdate<IServiceManagement>(x => x.CheckUserLoans(),
+    Cron.Daily);
 
 RecurringJob.AddOrUpdate<IServiceManagement>(x => x.CheckUsersAims(),
-    Cron.Monthly);
+    Cron.Daily);
 
 app.Run();
 

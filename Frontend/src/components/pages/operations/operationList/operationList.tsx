@@ -17,7 +17,7 @@ function OperationList({ list }: OperationListProps) {
       {list.map((sub) => (
         <div className="w-1/2">
           <div className="flex  w-full items-center justify-between gap-3">
-            <div className="mt-1 flex flex-col items-center gap-1">
+            <div className="mt-1 flex flex-col items-baseline gap-1">
               <IconButton
                 icon={
                   <span className={` material-symbols-outlined`}>

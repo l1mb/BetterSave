@@ -9,10 +9,7 @@ namespace AuthServiceApp.BL.Mappers
     {
         public SpendingProfile()
         {
-            CreateMap<Spending, SpendingDto>()
-                .ReverseMap()
-                .ForMember(mem => mem.ShopPositions, opt => opt.Ignore())
-                .ForMember(mem => mem.Shop, opt => opt.Ignore());
+            
         }
     }
 }

@@ -1,37 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { deleteAim, getProgress } from "@/api/aimApi";
+import React, { useEffect } from "react";
+import { deleteAim } from "@/api/aimApi";
 import useJwtToken from "@/hooks/useJwtToken";
-import { toast } from "react-toastify";
-import { Aim, AimProgressModel } from "@/types/models";
+import { AimProgressModel } from "@/types/models";
 import { AimDateType, AimType } from "@/types/User/goals/goals";
-import getFormatedString from "@/utils/getNivoFormatedString";
 import { useNavigate } from "react-router";
-import NivoCalendar from "../NivoCalendar/nivoCalendar";
+import HeatMap from "../heatmap/heatmap";
 
 interface GoalListProps {
-  goal: Aim;
+  goal: AimProgressModel[];
   setRefresh: (e: string) => void;
 }
 
 function GoalList({ goal, setRefresh }: GoalListProps) {
   // const { cards, spending } = useSelector<RootState, RootState>((state) => state);
-  const [progress, setProgress] = useState<AimProgressModel>({ percent: 0, aimRecords: [] });
   const { getToken } = useJwtToken();
   const navigate = useNavigate();
 
-  const loadProgress = async () => {
-    const token = getToken();
-    if (token) {
-      const result = await getProgress(token);
-      setProgress(result);
-    } else {
-      toast.error("Токен не валиден");
-    }
-  };
-
-  useEffect(() => {
-    loadProgress();
-  }, []);
+  useEffect(() => {}, []);
 
   const handleDeleteGoal = async (id: string) => {
     await deleteAim(id);
@@ -69,14 +54,14 @@ function GoalList({ goal, setRefresh }: GoalListProps) {
     return aim;
   };
 
-  return (
+  return goal.map((x) => (
     <div>
       <div className="flex justify-between">
         <div className="flex flex-col">
           <h4>Цель: </h4>
-          <span className="font-bold">{getAim(goal.type, goal.dateType, goal.amount, goal.finishDate)}</span>
+          <span className="font-bold">{getAim(x.aim.type, x.aim.dateType, x.aim.amount, x.aim.finishDate)}</span>
         </div>
-        <button type="button" onClick={() => handleDeleteGoal(goal.id as string)}>
+        <button type="button" onClick={() => handleDeleteGoal(x.aim.id as string)}>
           Удалить цель
         </button>
       </div>
@@ -84,27 +69,29 @@ function GoalList({ goal, setRefresh }: GoalListProps) {
       <div className="flex w-full">
         {goal.isMastered !== undefined ? (
           <div>
-            <span>{getAimResult(goal.isMastered)}</span>
+            <span>{getAimResult(x.aim.isMastered)}</span>
           </div>
         ) : (
           <>
-            {goal.dateType === AimDateType.DailyCount && (
+            {x.aim.dateType === AimDateType.DailyCount && (
               <div className=" mx-auto h-[400px] w-[50000px]">
-                <NivoCalendar
-                  data={progress.aimRecords.map((x) => ({ value: 1, day: getFormatedString(new Date(x.date)) }))}
-                  createDate={goal.creationDate}
-                />
+                {!x.aim.aimRecordings || x.aim.aimRecordings?.map((y) => y.date).length === 0 ? (
+                  <span>Пока не было добавлено отметок о выполнении целей</span>
+                ) : (
+                  <HeatMap data={x.aim.aimRecordings.map((y) => y.date)} height={140} width={0} label={x.aim.name} />
+                )}
               </div>
             )}
-            {goal.dateType === AimDateType.DailyToDate && (
+            {x.aim.dateType === AimDateType.DailyToDate && (
               <div className=" mx-auto h-[400px] w-[50000px]">
-                <NivoCalendar
-                  data={progress.aimRecords.map((x) => ({ value: 1, day: getFormatedString(new Date(x.date)) }))}
-                  createDate={goal.creationDate}
-                />
+                {!x.aim.aimRecordings || x.aim.aimRecordings?.map((y) => y.date).length === 0 ? (
+                  <span>Пока не было добавлено отметок о выполнении целей</span>
+                ) : (
+                  <HeatMap data={x.aim.aimRecordings.map((y) => y.date)} height={140} width={0} label={x.aim.name} />
+                )}
               </div>
             )}
-            {goal.dateType === AimDateType.ToDate && "pasasi"}
+            {x.aim.dateType === AimDateType.ToDate && "pasasi"}
           </>
         )}
         {/* {data.length > 0 && (
@@ -114,7 +101,7 @@ function GoalList({ goal, setRefresh }: GoalListProps) {
             )} */}
       </div>
     </div>
-  );
+  ));
 }
 
 export default GoalList;
